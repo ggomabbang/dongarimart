@@ -1,7 +1,7 @@
 import './globals.css'
 
 export default function Home() {
-  let Groups = ['거위요', '삼겹살', '말미잘',] //동아리 정보 데이터베이스 불러오기
+  let Groups = ['거위요', '삼겹살', '말미잘','고양이',] //동아리 정보 데이터베이스 불러오기
   return (
     <div className='Vertical_Div'>
       <div className='Horizontal_Div'>
@@ -21,7 +21,7 @@ export default function Home() {
       <div>{
       Groups.map((a,i)=>{
         return(
-          <div className='Div_Fold' key={i}>
+          <div className='Div_Fold' key={i} style={{marginTop:'1%'}}>
             <div className='Hor_Div'>
               <h4 className='Title' style={{position:'absolute', marginTop:'1%', marginLeft:'2%'}}>{a}
               <h className='SubTitle' style={{position:'absolute',marginTop:'20%', marginLeft:'160%'}}>부제목</h>
