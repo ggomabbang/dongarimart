@@ -24,7 +24,7 @@ export default function Home() {
       <div>{
       Groups.map((a,i)=>{
         return(
-          <div className='Div_Fold' id={i} key={i} style={{marginTop:'1%'}}>
+          <div className='Div_Fold' id={"div"+i} key={i} style={{marginTop:'1%'}}>
             <div className='Hor_Div'>
               <h4 className='Title' style={{position:'absolute', marginTop:'1%', marginLeft:'2%'}}>{a}
               <h className='SubTitle' style={{position:'absolute',marginTop:'20%', marginLeft:'160%'}}>부제목</h>
@@ -34,15 +34,30 @@ export default function Home() {
               </div>
               </h4>
               <button className='SeeButton' style={{position:'absolute', marginLeft:'80%', marginTop:'4%'}} onClick={()=>{
-                if(document.getElementById(i).style.height != "600px") document.getElementById(i).style.height = "600px";
-                else document.getElementById(i).style.height = "180px";
-
+                if(document.getElementById("div"+i).style.height != "600px"){
+                  document.getElementById("div"+i).style.height = "600px";
+                  document.getElementById("img"+i).style.display = "block";
+                  for(j = 0 ; j < 4; j++){document.getElementById("info"+j).style.display = "block";}
+                }
+                else{
+                  document.getElementById("div"+i).style.height = "180px";
+                  document.getElementById("img"+i).style.display = "none";
+                  for(j = 0 ; j < 4; j++){document.getElementById("info"+j).style.display = "none";}
+                }
               }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="33" viewBox="0 0 18 33" fill="none">
                 <path d="M17 1.5L2 16.5L17 31.5" stroke="black" stroke-width="2"/>
                 </svg>
                 </button>
             </div>
+            <div  className='Hor_Div'>
+              <img id={"img"+i}className='ClubImage' style={{position:'absolute', marginTop:'13%', marginLeft:'2%'}}/>
+              <h4 id={"info"+i} className='InfoText' style={{marginTop:'15%', marginLeft:'40%'}}>재미있는 동아리를 찾고 있읍니까? 그러면 여기는 어떤가
+              <h4 id={"info2"+i} className='BlueButton'>모집기간</h4>
+              <h4 id={"info3"+i}className='BlueButton'>세부인원</h4>
+              </h4>
+            </div>
+            <button id={"info4"+i} className='BlueButton' style={{marginLeft:'80%', width:'200px', height:'50px'}}>자세히보기</button>
           </div>
         )
       })
