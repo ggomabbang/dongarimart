@@ -1,0 +1,107 @@
+.Navbar{
+  border-bottom: 1px solid #2D5DEB;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+.Find_Btn{
+  width: 800px;
+  height: 600px;
+  flex-shrink: 0;
+  border-radius: 69px;
+  background: radial-gradient(117.86% 121.98% at 68.64% 16.61%, #2D5DEB 0%, #2D63EB 40.16%, #2DEB57 100%);
+  box-shadow: 5px 5px 60px 5px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 24.32px;
+}
+
+.Register_Btn{
+  width: 550px;
+  height: 320px;
+  flex-shrink: 0;
+  border-radius: 69px;
+  background: radial-gradient(101.22% 102.91% at 27.36% 24.53%, #2D5DEB 0%, #2D63EB 38.02%, #2DB2EB 100%), #FFF;
+  box-shadow: 5px 5px 60px 10px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 24.32px;
+}
+
+.Recruit_Btn{
+  width: 550px;
+  height: 267px;
+  flex-shrink: 0;
+  border-radius: 69px;
+  background: radial-gradient(76.34% 101.16% at 46.73% 34.64%, #2D5DEB 0%, #2D63EB 38.02%, #AE2DEB 100%);
+  box-shadow: 5px 5px 60px 10px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 24.32px;
+}
+
+.Title_color{
+  color: #2D5DEB;
+  font-family: Noto Sans KR;
+  font-size: 70px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 26.6px;
+}
+
+.MenuFont{
+  color: #2D5DEB;
+  font-family: Noto Sans KR;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 350;
+  line-height: normal;
+  letter-spacing: 2.5px;
+}
+
+.InnerDiv{
+  position: absolute;
+  padding-top: 18%;
+  padding-left: 20%;
+  padding-right: 20%;
+  margin-left: 55%;
+  vertical-align: middle;
+}
+
+.SideDiv{
+  position: absolute;
+  padding-top: 14%;
+  padding-left: 12%;
+  padding-right: 20%;
+  display: grid;
+}
+
+.NavBtn{
+  color: #2D5DEB;
+  font-family: Noto Sans KR;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 300;
+  margin-inline: 20px;
+  line-height: normal;
+  letter-spacing: 8px;
+  background-color: transparent;
+  border: 0;
+  padding-top: 1%;
+}

@@ -1,0 +1,108 @@
+.Title_color{
+    color: #2D5DEB;
+    font-family: Noto Sans KR;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 26.6px;
+  }
+  
+  .MenuFont{
+    color: #2D5DEB;
+    font-family: Noto Sans KR;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: normal;
+    letter-spacing: 2.5px;
+  }
+  
+  .Vertical_Div{
+    position: absolute;
+    vertical-align: middle;
+    padding-top: 7%;
+  }
+
+  .Horizontal_Div{
+    padding-top: 7%;
+    margin-left: 10%;
+    display: flex;
+  }
+
+  .Hor_Div{
+    display: flex;
+  }
+  
+  .SearchBar{
+    width: 800px;
+    height: 70px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    border: 1px solid #2D5DEB;
+    background: #FFF;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+    font-size: x-large;
+  }
+
+.Div_Fold{
+  width: 1400px;
+  height: 180px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: #FFF;
+  margin: auto;
+  margin-left: 15%;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+}
+
+.Div_Expand{
+  width: 1657px;
+  height: 754px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+}
+
+.Title{
+  color: #000;
+  font-family: Noto Sans KR;
+  font-size: 4em;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 16.5px;
+  white-space: nowrap;
+}
+
+.SubTitle{
+  color: #000;
+  width:600px;
+  text-align:right;
+  white-space: nowrap;
+  overflow-x: auto;
+  font-family: Noto Sans KR;
+  font-size: .5em;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 9.9px;
+}
+
+.Tag{
+  width: 88px;
+  height: 43px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #D9D9D9;
+}
+
+.SeeButton{
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(217, 217, 217, 0.30);
+  float: right;
+}
