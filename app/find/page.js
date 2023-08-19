@@ -1,3 +1,6 @@
+'use client';
+
+import { startTransition } from 'react'
 import './globals.css'
 
 export default function Home() {
@@ -21,7 +24,7 @@ export default function Home() {
       <div>{
       Groups.map((a,i)=>{
         return(
-          <div className='Div_Fold' key={i} style={{marginTop:'1%'}}>
+          <div className='Div_Fold' id={i} key={i} style={{marginTop:'1%'}}>
             <div className='Hor_Div'>
               <h4 className='Title' style={{position:'absolute', marginTop:'1%', marginLeft:'2%'}}>{a}
               <h className='SubTitle' style={{position:'absolute',marginTop:'20%', marginLeft:'160%'}}>부제목</h>
@@ -30,7 +33,11 @@ export default function Home() {
                 <h4 className='Tag' style={{marginTop:'2%', marginLeft:'5%', fontSize:'30px', textAlign:'center', fontStyle:'normal', letterSpacing:'3px'}}>태그2</h4>
               </div>
               </h4>
-              <button className='SeeButton' style={{position:'absolute', marginLeft:'80%', marginTop:'4%'}}>
+              <button className='SeeButton' style={{position:'absolute', marginLeft:'80%', marginTop:'4%'}} onClick={()=>{
+                if(document.getElementById(i).style.height != "600px") document.getElementById(i).style.height = "600px";
+                else document.getElementById(i).style.height = "180px";
+
+              }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="33" viewBox="0 0 18 33" fill="none">
                 <path d="M17 1.5L2 16.5L17 31.5" stroke="black" stroke-width="2"/>
                 </svg>
