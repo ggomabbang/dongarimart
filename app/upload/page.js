@@ -1,13 +1,23 @@
 'use client';
 
+import { createElement, useEffect, useRef, useState } from 'react';
 import './upload.css'
 import Link from "next/link"
-
 let numOfTags = 0;
 
 export default function Home() {
+  const [expand, setExpand] = useState(false);
+  useEffect(()=>{
+     setExpand(true)
+  }, []);
     return (
-          <div className='Panel' style={{position:'absolute'}}>
+      <MainPage/>
+    );
+  }
+
+  function MainPage(){
+    return(
+      <div className='Panel' style={{position:'absolute'}}>
             <div className='HorizonBox'>
                 <h4 className='Text' style={{marginTop:'10%'}}>동아리명</h4>
                 <input className='InputBox' id='clubname' style={{marginTop:'10%', width:'400px', height:'70px'}}
@@ -81,6 +91,7 @@ export default function Home() {
             tagArea.appendChild(newTag);
             numOfTags = t+1;
             document.getElementById("tag" + t).innerText = tagText;
+            document.getElementById('tag').value = "";
         }
         else alert("태그는 최대 2개까지 추가할 수 있습니다");
     }
@@ -132,5 +143,14 @@ export default function Home() {
     )
   }
 
-  
+  function useStaticContent(){
+    const ref = useRef(null);
+    const [render, setRender] = useState(typeof window==='undefined')
+    useEffect(()=>{
+      const isEmpty = ref.current.innerHTML === ''
+      if(isEmpty){setRender(true)}
+    }, [])
+    return [render, ref]
+  }
+
 
