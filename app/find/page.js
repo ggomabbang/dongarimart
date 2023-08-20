@@ -7,6 +7,7 @@ export default function Home() {
   let Groups = ['거위요', '삼겹살', '말미잘','고양이',] //동아리 정보 데이터베이스 불러오기
   return (
     <div className='Vertical_Div'>
+      
       <div className='Horizontal_Div'>
         <input className='SearchBar' placeholder='검색해보세요 !' style={{marginLeft:'6%'}}/>
         <select className='MenuFont' style={{width:'400px', background:'transparent', marginLeft:'6%', marginRight:'3%', marginBottom:'1%', border:'none'}}>
@@ -21,7 +22,8 @@ export default function Home() {
           <option value={"hoho"}>허허</option>
         </select>
       </div>
-      <div>{
+      <div>
+      {
       Groups.map((a,i)=>{
         return(
           <div className='Div_Fold' id={"div"+i} key={i} style={{marginTop:'1%'}}>

@@ -29,7 +29,7 @@ export default function Home() {
                 }}>로그인</button>
             </div>
             <div style={{width:'5px', height:'350px', background:'rgba(0,0,0,0.2)', marginRight:'5%', marginTop:'10%'}}></div>
-            <img className='ADpanel' style={{marginTop:'4%', marginRight:'3%'}}></img>
+            <img className='ADpanel' style={{marginTop:'0%', marginRight:'3%'}}></img>
         </div>
   )
 }

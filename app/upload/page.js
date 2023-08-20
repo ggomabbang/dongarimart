@@ -4,18 +4,11 @@ import { createElement, useEffect, useRef, useState } from 'react';
 import './upload.css'
 import Link from "next/link"
 let numOfTags = 0;
+import dynamic from 'next/dynamic';
 
-export default function Home() {
-  const [expand, setExpand] = useState(false);
-  useEffect(()=>{
-     setExpand(true)
-  }, []);
-    return (
-      <MainPage/>
-    );
-  }
+export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
 
-  function MainPage(){
+  const MainPage = () =>{
     return(
       <div className='Panel' style={{position:'absolute'}}>
             <div className='HorizonBox'>
