@@ -1,7 +1,7 @@
 'use client';
 
 import { startTransition } from 'react'
-import './globals.css'
+import './find.css'
 
 export default function Home() {
   let Groups = ['거위요', '삼겹살', '말미잘','고양이',] //동아리 정보 데이터베이스 불러오기

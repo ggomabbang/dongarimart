@@ -23,7 +23,7 @@ export default function Home() {
                             //로그인 정보 입력
                         }
                         catch(e){
-                            //예외처리
+                            //예외처리 
                         }
                     }
                 }}>로그인</button>
