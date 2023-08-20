@@ -37,12 +37,18 @@ export default function Home() {
                 if(document.getElementById("div"+i).style.height != "600px"){
                   document.getElementById("div"+i).style.height = "600px";
                   document.getElementById("img"+i).style.display = "block";
-                  for(j = 0 ; j < 4; j++){document.getElementById("info"+j).style.display = "block";}
+                  document.getElementById("info"+j).style.display = "block";
+                  document.getElementById("info2"+j).style.display = "block";
+                  document.getElementById("info3"+j).style.display = "block";
+                  document.getElementById("info4"+j).style.display = "block";
                 }
                 else{
                   document.getElementById("div"+i).style.height = "180px";
                   document.getElementById("img"+i).style.display = "none";
-                  for(j = 0 ; j < 4; j++){document.getElementById("info"+j).style.display = "none";}
+                  document.getElementById("info"+j).style.display = "none";
+                  document.getElementById("info2"+j).style.display = "none";
+                  document.getElementById("info3"+j).style.display = "none";
+                  document.getElementById("info4"+j).style.display = "none";
                 }
               }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="33" viewBox="0 0 18 33" fill="none">

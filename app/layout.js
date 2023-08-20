@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <circle cx="35" cy="35" r="35" fill="#D9D9D9"/>
       <circle cx="35" cy="35" r="35" fill="#2D5DEB"/>
       </svg>
-        <h className='Title_color'>   제목</h>
+        <h className='Title_color'>   WAVE</h>
         <Link href={"/login"} className='NavBtn' style={{float : 'right'}}>LOGIN</Link>
         <Link href={"/contact"} className='NavBtn' style={{float : 'right'}}>CONTACT</Link>
       </div>
