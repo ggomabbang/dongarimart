@@ -58,6 +58,20 @@
   overflow-y: hidden;
 }
 
+.AD_Banner{
+  width: 500px;
+  height: 1400px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: #FFF;
+  margin: auto;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+  transition: .3s;
+  overflow-y: hidden;
+  margin-top: -50%;
+}
+
+
 .SeeButton{
   width: 50px;
   height: 50px;
@@ -65,6 +79,11 @@
   border-radius: 10px;
   background: rgba(217, 217, 217, 0.30);
   float: right;
+  rotate: -90deg;
+}
+
+.SeeButton:hover{
+  transition: .2s;
 }
 
 .Title{
@@ -144,4 +163,12 @@
   line-height: normal;
   letter-spacing: 3px;
   display: block;
+}
+
+.BlueButton:hover{
+  animation: pop 0.3s linear 1;
+}
+
+@keyframes pop{
+  50% {transform: scale(1.1);}
 }
