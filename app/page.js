@@ -16,6 +16,7 @@ export default function Home() {
       <button className='Register_Btn' onClick={()=>{location.replace('http://localhost:3000/upload')}}>등록/관리</button>
     </div>
       </div>
+    <div className='SettingPanel' style={{marginLeft:'22.5%', marginTop:'-31.5%'}}></div>
   </div>
   )
 }

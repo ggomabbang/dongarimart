@@ -1,8 +1,29 @@
+body{
+  background: white;
+  background-image: radial-gradient(#bef0ff 3px, transparent 0);
+  background-size: 40px 40px;
+  background-position: -19px -19px;
+}
+
 .Navbar{
-  border-bottom: 1px solid #2D5DEB;
+  border-bottom:  solid #2D5DEB;
+  margin-top: -12px;
+  height: 110px;
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.15);
+  display: grid;
 }
+
+.SettingPanel{
+  width: 1400px;
+  height: 754px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+  vertical-align: middle;
+}
+
 
 .Find_Btn{
   width: 800px;
@@ -222,6 +243,7 @@ body {
 
 * {
   box-sizing: border-box;
+  border-radius: 10px;
   scrollbar-color: transparent transparent;
   scrollbar-width: 0px;
 }
@@ -257,6 +279,7 @@ ol, li {
 }
 
 .viewport {
+  border-radius: 30px;
   position: absolute;
   top: 0;
   right: 0;

@@ -2,12 +2,12 @@
 
 import './Login.css'
 import Link from "next/link"
-
 export default function Home() {
   return (
         <div className='Panel'>
             <div style={{flexDirection:'column'}}>
-                <input id='id' className='InputBox' placeholder='ID' style={{marginTop:'50%'}}></input>
+            <img src='/WAVE.png' style={{width:'200px', height:'80px', marginTop:'20%', marginLeft:'27%'}}></img>
+                <input id='id' className='InputBox' placeholder='ID' style={{marginTop:'10%'}}></input>
                 <input id='pw' className='InputBox' placeholder='PW' style={{marginTop:'7%'}}></input>
                 <br/><br/>
                 <Link href={'/signup'} style={{marginLeft:'13.5%', textDecorationLine:'none'}}>가입하기</Link>
@@ -21,6 +21,7 @@ export default function Home() {
                     else{
                         try{
                             //로그인 정보 입력
+                            location.replace('http://localhost:3000/');
                         }
                         catch(e){
                             //예외처리 

@@ -1,3 +1,10 @@
+body{
+  background: white;
+  background-image: radial-gradient(#bef0ff 3px, transparent 0);
+  background-size: 40px 40px;
+  background-position: -19px -19px;
+}
+
 .Panel{
   position: absolute;
   margin-top: 10%;

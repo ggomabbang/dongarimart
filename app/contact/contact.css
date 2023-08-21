@@ -1,0 +1,12 @@
+.MainPanel{
+    width: 1800px;
+    height: 1000px;
+    margin-left: 14.7%;
+    margin-top: 3.8%;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background: #FFF;
+    box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+    vertical-align: middle;
+    background-image: "/cat.jpg";
+}
