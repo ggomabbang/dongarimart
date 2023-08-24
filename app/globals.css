@@ -4,7 +4,6 @@ body{
   min-height: 100vh;
   max-height: 100vh;
   background: white;
-  background-image: radial-gradient(#bef0ff 3px, transparent 0);
   background-size: 6vh 6vh;
   background-position: -3vh -3vh;
 }
