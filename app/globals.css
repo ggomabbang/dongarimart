@@ -1,79 +1,87 @@
 body{
+  min-width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  max-height: 100vh;
   background: white;
   background-image: radial-gradient(#bef0ff 3px, transparent 0);
-  background-size: 40px 40px;
-  background-position: -19px -19px;
+  background-size: 6vh 6vh;
+  background-position: -3vh -3vh;
 }
 
 .Navbar{
+  position: relative  ;
+  min-width: 100vw;
+  min-height: 9vh;
+  max-height: 9vh;
   border-bottom:  solid #2D5DEB;
-  margin-top: -12px;
-  height: 110px;
+  margin-top: -1vh;
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.15);
   display: grid;
 }
 
 .SettingPanel{
-  width: 1400px;
-  height: 754px;
+  min-width: 10vw; max-width: 60vw;
+  min-height: 60vh; max-height: 60vh;
   flex-shrink: 0;
-  border-radius: 30px;
+  border-radius: 1vh;
   background: #FFF;
-  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+  box-shadow: 1vh 1vh 5vh 1vh rgba(0, 0, 0, 0.13);
   vertical-align: middle;
 }
 
 
 .Find_Btn{
-  width: 800px;
-  height: 600px;
+  position: relative;
+  width: 30vw;
+  height: 52vh;
   flex-shrink: 0;
-  border-radius: 69px;
+  border-radius: 4vw;
   background: radial-gradient(117.86% 121.98% at 68.64% 16.61%, #2D5DEB 0%, #2D63EB 40.16%, #2DEB57 100%);
-  box-shadow: 5px 5px 60px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 1vh 1vh 12vh 1vh rgba(0, 0, 0, 0.25);
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 64px;
+  font-size: 5vh;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 24.32px;
+  letter-spacing: 1.2vh;
 }
 
 .Register_Btn{
-  width: 550px;
-  height: 320px;
+  width: 25vw;
+  height: 24vh;
   flex-shrink: 0;
-  border-radius: 69px;
+  border-radius: 5vh;
   background: radial-gradient(101.22% 102.91% at 27.36% 24.53%, #2D5DEB 0%, #2D63EB 38.02%, #2DB2EB 100%), #FFF;
-  box-shadow: 5px 5px 60px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 1vh 1vh 12vh 1vh rgba(0, 0, 0, 0.25);
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 64px;
+  font-size: 5vh;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 24.32px;
+  letter-spacing: 1.2vh;
 }
 
 .Recruit_Btn{
-  width: 550px;
-  height: 267px;
+  width: 25vw;
+  height: 24vh;
   flex-shrink: 0;
-  border-radius: 69px;
+  border-radius: 5vh;
+  box-shadow: 1vh 1vh 12vh 1vh rgba(0, 0, 0, 0.25);
   background: radial-gradient(76.34% 101.16% at 46.73% 34.64%, #2D5DEB 0%, #2D63EB 38.02%, #AE2DEB 100%);
-  box-shadow: 5px 5px 60px 10px rgba(0, 0, 0, 0.25);
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 64px;
+  font-size: 5vh;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 24.32px;
+  letter-spacing: 1.2vh;
 }
 
 .Find_Btn:hover{
@@ -126,14 +134,16 @@ body{
 }
 
 .NavBtn{
+  position: relative;
+  min-width: 20vw; max-width: 20vw;
+  min-height: 3vh; max-height: 3vh;
   color: #2D5DEB;
   font-family: Noto Sans KR;
-  font-size: 40px;
+  font-size: 4vh;
   font-style: normal;
   font-weight: 300;
-  margin-inline: 20px;
   line-height: normal;
-  letter-spacing: 8px;
+  letter-spacing: 0.5vh;
   background-color: transparent;
   border: 0;
 }
@@ -179,8 +189,8 @@ body{
 }
 
 .slideBox{
-  width: 1400px;
-  height: 400px;
+  width: 30vw;
+  height: 10vh;
   flex-shrink: 0;
   border-radius: 30px;
   background: #FFF;
@@ -236,11 +246,6 @@ body{
   }
 }
 
-body {
-  font-family: 'Lato', sans-serif;
-  height: 100px;
-}
-
 * {
   box-sizing: border-box;
   border-radius: 10px;
@@ -279,7 +284,7 @@ ol, li {
 }
 
 .viewport {
-  border-radius: 30px;
+  border-radius: 2vw;
   position: absolute;
   top: 0;
   right: 0;
@@ -291,8 +296,8 @@ ol, li {
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   margin-left: 22.5%;
-  width: 1400px;
-  height: 470px;
+  min-width: 10vw; max-width: 60vw;
+  min-height: 60vh; max-height: 60vh;
 }
 
 .slide {
@@ -352,10 +357,8 @@ ol, li {
 
 .navigation {
   position: absolute;
-  width: 100px;
-  top: 110px;
-  right: 0px;
-  left: 1225px;
+  top: 8vh;
+  left: 101vh;
   text-align: center;
 }
 
@@ -366,8 +369,8 @@ ol, li {
 
 .navigation-button {
   display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.5vw;
+  height: 1.5vw;
   background-color: #333;
   background-clip: content-box;
   border: 0.25rem solid transparent;

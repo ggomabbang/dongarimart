@@ -9,14 +9,14 @@ export default function Home() {
       <AD_Banner/>
       <div className='SideDiv' style={{marginTop:'-70%'}}>
       <button onClick={()=>{location.replace('http://localhost:3000/find')}} className='Find_Btn'
-      style={{marginLeft:'35%'}}>동아리 찾아보기</button>
-      <div className='InnerDiv' style={{marginTop:'3.8%', marginLeft:'67%'}}>
+      style={{marginLeft:'28%', marginTop:'25%'}}>동아리 찾아보기</button>
+      <div className='InnerDiv' style={{marginTop:'17%', marginLeft:'67%'}}>
       <button onClick={()=>{location.replace('http://localhost:3000/rcr')}} className='Recruit_Btn'>모집하기</button>
       <div><h4></h4></div>
       <button className='Register_Btn' onClick={()=>{location.replace('http://localhost:3000/upload')}}>등록/관리</button>
     </div>
       </div>
-    <div className='SettingPanel' style={{marginLeft:'22.5%', marginTop:'-31.5%'}}></div>
+    <div className='SettingPanel' style={{marginLeft:'20%', marginTop:'-22%'}}></div>
   </div>
   )
 }
@@ -24,7 +24,7 @@ export default function Home() {
 
 function AD_Banner(){
   return (
-    <div>
+    <div style={{marginLeft:'-2.8%'}}>
         <section class="ADBANNER" aria-label="Gallery">
         <ol class="viewport">
             <li id="slide1" tabindex="1" class="slide">

@@ -9,10 +9,10 @@ import dynamic from 'next/dynamic';
 export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
   const MainPage = () =>{
     return(
-      <div className='Panel' style={{position:'absolute'}}>
+      <div className='Panel' style={{position:'absolute', marginLeft:'13.5%'}}>
             <div className='HorizonBox'>
                 <h4 className='Text' style={{marginTop:'10%'}}>동아리명</h4>
-                <input placeholder='동아리 이름' className='InputBox' id='clubname' style={{marginTop:'10%', width:'400px', height:'70px'}}
+                <input placeholder='동아리 이름' className='InputBox' id='clubname' style={{marginTop:'10%', width:'35vh', height:'10vh'}}
                 onInput={()=>{
 
                 }}
@@ -27,7 +27,7 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
             </div>
             <div className='HorizonBox'>
                 <h4 className='Text'>짧은 소개</h4>
-                <textarea className='InputBox' id='inst' placeholder='짧은 동아리 소개 문구'style={{marginTop:'3%', height:'300px'}}
+                <textarea className='InputBox' id='inst' placeholder='짧은 동아리 소개 문구'style={{marginTop:'3%', height:'40vh'}}
                 onInput={()=>{
 
                 }}></textarea>
@@ -39,14 +39,14 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
             </div>
             <br/><br/>
             <div className='HorizonBox'>
-            <button className='Button' style={{border: '3px solid #2D5DEB', marginLeft:'30%', backgroundColor:'transparent'}}>
+            <button className='Button' style={{border: '3px solid #2D5DEB', marginLeft:'35%', backgroundColor:'transparent'}}>
                 <h4 className='ButtonText' style={{marginTop:'7%', color:'#2D5DEB'}}>업로드</h4></button>
             <button className='Button' style={{backgroundColor: '#FF5454', marginLeft:'2%'}}>
                 <h4 className='ButtonText' style={{marginTop:'7%', color:'#FFF'}}>취소</h4></button>
             </div>
             <br/><br/>
             <div className='HorizonBox'>
-                <h4 className='Text'style={{marginTop:'10%'}}>태그</h4>
+                <h4 className='Text'style={{marginTop:'10%',width:'5vh', height:'2vh'}}>태그</h4>
                 <input id='tag' className='InputBox' placeholder='태그' style={{marginTop:'9%', width:'300px', height:'70px'}}
                 onKeyUp={()=>addTag(numOfTags)}></input>
                 <div id='tagZone' className='HorizonBox' style={{marginTop:'6%', marginLeft:'1%'}}>

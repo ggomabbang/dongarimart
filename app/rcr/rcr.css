@@ -1,22 +1,22 @@
 h4{
     color: #000;
     font-family: Noto Sans KR;
-    font-size: 40px;
+    font-size: 6vh;
     font-style: normal;
     font-weight: bolder;
     line-height: normal;
-    letter-spacing: 8px;
+    letter-spacing: 1vh;
 }
 
 .MainPanel{
-    width: 1800px;
-    height: 1000px;
-    margin-left: 14.7%;
+    width: 150vh;
+    height: 80vh;
+    margin-left: 14%;
     margin-top: 3.8%;
     flex-shrink: 0;
-    border-radius: 30px;
+    border-radius: 4vh;
     background: #FFF;
-    box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+    box-shadow: 1vh 1vh 4vh 1vh rgba(0, 0, 0, 0.13);
     vertical-align: middle;
 }
 

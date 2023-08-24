@@ -6,7 +6,7 @@ export default function Home() {
   return (
         <div className='Panel'>
             <div style={{flexDirection:'column'}}>
-            <img src='/WAVE.png' style={{width:'200px', height:'80px', marginTop:'20%', marginLeft:'27%'}}></img>
+            <img src='/WAVE.png' style={{width:'28vh', height:'11vh', marginTop:'20%', marginLeft:'27%'}}></img>
                 <input id='id' className='InputBox' placeholder='ID' style={{marginTop:'10%'}}></input>
                 <input id='pw' className='InputBox' placeholder='PW' style={{marginTop:'7%'}}></input>
                 <br/><br/>
