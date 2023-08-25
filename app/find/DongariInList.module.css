@@ -1,58 +1,6 @@
-body{
-  background: white;
-  background-image: radial-gradient(#bef0ff 3px, transparent 0);
-  background-size: 40px 40px;
-  background-position: -19px -19px;
+.Hor_Div{
+  display: flex;
 }
-
-.Title_color{
-    color: #2D5DEB;
-    font-family: Noto Sans KR;
-    font-size: 70px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
-    letter-spacing: 26.6px;
-  }
-  
-  .MenuFont{
-    color: #2D5DEB;
-    font-family: Noto Sans KR;
-    font-size: 3vh;
-    font-style: normal;
-    font-weight: 350;
-    line-height: normal;
-    letter-spacing: .5vh;
-  }
-  
-  .Vertical_Div{
-    position: relative;
-    vertical-align: middle;
-    padding-top: 7%;
-    min-width: 100vw; max-width: 100vw;
-    min-height: 100vh; max-height: 100vh;
-  }
-
-  .Horizontal_Div{
-    padding-top: 7%;
-    margin-left: 10%;
-    display: flex;
-  }
-
-  .Hor_Div{
-    display: flex;
-  }
-  
-  .SearchBar{
-    min-width: 40vw;
-    min-height: 10vh;
-    flex-shrink: 0;
-    border-radius: 4vh;
-    border: 1vh solid hsl(197, 90%, 92%);
-    background: #FFF;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
-    font-size: x-large;
-  }
 
 .Div_Fold{
   width: 75vw;
@@ -65,20 +13,6 @@ body{
   transition: .3s;
   overflow-y: hidden;
 }
-
-.AD_Banner{
-  width: 500px;
-  height: 1400px;
-  flex-shrink: 0;
-  border-radius: 30px;
-  background: #FFF;
-  margin: auto;
-  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
-  transition: .3s;
-  overflow-y: hidden;
-  margin-top: -50%;
-}
-
 
 .SeeButton{
   width: 8vh;
@@ -124,14 +58,6 @@ body{
   min-height: 6vh;
   flex-shrink: 0;
   border-radius: 4vh;
-  background: #D9D9D9;
-}
-
-.ImageBox{
-  width: 734px;
-  height: 627px;
-  flex-shrink: 0;
-  border-radius: 48px;
   background: #D9D9D9;
 }
 

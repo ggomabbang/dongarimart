@@ -5,7 +5,7 @@ import AD_Banner from './AD_Banner';
 
 export default function Home() {
   return (
-    <div  style={{marginTop:'2%'}}>
+    <div style={{marginTop:'2%'}}>
       <AD_Banner/>
       <div className='SideDiv' style={{marginTop:'-70%'}}>
         <Link href={'/find'}>
