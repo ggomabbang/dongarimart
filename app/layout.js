@@ -12,19 +12,21 @@ export default function RootLayout({ children }) {
     <html>
         <body className={inter.className}>
           <div className={Styles.Navbar}>
-            <Link href={'/'}>
-              <img src='/WAVE.png' style={{minHeight:'9vh', maxHeight:'9vh'}}/>
+            <Link href={'/'} className={Styles.Title}>
+              <img src='/WAVE.png'/>
             </Link>
-            <Link href={'/login'}>
-              <button id='logged' className={Styles.NavBtn} style={{textDecorationLine:'none', marginLeft:'70%', marginTop:'-3.5%'}}>
-                SIGN IN
-              </button>
-            </Link>
-            <Link href={'/contact'}>
-              <button className={Styles.NavBtn} style={{textDecorationLine:'none', marginLeft:'82%', marginTop:'-3.5%'}}>
-                CONTACT
-              </button>
-            </Link>
+            <div className={Styles.Menu}>
+              <Link href={'/login'}>
+                <button id='logged' className={Styles.NavBtn}>
+                  SIGN IN
+                </button>
+              </Link>
+              <Link href={'/contact'}>
+                <button className={Styles.NavBtn}>
+                  CONTACT
+                </button>
+              </Link>
+            </div>
           </div>
           {children}
         </body>

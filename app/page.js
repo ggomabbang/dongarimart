@@ -5,29 +5,30 @@ import AD_Banner from './AD_Banner';
 
 export default function Home() {
   return (
-    <div className='Content' style={{marginTop:'2%'}}>
+    <div className='Content'>
       <AD_Banner/>
 
-      <div className='SideDiv' style={{marginTop:'-70%'}}>
-        <Link href={'/find'}>
-          <button className='Find_Btn' style={{marginLeft:'28%', marginTop:'25%'}}>
-            동아리 찾아보기
+      <div className='MainButton'>
+        <Link href={'/find'} className='Find_Btn'>
+          <button>
+            찾아보기
           </button>
         </Link>
-        <div className='InnerDiv' style={{marginTop:'17%', marginLeft:'67%'}}>
-          <Link href={'/recruit'}>
-            <button className='Recruit_Btn'>
-              모집하기
+        <div className='InnerDiv'>
+          <Link href={'/register'} className='Register_Btn'>
+            <button>
+              등록/관리
             </button>
           </Link>
-          <div><h4></h4></div>
-          <Link href={'/register'}>
-            <button className='Register_Btn'>등록/관리</button>
+          <Link href={'/recruit'} className='Recruit_Btn'>
+            <button>
+              모집하기
+            </button>
           </Link>
         </div>
       </div>
       
-      <div className='SettingPanel' style={{marginLeft:'20%', marginTop:'-22%'}}></div>
+      <div className='SettingPanel'></div>
     </div>
   );
 }

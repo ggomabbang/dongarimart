@@ -1,11 +1,106 @@
-body{
-  min-width: 100vw;
-  max-width: 100vw;
-  min-height: 100vh;
-  max-height: 100vh;
+body {
+  padding-top: 125px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
   background: #F5F5F5;
-  background-size: 6vh 6vh;
-  background-position: -3vh -3vh;
+}
+
+button {
+  border: 0;
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+}
+
+.Content {
+  width: auto;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.MainButton {
+  display: flex;
+  height: 706px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 67px;
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.Find_Btn{
+  display: flex;
+  width: 1173px;
+  height: 637px;
+  padding: 159px 154px;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1 0 0;
+
+  border-radius: 69px;
+  background: radial-gradient(117.86% 121.98% at 68.64% 16.61%, #2D5DEB 0%, #2D63EB 40.16%, #2DEB57 100%);
+  box-shadow: 5px 5px 60px 5px rgba(0, 0, 0, 0.25);
+}
+
+.Find_Btn button {
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 96px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 48.64px;
+}
+
+.InnerDiv {
+  display: flex;
+  height: 637px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 50px;
+  flex: 1 0 0;
+}
+
+.Register_Btn {
+  display: flex;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  border-radius: 69px;
+  background: radial-gradient(101.22% 102.91% at 27.36% 24.53%, #2D5DEB 0%, #2D63EB 38.02%, #2DB2EB 100%), #FFF;
+  box-shadow: 5px 5px 60px 10px rgba(0, 0, 0, 0.25);
+}
+
+.InnerDiv button {
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 24.32px;
+
+}
+
+.Recruit_Btn {
+  display: flex;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  border-radius: 69px;
+  background: radial-gradient(76.34% 101.16% at 46.73% 34.64%, #2D5DEB 0%, #2D63EB 38.02%, #AE2DEB 100%);
+  box-shadow: 5px 5px 60px 10px rgba(0, 0, 0, 0.25);
 }
 
 .SettingPanel{
@@ -16,59 +111,6 @@ body{
   background: #FFF;
   box-shadow: 1vh 1vh 5vh 1vh rgba(0, 0, 0, 0.13);
   vertical-align: middle;
-}
-
-
-.Find_Btn{
-  position: relative;
-  width: 30vw;
-  height: 52vh;
-  flex-shrink: 0;
-  border-radius: 4vw;
-  background: radial-gradient(117.86% 121.98% at 68.64% 16.61%, #2D5DEB 0%, #2D63EB 40.16%, #2DEB57 100%);
-  box-shadow: 1vh 1vh 12vh 1vh rgba(0, 0, 0, 0.25);
-  color: #FFF;
-  text-align: center;
-  font-family: Noto Sans KR;
-  font-size: 5vh;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
-  letter-spacing: 1.2vh;
-}
-
-.Register_Btn{
-  width: 25vw;
-  height: 24vh;
-  flex-shrink: 0;
-  border-radius: 5vh;
-  background: radial-gradient(101.22% 102.91% at 27.36% 24.53%, #2D5DEB 0%, #2D63EB 38.02%, #2DB2EB 100%), #FFF;
-  box-shadow: 1vh 1vh 12vh 1vh rgba(0, 0, 0, 0.25);
-  color: #FFF;
-  text-align: center;
-  font-family: Noto Sans KR;
-  font-size: 5vh;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
-  letter-spacing: 1.2vh;
-}
-
-.Recruit_Btn{
-  width: 25vw;
-  height: 24vh;
-  flex-shrink: 0;
-  border-radius: 5vh;
-  box-shadow: 1vh 1vh 12vh 1vh rgba(0, 0, 0, 0.25);
-  background: radial-gradient(76.34% 101.16% at 46.73% 34.64%, #2D5DEB 0%, #2D63EB 38.02%, #AE2DEB 100%);
-  color: #FFF;
-  text-align: center;
-  font-family: Noto Sans KR;
-  font-size: 5vh;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
-  letter-spacing: 1.2vh;
 }
 
 .Find_Btn:hover{
@@ -83,47 +125,6 @@ body{
   animation: pop 0.2s linear 1;
 }
 
-.Title_color{
-  color: #2D5DEB;
-  font-family: Noto Sans KR;
-  font-size: 70px;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
-  letter-spacing: 26.6px;
-}
-
-.MenuFont{
-  color: #2D5DEB;
-  font-family: Noto Sans KR;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 350;
-  line-height: normal;
-  letter-spacing: 2.5px;
-}
-
-.InnerDiv{
-  position: absolute;
-  padding-top: 18%;
-  padding-left: 20%;
-  padding-right: 20%;
-  margin-left: 55%;
-  vertical-align: middle;
-}
-
-.SideDiv{
-  position: absolute;
-  padding-top: 14%;
-  padding-left: 12%;
-  padding-right: 20%;
-  display: grid;
-}
-
-.SideDiv a{
-  display: block;
-  margin: 0;
-}
 
 .ImageBox{
   width: 734px;

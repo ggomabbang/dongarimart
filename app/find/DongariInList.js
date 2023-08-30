@@ -4,14 +4,13 @@ import Styles from './DongariInList.module.css';
 
 export default function DongariInList({a, i}) {
   return (
-    <div className={Styles.Div_Fold} id={"div"+i} style={{marginTop:'1%'}}>
+    <div className={Styles.Div_Fold} id={"div"+i}>
       <div className={Styles.Hor_Div}>
-        <h4 className={Styles.Title} style={{position:'absolute', marginTop:'1%', marginLeft:'2%'}}>{a}</h4>
-        <h className={Styles.SubTitle} style={{position:'absolute',marginTop:'4.5%', marginLeft:'26%'}}>부제목</h>
+        <h4 className={Styles.Title}>{a}</h4>
+        <h className={Styles.SubTitle}>부제목</h>
         <button 
           className={Styles.SeeButton}
-          id={'seebtn'+i} 
-          style={{position:'absolute', marginLeft:'68%', marginTop:'4%'}} 
+          id={'seebtn'+i}
           onClick={()=>{
             if(document.getElementById("div"+i).style.height != "85vh"){
               document.getElementById("seebtn"+i).style.rotate = "90deg"
@@ -39,17 +38,17 @@ export default function DongariInList({a, i}) {
         </button>
       </div>
       <br/><br/><br/><br/>
-      <div className={Styles.Hor_Div} style={{marginLeft:'2.5%'}}>
-        <h4 className={Styles.Tag} style={{marginTop:'2%', fontSize:'30px', textAlign:'center', fontStyle:'normal', letterSpacing:'3px'}}>태그</h4>
-        <h4 className={Styles.Tag} style={{marginTop:'2%', marginLeft:'1%', fontSize:'30px', textAlign:'center', fontStyle:'normal', letterSpacing:'3px'}}>태그2</h4>
+      <div className={Styles.Hor_Div}>
+        <h4 className={Styles.Tag}>태그</h4>
+        <h4 className={Styles.Tag}>태그2</h4>
       </div>
       <div className={Styles.Hor_Div}>
-        <img id={"img"+i}className={Styles.ClubImage} style={{position:'absolute', marginLeft:'2%'}}/>
-        <h4 id={"info"+i} className={Styles.InfoText} style={{ marginLeft:'40%'}}>소개글</h4>
+        <img id={"img"+i}className={Styles.ClubImage}/>
+        <h4 id={"info"+i} className={Styles.InfoText}>소개글</h4>
       </div>
-      <h4 id={"info2"+i} className={Styles.BlueButton} style={{marginLeft:'40%'}}>모집기간</h4>
-      <h4 id={"info3"+i}className={Styles.BlueButton}style={{marginLeft:'40%'}}>세부인원</h4>
-      <button id={"info4"+i} className={Styles.BlueButton} style={{marginLeft:'70%', marginTop:'-2%', width:'30vh', height:'7vh'}}>자세히보기</button>
+      <h4 id={"info2"+i} className={Styles.BlueButton}>모집기간</h4>
+      <h4 id={"info3"+i}className={Styles.BlueButton}>세부인원</h4>
+      <button id={"info4"+i} className={Styles.BlueButton}>자세히보기</button>
     </div>
   )
 }
