@@ -1,13 +1,43 @@
-.Hor_Div{
+.Div_Fold{
   display: flex;
+  padding: 16px 38px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+  align-self: stretch;
+
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.25);
 }
 
-.Div_Fold{
-  flex-shrink: 0;
-  background: #FFF;
-  margin: auto;
-  transition: .3s;
-  overflow-y: hidden;
+.Top {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  align-self: stretch;
+}
+
+.Left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.Right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 28px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.Hor_Div{
+  display: flex;
 }
 
 .SeeButton{
@@ -24,65 +54,138 @@
 .Title{
   color: #000;
   font-family: Noto Sans KR;
+  font-size: 50px;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 2vh;
-  white-space: nowrap;
+  letter-spacing: 16.5px;
+  text-align: left;
+}
+
+.TagBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.Tag {
+  display: flex;
+  padding: 5px 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+
+  border-radius: 20px;
+  background: #D9D9D9;
 }
 
 .SubTitle{
   color: #000;
-  text-align:right;
-  white-space: nowrap;
-  overflow-x: auto;
+  text-align: right;
   font-family: Noto Sans KR;
-  font-size: 4vh;
+  font-size: 30px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 1vh;
+  letter-spacing: 9.9px;
 }
 
-.Tag{
-  flex-shrink: 0;
-  border-radius: 4vh;
-  background: #D9D9D9;
+.Right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 28px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+
+.Bottom {
+  display: flex;
+  align-items: flex-start;
+  gap: 200px;
 }
 
 .ClubImage{
-  flex-shrink: 0;
-  display: none;
+  display: flex;
+  padding: 230px 170px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  background: #D9D9D9;
+}
+
+.Info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
 }
 
 .InfoText{
   color: #000;
   font-family: Noto Sans KR;
-  font-style:normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 1vh;
-  word-wrap:break-word;
-  display: block;
-}
-
-.BlueButton{
-  flex-shrink: 0;
-  background: #2D5DEB;
-  color: #FFF;
-  text-align: center;
+  font-size: 30px;
   font-style: normal;
   font-weight: 500;
-  font-weight: 500;
   line-height: normal;
-  letter-spacing: .5vh;
-  display: block;
+  letter-spacing: 9.9px;
 }
 
-.BlueButton:hover{
+.ShortBlock {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.BlueButton {
+  display: flex;
+  padding: 7px 17px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 20px;
+  background: #2D5DEB;
+
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 6.6px;
+}
+
+.BlueButton:hover {
   animation: pop 0.3s linear 1;
 }
 
 @keyframes pop{
   50% {transform: scale(1.1);}
+}
+
+.DetailButton {
+  display: flex;
+  padding: 5px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+
+  border-radius: 20px;
+  background: #2D5DEB;
+
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 10.56px;
 }
