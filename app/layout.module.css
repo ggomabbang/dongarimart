@@ -15,7 +15,11 @@
 }
 
 .Title {
+    height: 100px
+}
 
+.Title img {
+    object-fit: contain;
 }
 
 .Menu {

@@ -1,0 +1,32 @@
+.ArticleBox {
+    display: flex;
+    padding: 38px 42px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+
+    border-radius: 30px;
+    background: #FFF;
+    box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+}
+
+.ArticleTitle {
+    color: #000;
+    font-family: Noto Sans KR;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 15.2px;
+}
+
+.Date {
+    color: #000;
+    text-align: right;
+    font-family: Noto Sans KR;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 15.2px;
+}

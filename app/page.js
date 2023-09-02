@@ -2,6 +2,7 @@ import './globals.css'
 import Link from "next/link"
 
 import AD_Banner from './AD_Banner';
+import Notice from './notice';
 
 export default function Home() {
   return (
@@ -28,7 +29,7 @@ export default function Home() {
         </div>
       </div>
       
-      <div className='SettingPanel'></div>
+      <Notice/>
     </div>
   );
 }

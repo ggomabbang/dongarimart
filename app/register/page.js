@@ -3,58 +3,83 @@
 import { createElement, useEffect, useRef, useState } from 'react';
 import Styles from './register.module.css';
 import DongariStyles from '../find/DongariInList.module.css';
-import Link from "next/link"
 let numOfTags = 0;
 import dynamic from 'next/dynamic';
 
 export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
   const MainPage = () =>{
     return(
-      <div className={Styles.Panel} style={{position:'absolute', marginLeft:'13.5%'}}>
-            <div className={Styles.HorizonBox}>
-                <h4 className={Styles.Text} style={{marginTop:'10%'}}>동아리명</h4>
-                <input placeholder='동아리 이름' className={Styles.InputBox} id='clubname' style={{marginTop:'10%', width:'35vh', height:'10vh'}}
+      <div className={Styles.Panel}>
+        <div className={Styles.Input}>
+
+          <div className={Styles.HorizonBox}>
+            <text className={Styles.Left}>동아리 명</text>
+            <div className={Styles.Right}>
+              <input 
+                placeholder='동아리 이름' 
+                className={Styles.InputBox} 
+                id='clubname'
                 onInput={()=>{
 
                 }}
-                ></input>
-            </div>
-            <div className={Styles.HorizonBox}>
-                <h4 className={Styles.Text}>한 줄 소개</h4>
-                <input className={Styles.InputBox} id='short_inst' placeholder='한 줄 소개'style={{marginTop:'3%'}}
-                onInput={()=>{
-
-                }}></input>
-            </div>
-            <div className={Styles.HorizonBox}>
-                <h4 className={Styles.Text}>짧은 소개</h4>
-                <textarea className={Styles.InputBox} id='inst' placeholder='짧은 동아리 소개 문구'style={{marginTop:'3%', height:'40vh'}}
-                onInput={()=>{
-
-                }}></textarea>
-            </div>
-            <br/><br/>
-            <div className={Styles.HorizonBox}>
-                <h4 className={Styles.Text}>배너</h4>
-                <img className={Styles.ImageBox} style={{marginTop:'3%'}}></img>
-            </div>
-            <br/><br/>
-            <div className={Styles.HorizonBox}>
-            <button className={Styles.Button} style={{border: '3px solid #2D5DEB', marginLeft:'35%', backgroundColor:'transparent'}}>
-                <h4 className={Styles.ButtonText} style={{marginTop:'7%', color:'#2D5DEB'}}>업로드</h4></button>
-            <button className={Styles.Button} style={{backgroundColor: '#FF5454', marginLeft:'2%'}}>
-                <h4 className={Styles.ButtonText} style={{marginTop:'7%', color:'#FFF'}}>취소</h4></button>
-            </div>
-            <br/><br/>
-            <div className={Styles.HorizonBox}>
-                <h4 className={Styles.Text}style={{marginTop:'10%',width:'5vh', height:'2vh'}}>태그</h4>
-                <input id='tag' className={Styles.InputBox} placeholder='태그' style={{marginTop:'9%', width:'300px', height:'70px'}}
-                onKeyUp={()=>addTag(numOfTags)}></input>
-                <div id='tagZone' className={Styles.HorizonBox} style={{marginTop:'6%', marginLeft:'1%'}}>
-                    
-                </div>
+              />
             </div>
           </div>
+
+          <div className={Styles.HorizonBox}>
+            <text className={Styles.Left}>한 줄 소개</text>
+            <div className={Styles.Right}>
+              <input 
+                className={Styles.InputBox} 
+                id='short_inst' 
+                placeholder='한 줄 소개'
+                onInput={()=>{
+
+                }}
+              />
+            </div>
+          </div>
+
+          <div className={Styles.HorizonBox}>
+            <text className={Styles.Left}>짧은 소개</text>
+            <div className={Styles.Right}>
+              <textarea 
+                className={Styles.LargeInputBox} 
+                id='inst' 
+                placeholder='짧은 동아리 소개 문구'
+                onInput={()=>{
+
+                }}
+              />
+            </div>
+          </div>
+
+          <div className={Styles.HorizonBox}>
+            <text className={Styles.Left}>배너</text>
+            <div className={Styles.Right}>
+              <img className={Styles.ImageBox}/>
+              <div className={Styles.Buttons}>
+                <button className={Styles.UploadButton}>업로드</button>
+                <button className={Styles.CancelButton}>취소</button>
+              </div>
+            </div>
+          </div>
+          
+          <div className={Styles.HorizonBox}>
+            <text className={Styles.Left}>태그</text>
+            <div className={Styles.Right}>
+              <input 
+                id='tag' 
+                className={Styles.TagInputBox} 
+                placeholder='태그' 
+                onKeyUp={()=>addTag(numOfTags)}
+              />
+              <div id='tagZone' className={Styles.TagZone}></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     )
   }
 

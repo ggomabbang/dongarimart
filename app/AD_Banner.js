@@ -2,7 +2,7 @@ import Styles from './AD_Banner.module.css';
 
 export default function AD_Banner(){
     return (
-        <div className={Styles.ADBox}>
+        <div className={Styles.ADBox} style={{display:'none'}}>
             <aside className={Styles.navigation}>
                 <ol className={Styles.navigation_list}>
                     <li className={Styles.navigation_item}>
