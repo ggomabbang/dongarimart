@@ -3,7 +3,7 @@ import { resolve } from "styled-jsx/css";
 
 const mysql = require('mysql2/promise');
 
-const connection = mysql.createConnection({
+const connection1 = await mysql.createConnection({
     host: 'localhost',    // MySQL 호스트명
     user: 'root',     // 사용자 이름
     password: '', // 비밀번호
@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 
 function addNew({username, email}) {
     const newUser = { username: username, email: email };
-    connection.query('INSERT INTO users SET ?', newUser, (err, result) => {
+    connection1.query('INSERT INTO users SET ?', newUser, (err, result) => {
         if (err) {
         console.error('Error inserting data:', err);
         return 99;
@@ -23,11 +23,9 @@ function addNew({username, email}) {
 }
 
 export async function GET() {
-    const res = await connection.query(`SELECT * FROM users`, (err, result) => {
-        console.log(result);
-        return result;
-    });
-    return NextResponse.json(res);
+    let [rows, fields] = await connection1.query('SELECT * FROM users');
+    console.log(rows);
+    return NextResponse.json(rows);
 }
 
 export async function DELETE(request) {
@@ -35,7 +33,7 @@ export async function DELETE(request) {
 
     if (!username || !email) return NextResponse.json({ 'message': "missing required data"});
 
-    connection.query(`DELETE FROM users WHERE username='${username}' AND email='${email}'`,  (err, result) => {
+    connection1.query(`DELETE FROM users WHERE username='${username}' AND email='${email}'`,  (err, result) => {
         if (err) {
         console.error('Error deleting data:', err);
         return 99;
