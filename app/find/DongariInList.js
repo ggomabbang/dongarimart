@@ -10,9 +10,11 @@ export default function DongariInList({a, i}) {
     console.log(foldStyle)
     if (foldStyle == 'none') {
       setFold('flex');
+      document.getElementById('seebtn'+i).style.rotate = "90deg";
     }
     else {
       setFold('none');
+      document.getElementById('seebtn'+i).style.rotate = "-90deg";
     }
   };
 
