@@ -1,0 +1,65 @@
+import { NextResponse } from "next/server";
+import { resolve } from "styled-jsx/css";
+
+const mysql = require('mysql2/promise');
+
+const connection = mysql.createConnection({
+    host: 'localhost',    // MySQL 호스트명
+    user: 'root',     // 사용자 이름
+    password: '', // 비밀번호
+    database: 'test'    // 데이터베이스 이름
+}); 
+
+function addNew({username, email}) {
+    const newUser = { username: username, email: email };
+    connection.query('INSERT INTO users SET ?', newUser, (err, result) => {
+        if (err) {
+        console.error('Error inserting data:', err);
+        return 99;
+        }
+        console.log('Inserted new user with ID:', result.insertId);
+        return 0;
+    });
+}
+
+export async function GET() {
+    const res = await connection.query(`SELECT * FROM users`, (err, result) => {
+        console.log(result);
+        return result;
+    });
+    return NextResponse.json(res);
+}
+
+export async function DELETE(request) {
+    const { username, email } = await request.json();
+
+    if (!username || !email) return NextResponse.json({ 'message': "missing required data"});
+
+    connection.query(`DELETE FROM users WHERE username='${username}' AND email='${email}'`,  (err, result) => {
+        if (err) {
+        console.error('Error deleting data:', err);
+        return 99;
+        }
+        console.log('Deleted.');
+    });
+
+    return NextResponse.json({ "message": "deleted"})
+}
+
+export async function POST(request) {
+    const { username, email } = await request.json();
+
+    if (!username || !email) return NextResponse.json({ 'message': "missing required data"});
+
+    if (addNew({username, email}) === 99) {
+        return NextResponse.json({ 'message': "Err: Failed to insert"})
+    }
+
+    return NextResponse.json({ 'message': "added"});
+}
+
+export async function PUT(request) {
+    const { username, email } = await request.json();
+
+    return NextResponse.json({'message': "working in progress"});
+}
