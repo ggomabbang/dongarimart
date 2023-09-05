@@ -12,8 +12,8 @@ export default function notice() {
             'date': '23/06/15',
         },
         {
-            'title': '엄준식은 살아있다.',
-            'date': '20/06/04',
+            'title': '6409에 폭발물 설치한 20대 A씨, 올해의 시민상..',
+            'date': '23/09/05',
         },
     ];
 

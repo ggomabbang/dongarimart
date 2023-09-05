@@ -43,6 +43,14 @@
     letter-spacing: 15.2px;
 }
 
+@keyframes pop{
+    50% {transform: scale(1.1);}
+  }
+
+.MoreButton:hover {
+  animation: pop 0.2s linear 1;
+}
+
 .Articles {
     display: flex;
     flex-direction: column;
