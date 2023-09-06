@@ -13,8 +13,8 @@ export default function Home() {
                     <input id='id' className={Styles.InputBox} placeholder='ID'/>
                     <input id='pw' className={Styles.InputBox} placeholder='PW'/>
                     <div className={Styles.Bottom}>
-                        <Link href={'/signup'}>가입하기</Link>
-                        <Link href={'/fidpw'}>ID/PW찾기</Link>
+                        <Link href={'/login/signup'}>가입하기</Link>
+                        <Link href={'/login/fidpw'}>ID/PW찾기</Link>
                     </div>
                 </div>
                 <button className={Styles.LoginBtn}
