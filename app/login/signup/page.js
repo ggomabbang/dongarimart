@@ -114,6 +114,9 @@ export default function SignUp() {
             />
           </div>
         </div>
+        
+        <button className={Styles.BlueButton}>가입하기</button>
+        
       </div>
     </div>
   );
