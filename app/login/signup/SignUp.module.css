@@ -84,3 +84,22 @@
   line-height: normal;
   letter-spacing: 13.68px;
 }
+
+.BlueButton {
+  display: flex;
+  padding: 12px 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 30px;
+  background: #2D5DEB;
+
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
