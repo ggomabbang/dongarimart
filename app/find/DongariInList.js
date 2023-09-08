@@ -47,11 +47,11 @@ export default function DongariInList({a, i}) {
           <h4 id={"info"+i} className={Styles.InfoText}>환영합니다 소개글입뉘당 ^^ TEST TEST</h4>
           <div className={Styles.ShortBlock}>
             <h4 id={"info2"+i} className={Styles.BlueButton}>모집기간</h4>
-            <text className={Styles.InfoText2}>00.00.00 ~ 00.00.00</text>
+            <p className={Styles.InfoText2}>00.00.00 ~ 00.00.00</p>
           </div>
           <div className={Styles.ShortBlock}>
             <h4 id={"info3"+i} className={Styles.BlueButton}>세부인원</h4>
-            <text className={Styles.InfoText2}>2000명</text>
+            <p className={Styles.InfoText2}>2000명</p>
           </div>
           
         </div>

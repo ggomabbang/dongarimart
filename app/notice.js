@@ -20,7 +20,7 @@ export default function notice() {
     return (
         <div className={Styles.NoticeBox}>
             <div className={Styles.Top}>
-                <text className={Styles.Title}>공지사항 📢</text>
+                <h1 className={Styles.Title}>공지사항 📢</h1>
                 <button className={Styles.MoreButton}>+ 더보기</button>
             </div>
             <div className={Styles.Articles}>

@@ -3,8 +3,8 @@ import Styles from './article.module.css';
 export default function Article({title, date}) {
     return (
         <div className={Styles.ArticleBox}>
-            <text className={Styles.ArticleTitle}>{title}</text>
-            <text className={Styles.Date}>{'-'+date}</text>
+            <h1 className={Styles.ArticleTitle}>{title}</h1>
+            <h3 className={Styles.Date}>{'-'+date}</h3>
         </div>
     )
 }

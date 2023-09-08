@@ -15,7 +15,7 @@ export default function SignUp() {
     <div className={Styles.Panel}>
       <div className={Styles.Input}>
         <div className={Styles.HorizonBox}>
-          <text className={Styles.Left}>ID</text>
+          <p className={Styles.Left}>ID</p>
           <div className={Styles.Right}>
             <input 
               placeholder='ID'
@@ -27,7 +27,7 @@ export default function SignUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <text className={Styles.Left}>비밀번호</text>
+          <p className={Styles.Left}>비밀번호</p>
           <div className={Styles.Right}>
             <input 
               placeholder='****'
@@ -64,7 +64,7 @@ export default function SignUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <text className={Styles.Left}></text>
+          <p className={Styles.Left}></p>
           <div className={Styles.Right}>
             <ul>
               <li id={'pw_1'} style={{display: pwStyle[1] ? 'none' : 'list-item'}}>8 ~ 22자리 이내로 입력해주세요.</li>
@@ -75,7 +75,7 @@ export default function SignUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <text className={Styles.Left}>비밀번호<br/>확인</text>
+          <p className={Styles.Left}>비밀번호<br/>확인</p>
           <div className={Styles.Right}>
             <input 
               placeholder='****'
@@ -96,7 +96,7 @@ export default function SignUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <text className={Styles.Left}></text>
+          <p className={Styles.Left}></p>
           <div className={Styles.Right}>
             <ul>
               <li id={'pw_check_1'} style={{display: pwCheck ? 'none' : 'list-item'}}>비밀번호가 일치하지 않습니다.</li>
@@ -105,7 +105,7 @@ export default function SignUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <text className={Styles.Left}>이메일</text>
+          <p className={Styles.Left}>이메일</p>
           <div className={Styles.Right}>
             <input 
               placeholder='ABC123@abc.com'
