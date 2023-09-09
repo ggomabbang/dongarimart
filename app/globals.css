@@ -2,6 +2,7 @@
 
 body {
   padding-top: 125px;
+  padding-bottom: 125px;
   display: flex;
   justify-content: center;
   margin: auto;

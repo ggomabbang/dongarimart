@@ -1,0 +1,52 @@
+.NoticeBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+  align-self: stretch;
+}
+
+.Top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.Title {
+  color: #000;
+  font-family: Noto Sans KR;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 24.32px;
+}
+
+.MoreButton {
+  display: flex;
+  padding: 7px 52px;
+  align-items: flex-start;
+  gap: 10px;
+
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+
+  color: #000;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 15.2px;
+}
+
+.Articles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  align-self: stretch;
+}

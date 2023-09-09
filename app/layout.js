@@ -31,6 +31,11 @@ export default function RootLayout({ children }) {
                     CONTACT
                   </button>
                 </Link>
+                <Link href={'/my'}>
+                  <button className={Styles.NavBtn}>
+                    MY
+                  </button>
+                </Link>
               </div>
             </div>
             {children}

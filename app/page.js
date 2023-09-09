@@ -2,7 +2,7 @@ import './globals.css'
 import Link from "next/link"
 
 import AD_Banner from './AD_Banner';
-import Notice from './notice';
+import Notice from './notice/page';
 
 export default function Home() {
   return (

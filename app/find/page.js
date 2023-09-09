@@ -25,7 +25,7 @@ export default function Home() {
         {
         Groups.map((a,i)=>{
           return(
-            <DongariInList a={a} i={i} key={i}/>
+            <DongariInList name={a} i={i} key={i}/>
           );
         })
         }

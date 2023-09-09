@@ -3,7 +3,7 @@
 import Styles from './DongariInList.module.css';
 import { useState } from 'react';
 
-export default function DongariInList({a, i}) {
+export default function DongariInList({name, i}) {
   const [foldStyle, setFold] = useState('none');
 
   const folder = () => {
@@ -22,7 +22,7 @@ export default function DongariInList({a, i}) {
     <div className={Styles.Div_Fold} id={"div"+i}>
       <div className={Styles.Top}>
         <div className={Styles.Left}>
-          <h4 className={Styles.Title}>{a}</h4>
+          <h4 className={Styles.Title}>{name}</h4>
           <div className={Styles.TagBox}>
             <h4 className={Styles.Tag}>태그</h4>
             <h4 className={Styles.Tag}>태그2</h4>

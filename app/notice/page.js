@@ -1,5 +1,6 @@
 import Article from './article';
 import Styles from './notice.module.css';
+import Link from "next/link";
 
 export default function notice() {
     let Data = [
@@ -21,7 +22,9 @@ export default function notice() {
         <div className={Styles.NoticeBox}>
             <div className={Styles.Top}>
                 <h1 className={Styles.Title}>공지사항 📢</h1>
-                <button className={Styles.MoreButton}>+ 더보기</button>
+                <Link href={'/notice'}>
+                    <button className={Styles.MoreButton}>+ 더보기</button>                    
+                </Link>
             </div>
             <div className={Styles.Articles}>
                 {
