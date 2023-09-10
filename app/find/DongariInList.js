@@ -2,6 +2,7 @@
 
 import Styles from './DongariInList.module.css';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function DongariInList({name, i}) {
   const [foldStyle, setFold] = useState('none');
@@ -57,12 +58,15 @@ export default function DongariInList({name, i}) {
         </div>
       </div>
 
-      <button 
-        style={{display: foldStyle}} 
-        className={Styles.DetailButton}
-      >
-        자세히보기
-      </button>
+      <Link href={'/dongari/'+name}>
+        <button 
+          style={{display: foldStyle}} 
+          className={Styles.DetailButton}
+        >
+          자세히보기
+        </button>
+      </Link>
+
     </div>
   )
 }
