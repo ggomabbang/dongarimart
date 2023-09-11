@@ -1,4 +1,5 @@
 import Styles from './oneArticle.module.css';
+import Link from 'next/link';
 
 export default function oneArticle() {
   const title = '23년 3분기 악성 이용자 제제내역';
@@ -8,7 +9,9 @@ export default function oneArticle() {
   return (
     <div className={Styles.Container}>
       <div className={Styles.Top}>
-        <p className={Styles.GoBack}>&lt;뒤로가기</p>
+        <Link href={'/notice'}>
+          <p className={Styles.GoBack}>&lt;뒤로가기</p>
+        </Link>
         <h1 className={Styles.Title}>{title}</h1>
         <h4 className={Styles.Date}>{date}</h4>
         <div className={Styles.line}/>

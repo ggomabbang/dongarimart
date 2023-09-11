@@ -1,4 +1,5 @@
 import Styles from "./layout.module.css";
+import './global.css';
 import { Inter } from 'next/font/google';
 import Link from "next/link";
 import AuthSession from "./AuthSession.jsx";
