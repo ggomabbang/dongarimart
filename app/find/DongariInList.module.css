@@ -3,8 +3,8 @@
   padding: 16px 38px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 25px;
   align-self: stretch;
+
   border-radius: 30px;
   background: #FFF;
   box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.25);
@@ -121,7 +121,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 28px;
+  gap: 25px;
 }
 
 .InfoText{
@@ -137,7 +137,7 @@
 .ShortBlock {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 25px;
 }
 
 .BlueButton {
@@ -187,4 +187,14 @@
   font-weight: 700;
   line-height: normal;
   letter-spacing: 10.56px;
+}
+
+.InfoText2 {
+  color: #000;
+  font-family: Noto Sans KR;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 8.25px;
 }

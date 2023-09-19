@@ -3,7 +3,9 @@ import DongariInList from './DongariInList';
 
 const GetClubs = async () => {
   const URL = 'http://localhost:3000';
-  const rows = await fetch(URL+'/api/clubs', {
+  const college = 'all';
+  const parameter = '?college=' + college;
+  const rows = await fetch(URL+'/api/clubs'+parameter, {
     method: "GET"
   });
   const jsonData = await rows.json();
@@ -38,15 +40,7 @@ export default async function Home() {
           Groups.map((club,index)=>{
             return(
               <DongariInList 
-                name={club.clubName} 
-                department={club.department}
-                oneLine={club.oneLine}
-                short={club.short}
-                isRecruiting={club.isRecruiting}
-                period={club.recruitPeriod}
-                people={club.recruitTarget}
-                pageURL={club.pageURL}
-                image={club.image}
+                club={club}
                 i={index} 
                 key={club.clubid}
               />
