@@ -1,8 +1,20 @@
 import Styles from './find.module.css'
 import DongariInList from './DongariInList';
 
-export default function Home() {
-  let Groups = ['거위', '삼겹살', '말미잘','고양이',] //동아리 정보 데이터베이스 불러오기
+const GetClubs = async () => {
+  const URL = 'http://localhost:3000';
+  const rows = await fetch(URL+'/api/clubs', {
+    method: "GET"
+  });
+  const jsonData = await rows.json();
+
+  return jsonData;
+}
+
+export default async function Home() {
+  const Groups = await GetClubs();
+  console.log(Groups);
+
   return (
     <div className={Styles.Vertical_Div}>
       <div className={Styles.Horizontal_Div}>
@@ -23,11 +35,23 @@ export default function Home() {
       </div>
       <div className={Styles.ListBox}>
         {
-        Groups.map((a,i)=>{
-          return(
-            <DongariInList name={a} i={i} key={i}/>
-          );
-        })
+          Groups.map((club,index)=>{
+            return(
+              <DongariInList 
+                name={club.clubName} 
+                department={club.department}
+                oneLine={club.oneLine}
+                short={club.short}
+                isRecruiting={club.isRecruiting}
+                period={club.recruitPeriod}
+                people={club.recruitTarget}
+                pageURL={club.pageURL}
+                image={club.image}
+                i={index} 
+                key={club.clubid}
+              />
+            );
+          })
         }
       </div>
     </div>

@@ -4,9 +4,9 @@ import { resolve } from "styled-jsx/css";
 const mysql = require('mysql2/promise');
 
 const connection1 = await mysql.createConnection({
-    host: 'localhost',    // MySQL 호스트명
+    host: '127.0.0.1',    // MySQL 호스트명
     user: 'root',     // 사용자 이름
-    password: '', // 비밀번호
+    password: 'ILoveForkBelly123!', // 비밀번호
     database: 'wave'    // 데이터베이스 이름
 }); 
 
@@ -23,7 +23,7 @@ function addNew({username, email}) {
 }
 
 export async function GET() {
-    let [rows, fields] = await connection1.query('SELECT * FROM clubs');
+    let [rows, fields] = await connection1.query('SELECT * FROM clublist');
     console.log(rows);
     return NextResponse.json(rows);
 }
