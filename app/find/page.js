@@ -4,24 +4,23 @@ import Styles from './find.module.css'
 import DongariInList from './DongariInList';
 import { useEffect, useState } from 'react';
 
-const GetClubs = async () => {
-  const URL = 'http://localhost:3000';
-  const college = 'all';
-  const parameter = '?college=' + college;
-  const rows = await fetch(URL+'/api/clubs'+parameter, {
-    method: "GET"
-  });
-  const jsonData = await rows.json();
-
-  return jsonData;
-}
-
 export default function Home() {
   const [Groups, setGroups] = useState([]);
-  useEffect(async () => {
-    const datas = await GetClubs();
-    setGroups(datas);
+
+  const GetClubs = async () => {
+    const URL = 'http://localhost:3000';
+    const college = 'all';
+    const parameter = '?college=' + college;
+    const rows = await fetch(URL+'/api/clubs'+parameter, {
+      method: "GET"
+    });
+    const jsonData = await rows.json();
+    setGroups(jsonData);
     console.log(Groups);
+  }
+
+  useEffect(() => {
+    GetClubs();
   }, [])
 
   return (
