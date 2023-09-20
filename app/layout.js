@@ -2,7 +2,9 @@ import Styles from "./layout.module.css";
 import './global.css';
 import { Inter } from 'next/font/google';
 import Link from "next/link";
+
 import AuthSession from "./AuthSession.jsx";
+import LoginBtn from "./loginBtn";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -13,6 +15,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
         <body className={inter.className}>
@@ -22,21 +25,12 @@ export default function RootLayout({ children }) {
                 <img src='/WAVE.png'/>
               </Link>
               <div className={Styles.Menu}>
-                <Link href={'/login'}>
-                  <button id='logged' className={Styles.NavBtn}>
-                    SIGN IN
-                  </button>
-                </Link>
                 <Link href={'/contact'}>
                   <button className={Styles.NavBtn}>
                     CONTACT
                   </button>
                 </Link>
-                <Link href={'/my'}>
-                  <button className={Styles.NavBtn}>
-                    MY
-                  </button>
-                </Link>
+                <LoginBtn/>
               </div>
             </div>
             {children}

@@ -1,5 +1,6 @@
 import Styles from './find.module.css'
 import DongariInList from './DongariInList';
+import { useEffect, useState } from 'react';
 
 const GetClubs = async () => {
   const URL = 'http://localhost:3000';
@@ -13,9 +14,13 @@ const GetClubs = async () => {
   return jsonData;
 }
 
-export default async function Home() {
-  const Groups = await GetClubs();
-  console.log(Groups);
+export default function Home() {
+  const [Groups, setGroups] = useState([]);
+  useEffect(async () => {
+    datas = await GetClubs();
+    setGroups(datas);
+    console.log(Groups);
+  })
 
   return (
     <div className={Styles.Vertical_Div}>
@@ -24,8 +29,8 @@ export default async function Home() {
         <div className={Styles.Selector}>
           <select className={Styles.MenuFont}>
             <option value={"cse"}>과-정보컴퓨터공학부</option>
-            <option value={"mt"}>과-목탁제조학과</option>
-            <option value={"dp"}>과-강아지심리학</option>
+            <option value={"pnu"}>중앙동아리</option>
+            <option value={"eng"}>과-기계공학부</option>
           </select>
           <select className={Styles.MenuFont}>
             <option value={"name"}>이름순</option>
