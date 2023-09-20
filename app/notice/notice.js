@@ -5,6 +5,10 @@ import Link from "next/link";
 export default function notice({more}) {
     let Data = [
         {
+            'title': '6409에 폭발물 설치한 20대 A씨, 올해의 시민상 ..',
+            'date': '23/09/05',
+        },
+        {
             'title': '23년 3분기 악성 이용자 제제내역',
             'date': '23/08/22',
         },

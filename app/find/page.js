@@ -1,3 +1,5 @@
+'use client'
+
 import Styles from './find.module.css'
 import DongariInList from './DongariInList';
 import { useEffect, useState } from 'react';
@@ -17,10 +19,10 @@ const GetClubs = async () => {
 export default function Home() {
   const [Groups, setGroups] = useState([]);
   useEffect(async () => {
-    datas = await GetClubs();
+    const datas = await GetClubs();
     setGroups(datas);
     console.log(Groups);
-  })
+  }, [])
 
   return (
     <div className={Styles.Vertical_Div}>

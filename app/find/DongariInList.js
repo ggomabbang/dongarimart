@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function DongariInList({club, i}) {
-  const [foldStyle, setFold] = useState('none');
+  const [foldStyle, setFold] = useState('0');
   const [foldGap, setGap] = useState('0px');
   const recruitStyle = club.isRecruiting ? 'flex' : 'none';
 
@@ -15,11 +15,13 @@ export default function DongariInList({club, i}) {
       setFold('flex');
       setGap('25px');
       document.getElementById('seebtn'+i).style.rotate = "90deg";
+      document.getElementById('dtbtn'+i).style.display = "block";
     }
     else {
       setFold('none');
       setGap('0px');
       document.getElementById('seebtn'+i).style.rotate = "-90deg";
+      document.getElementById('dtbtn'+i).style.display = "none";
     }
   };
 
@@ -37,8 +39,8 @@ export default function DongariInList({club, i}) {
         <div className={Styles.Right}>
           <h1 className={Styles.SubTitle}>{club.oneLine}</h1>
           <button className={Styles.SeeButton} id={'seebtn'+i} onClick={folder}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="2em" viewBox="0 0 18 33" fill="none">
-              <path d="M17 1.5L2 16.5L17 31.5" stroke="black" strokeWidth="0.5em"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="2em" viewBox="0 0 12 33" fill="none">
+              <path d="M17 1.2L2 16.2L17 31.2" stroke="black" strokeWidth="0.5em"/>
             </svg>
           </button>
         </div>
@@ -65,7 +67,7 @@ export default function DongariInList({club, i}) {
 
       <Link href={'/dongari/'+club.clubName}>
         <button 
-          style={{display: foldStyle}} 
+          id={"dtbtn" + i} 
           className={Styles.DetailButton}
         >
           자세히보기
