@@ -1,8 +1,29 @@
+'use client'
+
 import Styles from './find.module.css'
 import DongariInList from './DongariInList';
+import { useEffect, useState } from 'react';
+
+const GetClubs = async () => {
+  const URL = 'http://localhost:3000';
+  const college = 'all';
+  const parameter = '?college=' + college;
+  const rows = await fetch(URL+'/api/clubs'+parameter, {
+    method: "GET"
+  });
+  const jsonData = await rows.json();
+
+  return jsonData;
+}
 
 export default function Home() {
-  let Groups = ['거위', '삼겹살', '말미잘','고양이',] //동아리 정보 데이터베이스 불러오기
+  const [Groups, setGroups] = useState([]);
+  useEffect(async () => {
+    const datas = await GetClubs();
+    setGroups(datas);
+    console.log(Groups);
+  }, [])
+
   return (
     <div className={Styles.Vertical_Div}>
       <div className={Styles.Horizontal_Div}>
@@ -10,8 +31,8 @@ export default function Home() {
         <div className={Styles.Selector}>
           <select className={Styles.MenuFont}>
             <option value={"cse"}>과-정보컴퓨터공학부</option>
-            <option value={"mt"}>과-목탁제조학과</option>
-            <option value={"dp"}>과-강아지심리학</option>
+            <option value={"pnu"}>중앙동아리</option>
+            <option value={"eng"}>과-기계공학부</option>
           </select>
           <select className={Styles.MenuFont}>
             <option value={"name"}>이름순</option>
@@ -23,11 +44,15 @@ export default function Home() {
       </div>
       <div className={Styles.ListBox}>
         {
-        Groups.map((a,i)=>{
-          return(
-            <DongariInList a={a} i={i} key={i}/>
-          );
-        })
+          Groups.map((club,index)=>{
+            return(
+              <DongariInList 
+                club={club}
+                i={index} 
+                key={club.clubid}
+              />
+            );
+          })
         }
       </div>
     </div>

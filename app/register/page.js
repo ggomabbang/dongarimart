@@ -13,7 +13,7 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
         <div className={Styles.Input}>
 
           <div className={Styles.HorizonBox}>
-            <text className={Styles.Left}>동아리 명</text>
+            <p className={Styles.Left}>동아리 명</p>
             <div className={Styles.Right}>
               <input 
                 placeholder='동아리 이름' 
@@ -27,7 +27,7 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
           </div>
 
           <div className={Styles.HorizonBox}>
-            <text className={Styles.Left}>한 줄 소개</text>
+            <p className={Styles.Left}>한 줄 소개</p>
             <div className={Styles.Right}>
               <input 
                 className={Styles.InputBox} 
@@ -41,7 +41,7 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
           </div>
 
           <div className={Styles.HorizonBox}>
-            <text className={Styles.Left}>짧은 소개</text>
+            <p className={Styles.Left}>짧은 소개</p>
             <div className={Styles.Right}>
               <textarea 
                 className={Styles.LargeInputBox} 
@@ -55,7 +55,7 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
           </div>
 
           <div className={Styles.HorizonBox}>
-            <text className={Styles.Left}>배너</text>
+            <p className={Styles.Left}>배너</p>
             <div className={Styles.Right}>
               <img className={Styles.ImageBox}/>
               <div className={Styles.Buttons}>
@@ -66,7 +66,7 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
           </div>
           
           <div className={Styles.HorizonBox}>
-            <text className={Styles.Left}>태그</text>
+            <p className={Styles.Left}>태그</p>
             <div className={Styles.Right}>
               <input 
                 id='tag' 
