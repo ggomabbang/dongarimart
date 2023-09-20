@@ -1,7 +1,26 @@
+'use client'
+
 import Styles from './dongari.module.css';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-export default function Dongari() {
+export default function Dongari({ params }) {
+  const clubid = params.id;
+  const [Club, setClub] = useState({});
+
+  const GetClub = async (id) => {
+    const URL = 'http://localhost:3000';
+    const rows = await fetch(URL+'/api/clubs/'+id, {
+      method: "GET"
+    });
+    const jsonData = await rows.json();
+    setClub(jsonData);
+    console.log(Club);
+  }
+
+  useEffect(() => {
+    GetClub();
+  }, []);
   const title = '동아리 C';
   const subTitle = '야! 구하자';
   const shortText = 'OO학과 야구동아리 동아리 C입니다. 같이 하실분 구해여 ㅎㅎ 언능들어오이소';

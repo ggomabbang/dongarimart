@@ -19,9 +19,6 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
                 placeholder='동아리 이름' 
                 className={Styles.InputBox} 
                 id='clubname'
-                onInput={()=>{
-
-                }}
               />
             </div>
           </div>
@@ -33,9 +30,6 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
                 className={Styles.InputBox} 
                 id='short_inst' 
                 placeholder='한 줄 소개'
-                onInput={()=>{
-
-                }}
               />
             </div>
           </div>
@@ -47,9 +41,6 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
                 className={Styles.LargeInputBox} 
                 id='inst' 
                 placeholder='짧은 동아리 소개 문구'
-                onInput={()=>{
-
-                }}
               />
             </div>
           </div>
@@ -111,48 +102,3 @@ export default dynamic (()=> Promise.resolve(MainPage),{ssr:false})
     //document.getElementById("tag" + t).innerText = "태그" + (t+1);
     numOfTags = numOfTags -1;
   }
-
-  function 미리보기(){
-    return(
-        <div className={DongariStyles.Div_Fold} id='fold' style={{marginTop:'1%'}}>
-        <div className={DongariStyles.Hor_Div}>
-          <h4 className={DongariStyles.Title} id='_title' style={{position:'absolute', marginTop:'1%', marginLeft:'2%'}}>
-          <h className={DongariStyles.SubTitle} id='subId' style={{position:'absolute',marginTop:'25%', marginLeft:'250%'}}></h>
-          <div className={DongariStyles.Hor_Div}>
-            <h4 className={DongariStyles.Tag} id="tag0" style={{marginTop:'2%', fontSize:'30px', textAlign:'center', fontStyle:'normal', letterSpacing:'3px'}}></h4>
-            <h4 className={DongariStyles.Tag} id='tag1' style={{marginTop:'2%', marginLeft:'5%', fontSize:'30px', textAlign:'center', fontStyle:'normal', letterSpacing:'3px'}}></h4>
-          </div>
-          </h4>
-          <button className={DongariStyles.SeeButton} style={{position:'absolute', marginLeft:'90%', marginTop:'4%'}} onClick={()=>{
-            if(document.getElementById("fold").style.height != "600px"){
-                document.getElementById("fold").style.height = "600px";
-                document.getElementById("info0").style.display = "block";
-                document.getElementById("info1").style.display = "block";
-                document.getElementById("info2").style.display = "block";
-                document.getElementById("info3").style.display = "block";
-            }
-            else{
-              document.getElementById("fold").style.height = "180px";
-              document.getElementById("info0").style.display = "none";
-              document.getElementById("info1").style.display = "none";
-              document.getElementById("info2").style.display = "none";
-              document.getElementById("info3").style.display = "none";
-            }
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="33" viewBox="0 0 18 33" fill="none">
-            <path d="M17 1.5L2 16.5L17 31.5" stroke="black" stroke-width="2"/>
-            </svg>
-            </button>
-        </div>
-        <div  className={DongariStyles.Hor_Div}>
-          <img id="img"className={DongariStyles.ClubImage} style={{position:'absolute', marginTop:'13%', marginLeft:'2%'}}/>
-          <h4 id="info0" className={DongariStyles.InfoText} style={{marginTop:'15%', marginLeft:'40%'}}>소개글
-          <h4 id="info1" className={DongariStyles.BlueButton}>모집기간</h4>
-          <h4 id="info2"className={DongariStyles.BlueButton}>세부인원</h4>
-          </h4>
-        </div>
-        <button id="info3" className={DongariStyles.BlueButton} style={{marginLeft:'80%', width:'200px', height:'50px'}}>자세히보기</button>
-      </div>
-    )
-  }
-

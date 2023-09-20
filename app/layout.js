@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import Link from "next/link";
 
 import AuthSession from "./AuthSession.jsx";
-import LoginBtn from "./loginBtn";
+import Menu from "./Menu";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -24,14 +24,7 @@ export default function RootLayout({ children }) {
               <Link href={'/'} className={Styles.Title}>
                 <img src='/WAVE.png'/>
               </Link>
-              <div className={Styles.Menu}>
-                <Link href={'/contact'}>
-                  <button className={Styles.NavBtn}>
-                    CONTACT
-                  </button>
-                </Link>
-                <LoginBtn/>
-              </div>
+              <Menu/>
             </div>
             {children}
           </AuthSession>

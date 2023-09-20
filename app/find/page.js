@@ -3,6 +3,7 @@
 import Styles from './find.module.css'
 import DongariInList from './DongariInList';
 import { useEffect, useState } from 'react';
+import College from './College.json';
 
 export default function Home() {
   const [Groups, setGroups] = useState([]);
@@ -29,9 +30,13 @@ export default function Home() {
         <input className={Styles.SearchBar} placeholder='검색해보세요 !'/>
         <div className={Styles.Selector}>
           <select className={Styles.MenuFont}>
-            <option value={"cse"}>과-정보컴퓨터공학부</option>
-            <option value={"pnu"}>중앙동아리</option>
-            <option value={"eng"}>과-기계공학부</option>
+            {
+              Object.entries(College).map(([key, value]) => {
+                return (
+                  <option value={key}>{value}</option>
+                )
+              })
+            }
           </select>
           <select className={Styles.MenuFont}>
             <option value={"name"}>이름순</option>
