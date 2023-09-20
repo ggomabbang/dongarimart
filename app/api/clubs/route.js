@@ -4,8 +4,8 @@ import "dotenv/config";
 const mysql = require('mysql2/promise');
 
 const connection1 = await mysql.createConnection({
-    host: '127.0.0.1',    // MySQL 호스트명
-    user: 'root',     // 사용자 이름
+    host: 'localhost',    // MySQL 호스트명
+    user: process.env.SQL_USER,     // 사용자 이름
     password: process.env.SQL_PASSWORD, // 비밀번호
     database: 'wave'    // 데이터베이스 이름
 }); 
