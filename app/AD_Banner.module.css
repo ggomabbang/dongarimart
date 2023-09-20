@@ -1,10 +1,10 @@
 .ADBox {
-    display: block;
+    display: flex;
     text-align: center;
 }
 
 .ADBANNER {
-    position: relative;
+    position: flex;
     padding-top: 75%;
     filter: drop-shadow(0 0 10px #0003);
     perspective: 100px;
@@ -19,7 +19,7 @@
 .ADBANNER::after,
 .prev,
 .next {
-  position: absolute;
+  position: flex;
   top: 0;
   margin-top: 37.5%;
   width: 0;
@@ -66,7 +66,7 @@
 
 .viewport {
   border-radius: 2vw;
-  position: absolute;
+  position: flex;
   top: 0;
   right: 0;
   bottom: 0;
@@ -83,7 +83,7 @@
 
 
 .slide {
-    position: relative;
+    position: flex;
     flex: 0 0 100%;
     width: 100%;
     background-color: #f99;
@@ -96,7 +96,7 @@ background-color: #99f;
 
 .slide:before {
 content: counter(item);
-position: absolute;
+position: flex;
 top: 50%;
 left: 50%;
 transform: translate3d(-50%,-40%,70px);
@@ -105,7 +105,7 @@ font-size: 2em;
 }
 
 .snapper {
-  position: absolute;
+  position: flex;
   top: 0;
   left: 0;
   width: 100%;
@@ -180,16 +180,16 @@ font-size: 2em;
 }
 
 .navigation {
-    display: inline-block;
+    display: flex;
 }
   
 .navigation_list,
 .navigation_item {
-    display: inline-block;
+    display: inline-flex;
 }
   
 .navigation_button {
-    display: inline-block;
+    display: inline-flex;
     width: 1.5vw;
     height: 1.5vw;
     background-color: #333;

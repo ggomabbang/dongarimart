@@ -1,0 +1,76 @@
+.Container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  width: 70%;
+  padding: 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+}
+
+.Top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 21px;
+  align-self: stretch;
+}
+
+.GoBack {
+  color: #2D5DEB;
+  font-family: Noto Sans KR;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 12.16px;
+}
+
+.Title {
+  color: #000;
+  font-family: Noto Sans KR;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 18.24px;
+}
+
+.Date {
+  color: rgba(0, 0, 0, 0.50);
+  text-align: right;
+  font-family: Noto Sans KR;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 12.16px;
+}
+
+.line {
+  display: flex;
+  align-self: stretch;
+  height: 3px;
+  background: #2D5DEB;
+}
+
+.Bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.Contents {
+  color: #000;
+  font-family: Noto Sans KR;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

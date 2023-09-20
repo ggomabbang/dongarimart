@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+  padding-top: 10rem;
+  padding-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  background: #F5F5F5;
+}
+
+button {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  text-align: center;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+h1 {
+  margin: 0;
+}
+
+h4 {
+  margin: 0;
+}
+
+ol, li {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
