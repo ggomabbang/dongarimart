@@ -19,7 +19,7 @@ export default function Dongari({ params }) {
   }
 
   useEffect(() => {
-    GetClub();
+    GetClub(clubid);
   }, []);
   const title = '동아리 C';
   const subTitle = '야! 구하자';
