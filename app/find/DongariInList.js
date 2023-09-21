@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function DongariInList({club, i}) {
-  const [foldStyle, setFold] = useState('0');
+  const [foldStyle, setFold] = useState('none');
   const [foldGap, setGap] = useState('0px');
   const recruitStyle = club.isRecruiting ? 'flex' : 'none';
 
@@ -65,7 +65,7 @@ export default function DongariInList({club, i}) {
         </div>
       </div>
 
-      <Link href={'/dongari/'+club.clubName}>
+      <Link href={'/dongari/'+club.clubid}>
         <button 
           id={"dtbtn" + i} 
           className={Styles.DetailButton}

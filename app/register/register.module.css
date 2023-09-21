@@ -2,7 +2,7 @@
   margin-top: 50px;
   margin-bottom: 50px;
   display: flex;
-  width: 1790px;
+  width: 960px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -30,7 +30,7 @@
 
 .Left {
   display: flex;
-  width: 300px;
+  width: 250px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -38,23 +38,23 @@
   color: #000;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 36px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 13.68px;
+  letter-spacing: 6px;
 }
 
 .Right {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 20px;
   flex: 1 0 0;
 }
 
 .InputBox {
   display: flex;
-  padding: 16px 47px;
+  padding: 15px 25px;
   align-items: center;
   gap: 10px;
   flex: 1 0 0;
@@ -65,17 +65,17 @@
 
   color: rgba(0, 0, 0, 0.30);
   font-family: Noto Sans KR;
-  font-size: 38px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 19px;
+  letter-spacing: 10px;
 }
 
 .LargeInputBox {
   display: flex;
-  height: 350px;
-  padding: 16px 47px;
+  height: 250px;
+  padding: 15px 25px;
   align-items: flex-start;
   gap: 10px;
   flex: 1 0 0;
@@ -86,17 +86,17 @@
 
   color: rgba(0, 0, 0, 0.30);
   font-family: Noto Sans KR;
-  font-size: 38px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 19px;
+  letter-spacing: 10px;
 }
 
 .ImageBox{
   display: flex;
-  width: 600px;
-  height: 800px;
+  width: 300px;
+  height: 400px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -115,17 +115,17 @@
 
 .UploadButton {
   display: flex;
-  padding: 12px 20px;
+  padding: 8px 16px;
   align-items: center;
   gap: 10px;
 
-  border-radius: 30px;
-  border: 3px solid #2D5DEB;
+  border-radius: 20px;
+  border: 2px solid #2D5DEB;
 
   color: #2D5DEB;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 40px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -133,19 +133,19 @@
 
 .CancelButton {
   display: flex;
-  padding: 12px 20px;
+  padding: 8px 16px;
   justify-content: center;
   align-items: center;
   gap: 10px;
   align-self: stretch;
 
-  border-radius: 30px;
+  border-radius: 20px;
   background: #FF5454;
 
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 40px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -166,8 +166,8 @@
 
 .TagInputBox{
   display: flex;
-  width: 300px;
-  padding: 10px 20px;
+  width: 150px;
+  padding: 15px 25px;
   align-items: center;
 
   border-radius: 20px;
@@ -176,11 +176,11 @@
 
   color: rgba(0, 0, 0, 0.30);
   font-family: Noto Sans KR;
-  font-size: 40px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 15.2px;
+  letter-spacing: 10px;
 }
 
 .TagZone {
@@ -191,10 +191,10 @@
 
 .TagZone h4 {
   display: flex;
-  padding: 7px 20px;
+  padding: 7px 15px;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
 
   border-radius: 20px;
   background: #D9D9D9;
@@ -202,11 +202,11 @@
   color: #000;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 32px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: 10.56px;
+  letter-spacing: 8px;
 }
 
 .DeleteTag{

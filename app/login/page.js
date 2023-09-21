@@ -2,7 +2,7 @@
 
 import Styles from './Login.module.css'
 import Link from "next/link"
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -23,9 +23,6 @@ export default function Home() {
         </div>
         <button className={Styles.GithubLogin} onClick={() => signIn()}>
           Github 로그인
-        </button>
-        <button className={Styles.GithubLogout} onClick={() => signOut()}>
-          로그아웃
         </button>
         <button 
           className={Styles.LoginBtn}
