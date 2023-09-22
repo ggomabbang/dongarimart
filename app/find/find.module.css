@@ -23,8 +23,8 @@
 
 .SearchBar {
   display: flex;
-  width: 50%;
-  padding: 21px 58px;
+  width: 640px;
+  padding: 15px 60px;
   align-items: center;
   gap: 10px;
 
@@ -36,11 +36,11 @@
   color: rgba(0, 0, 0, 0.51);
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 30px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: 11.4px;
+  letter-spacing: 11px;
   text-align: left;
 }
 

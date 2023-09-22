@@ -65,7 +65,7 @@ export default function DongariInList({club, i}) {
         </div>
       </div>
 
-      <Link href={'/dongari/'+club.clubid}>
+      <Link href={'/club/'+club.clubid}>
         <button 
           id={"dtbtn" + i} 
           className={Styles.DetailButton}
