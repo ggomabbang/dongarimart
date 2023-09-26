@@ -3,17 +3,44 @@
 import { useEffect, useState } from 'react';
 import Styles from './register.module.css';
 import DongariStyles from '../find/DongariInList.module.css';
-let numOfTags = 0;
 
 export default function Register() {
-const [clubName, setClubName] = useState("");
-const [oneLine, setOneLine] = useState("");
-const [short, setShort] = useState("");
+  const [clubName, setClubName] = useState("");
+  const [oneLine, setOneLine] = useState("");
+  const [short, setShort] = useState("");
+  const [tags, setTags] = useState([]);
+
+  const tagAdder = (e) => {
+    if (e.target.value.length){
+      if (e.key == 'Enter') {
+        if (tags[0] == e.target.value) {
+          alert("중복 태그가 존재합니다.");
+          return 0;
+        }
+
+        if (tags.length > 1) {
+          alert("태그는 최대 2개까지 추가할 수 있습니다.");
+          return 0;
+        }
+      
+        setTags([...tags, e.target.value]);
+        e.target.value = "";
+      }
+    }
+  }
+
+  const tagDeleter = (e) => {
+    let target = e.target.parentNode.textContent;
+    target = target.slice(0, target.length-1);
+    tags.splice(tags.indexOf(target), 1);
+    setTags([...tags]);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    //  fetch
   }
+
   return(
     <div className={Styles.Panel}>
       <form className={Styles.Input} onSubmit={handleSubmit}>
@@ -62,7 +89,16 @@ const [short, setShort] = useState("");
           <div className={Styles.Right}>
             <img className={Styles.ImageBox}/>
             <div className={Styles.Buttons}>
-              <button className={Styles.UploadButton}>업로드</button>
+              <label className={Styles.UploadButton} htmlFor='input-file'>
+                업로드
+              </label>
+              <input 
+                id="input-file"
+                type="file"
+                accept='image/png, image/jpeg'
+                style={{display: "none"}}
+              >
+              </input>
               <button className={Styles.CancelButton}>취소</button>
             </div>
           </div>
@@ -75,42 +111,29 @@ const [short, setShort] = useState("");
               id='tag' 
               className={Styles.TagInputBox} 
               placeholder='태그' 
-              onKeyUp={()=>addTag(numOfTags)}
+              onKeyUp={tagAdder}
             />
-            <div id='tagZone' className={Styles.TagZone}></div>
+            <div id='tagZone' className={Styles.TagZone}>
+              {
+                tags.map((tag, index) => {
+                  return (
+                    <h4 className={Styles.TagBox} key={index}>
+                      {tag}
+                      <button 
+                        className={Styles.DeleteTag}
+                        onClick={tagDeleter}
+                      >
+                        X
+                      </button>
+                    </h4>
+                  )
+                })
+              }
+            </div>
           </div>
         </lable>
 
       </form>
     </div>
   )
-}
-
-function addTag(t){
-  if(window.event.keyCode == 13){
-      if(t < 2){
-          let tagArea = document.getElementById('tagZone'); let tagText = document.getElementById('tag').value;
-          const newTag = document.createElement('h4'); const TagButton = document.createElement('button');
-          TagButton.setAttribute('class', Styles.DeleteTag);
-          TagButton.innerHTML = 'X';
-          TagButton.onclick=function(){(deleteTag(t));};
-          newTag.setAttribute('class', Styles.TagBox);
-          newTag.setAttribute('id', t);
-          newTag.innerHTML = tagText;
-          newTag.appendChild(TagButton);
-          tagArea.appendChild(newTag);
-          numOfTags = t+1;
-          //document.getElementById("tag" + t).textContent = tagText;
-          document.getElementById('tag').value = "";
-      }
-      else alert("태그는 최대 2개까지 추가할 수 있습니다");
-  }
-}
-
-function deleteTag(t){
-  var myTag = document.getElementById(t);
-  var parent = myTag.parentElement;
-  parent.removeChild(myTag);
-  //document.getElementById("tag" + t).innerText = "태그" + (t+1);
-  numOfTags = numOfTags -1;
 }
