@@ -12,7 +12,7 @@ datasource db {
 
 model ClubList {
     id              Int         @id @default(autoincrement())
-    clubName        String
+    clubName        String      @unique
     department      String
     oneLine         String
     short           String
@@ -27,15 +27,17 @@ model ClubList {
 
 model TagList {
     id              Int         @id @default(autoincrement())
-    tagName         String
+    tagName         String      @unique
     clubs           ClubTag[]    
 }
 
 model ClubTag {
-    id              Int         @id @default(autoincrement())
     club            ClubList    @relation(fields: [clubId], references: [id])
     tag             TagList     @relation(fields: [tagId], references: [id])
     clubId          Int
     tagId           Int
+    assginedAt      DateTime    @default(now())
+
+    @@id([clubId, tagId])
 }
 

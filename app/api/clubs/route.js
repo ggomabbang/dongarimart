@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
+
+const client = new PrismaClient();
 
 const mysql = require('mysql2/promise');
 
@@ -45,15 +48,37 @@ export async function DELETE(request) {
 }
 
 export async function POST(request) {
-    const { username, email } = await request.json();
+    const { clubName, department, oneLine, short, tags } = await request.json();
+  
+    const result = await client.ClubList.create({
+      data: {
+        clubName,
+        department,
+        oneLine,
+        short,
+        tags: {
+          create: [
+            {
+              tag: {
+                connectOrCreate: tags.map((t) => {
+                  return {
+                    where: {
+                      tagName: t,
+                    },
+                    create: {
+                      tagName: t,
+                    },
+                  };
+                }),
+              },
+            },
+          ],
+        },
+        isRecruiting: 0,
+      }
+    })
 
-    if (!username || !email) return NextResponse.json({ 'message': "missing required data"});
-
-    if (addNew({username, email}) === 99) {
-        return NextResponse.json({ 'message': "Err: Failed to insert"})
-    }
-
-    return NextResponse.json({ 'message': "added"});
+    return NextResponse.json(result);
 }
 
 export async function PUT(request) {

@@ -36,14 +36,32 @@ export default function Register() {
     setTags([...tags]);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //  fetch
+    const URL = 'http://localhost:3000';
+
+    console.log(clubName, tags);
+
+    const res = await fetch(URL + '/api/clubs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        clubName,
+        department: 'PNU',
+        oneLine,
+        short,
+        tags,
+      }),
+    })
+
+    console.log(res);
   }
 
   return(
     <div className={Styles.Panel}>
-      <form className={Styles.Input} onSubmit={handleSubmit}>
+      <div className={Styles.Input}>
         
         <lable className={Styles.HorizonBox}>
           <p className={Styles.Left}>동아리 명</p>
@@ -133,7 +151,11 @@ export default function Register() {
           </div>
         </lable>
 
-      </form>
+        <button className={Styles.UploadButton} onClick={handleSubmit}>
+          신청
+        </button>
+
+      </div>
     </div>
   )
 }
