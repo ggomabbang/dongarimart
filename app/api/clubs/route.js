@@ -48,37 +48,32 @@ export async function DELETE(request) {
 }
 
 export async function POST(request) {
-    const { clubName, department, oneLine, short, tags } = await request.json();
-  
-    const result = await client.ClubList.create({
-      data: {
-        clubName,
-        department,
-        oneLine,
-        short,
-        tags: {
-          create: [
-            {
-              tag: {
-                connectOrCreate: tags.map((t) => {
-                  return {
-                    where: {
-                      tagName: t,
-                    },
-                    create: {
-                      tagName: t,
-                    },
-                  };
-                }),
-              },
-            },
-          ],
-        },
-        isRecruiting: 0,
-      }
-    })
+  const { clubName, department, oneLine, short, tags } = await request.json();
 
-    return NextResponse.json(result);
+  const result = await client.ClubList.create({
+    data: {
+      clubName,
+      department,
+      oneLine,
+      short,
+      tags: {
+        create: tags.map((tag) => {
+          return {
+            assignedAt: new Date(),
+            tag: {
+              connectOrCreate: {
+                where: { tagName: tag },
+                create: { tagName: tag },
+              },
+            }
+          };
+        }),
+      },
+      isRecruiting: 0,
+    }
+  })
+  
+  return NextResponse.json(result);
 }
 
 export async function PUT(request) {

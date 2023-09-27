@@ -1,10 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Styles from './register.module.css';
+import { useRouter } from 'next/navigation'
 import DongariStyles from '../find/DongariInList.module.css';
 
 export default function Register() {
+  const router = useRouter();
+
   const [clubName, setClubName] = useState("");
   const [oneLine, setOneLine] = useState("");
   const [short, setShort] = useState("");
@@ -38,9 +41,8 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const URL = 'http://localhost:3000';
 
-    console.log(clubName, tags);
+    const URL = 'http://localhost:3000';
 
     const res = await fetch(URL + '/api/clubs', {
       method: 'POST',
@@ -54,9 +56,11 @@ export default function Register() {
         short,
         tags,
       }),
-    })
+    });
 
-    console.log(res);
+    if (res.status == 200) {
+      return router.push('/');
+    }
   }
 
   return(

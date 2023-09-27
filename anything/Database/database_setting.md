@@ -92,11 +92,9 @@ npx prisma migrate dev --name init
 이 부분은 git pull 하신 여러분이 우리 프로젝트에 적용하기 위한 방법
 
 **1. .env 파일에 database connection URL 변수 만들기**
-여러분의 폴더의 root에 .env 파일을 생성합니다. (이미 되어 있으면 안해도 됨)
-.env.local 파일 쓰고 있으면 .env 파일 만들어서 해야 됨. 
-.env.local에 해서 되면 상관 없는데 난 안돼서
+여러분의 폴더의 root에 .env 또는 .env.local 파일을 생성합니다. (이미 되어 있으면 안해도 됨)
 
-.env 파일에 다음과 같은 문장을 추가합니다. 아래 문장은 예시입니다.
+.env 또는 .env.local 파일에 다음과 같은 문장을 추가합니다. 아래 문장은 예시입니다.
 USER , PASSWORD , HOST , PORT , DATABASE에 각자의 환경에 맞게 값을 넣어주면 됨.
 USER : 말 그대로 사용자
 PASSWORD : USER에 대한 비번
@@ -109,11 +107,21 @@ DATABASE_URL="mysql://USER:PASSWORD@HOST:PORT/DATABASE"
 
 **2. 명령어 입력하기**
 다른 설정은 해놓았으니 여러분은 *npm install* 명령어로 prisma를 적용시키고
-다음 명령어를 통해 데이터베이스를 만들면 된다.
 ```shell
 npm install
+```
+다음 명령어를 통해 데이터베이스를 만들면 된다.
+
+- .env의 경우
+```shell
 npx prisma migrate dev
 ```
+
+- .env.local의 경우
+```shell
+npm run prismaLocal
+```
+
 --name init은 migration 파일명을 설정하는 것이니 원하는 이름으로 설정하면 된다. 
 
 명령어 입력하고 각자 database 확인할 때 쓰는 프로그램 들어가서 확인해보면 만들어져 있다.
