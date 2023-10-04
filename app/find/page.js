@@ -17,7 +17,6 @@ export default function Home() {
     });
     const jsonData = await rows.json();
     setGroups(jsonData);
-    console.log(Groups);
   }
 
   useEffect(() => {

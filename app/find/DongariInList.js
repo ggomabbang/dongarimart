@@ -9,6 +9,8 @@ export default function DongariInList({club, i}) {
   const [foldGap, setGap] = useState('0px');
   const recruitStyle = club.isRecruiting ? 'flex' : 'none';
 
+  console.log(club);
+
   const folder = () => {
     console.log(foldStyle)
     if (foldStyle == 'none') {
@@ -31,8 +33,13 @@ export default function DongariInList({club, i}) {
         <div className={Styles.Left}>
           <h4 className={Styles.Title}>{club.clubName}</h4>
           <div className={Styles.TagBox}>
-            <h4 className={Styles.Tag}>태그</h4>
-            <h4 className={Styles.Tag}>태그2</h4>
+            {
+              club.tags.map((tagObj, index) => {
+                return (
+                  <h4 className={Styles.Tag} key={index}>{tagObj.tag.tagName}</h4>
+                )
+              })
+            }
             <h4 className={Styles.Tag}>{club.department}</h4>
           </div>
         </div>

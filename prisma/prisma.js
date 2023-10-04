@@ -1,13 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const globalForPrisma = global;
 
-prisma.$connect()
-  .then(() => {
-    console.log('connected');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 export default prisma;
