@@ -10,6 +10,7 @@
     "prismaLocal": "dotenv -e .env.local prisma migrate dev "
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "@prisma/client": "^5.3.1",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",

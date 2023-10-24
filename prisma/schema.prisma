@@ -1,43 +1,73 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model ClubList {
-    id              Int         @id @default(autoincrement())
-    clubName        String      @unique
-    department      String
-    oneLine         String
-    short           String
-    isRecruiting    Int
-    recruitPeriod   String?
-    recruitTarget   String?
-    pageURL         String?
-    image           String?
-    tags            ClubTag[]
+model clublist {
+  id            Int         @id @default(autoincrement())
+  clubName      String      @unique
+  department    String
+  oneLine       String
+  short         String
+  isRecruiting  Boolean     @default(false)
+  recruitPeriod String?
+  recruitTarget String?
+  pageURL       String?
+  image         String?
+  clubtag       clubtag[]
+  members       JoinedClub[]
 }
 
+model clubtag {
+  clubId        Int
+  tagId         Int
+  assignedAt    DateTime    @default(now())
+  clublist      clublist    @relation(fields: [clubId], references: [id])
+  taglist       taglist     @relation(fields: [tagId], references: [id])
 
-model TagList {
-    id              Int         @id @default(autoincrement())
-    tagName         String      @unique
-    clubs           ClubTag[]    
+  @@id([clubId, tagId])
 }
 
-model ClubTag {
-    club            ClubList    @relation(fields: [clubId], references: [id])
-    tag             TagList     @relation(fields: [tagId], references: [id])
-    clubId          Int
-    tagId           Int
-    assignedAt      DateTime    @default(now())
-
-    @@id([clubId, tagId])
+model taglist {
+  id            Int         @id @default(autoincrement())
+  tagName       String      @unique
+  clubtag       clubtag[]
 }
 
+model user {
+  id            Int         @id @default(autoincrement())
+  email         String      @unique
+  password      String
+  username      String      @unique
+  verifiedEmail Boolean     @default(false)
+  createDate    DateTime    @default(now())
+  updateDate    DateTime?
+  clubs         JoinedClub[]
+  posts         Post[]
+}
+
+model JoinedClub {
+  userId        Int
+  clubId        Int
+  assignedAt    DateTime    @default(now())
+  isLeader      Boolean     @default(false)
+  user          user        @relation(fields: [userId], references: [id])
+  club          clublist    @relation(fields: [clubId], references: [id])
+
+  @@id([userId, clubId])
+}
+
+model Post {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  user          user        @relation(fields: [userId], references: [id])
+  detail        String
+  createDate    DateTime    @default(now())
+  updateDate    DateTime?
+  isNotice      Boolean     @default(false)
+  reportCount   Int         @default(0)
+}
