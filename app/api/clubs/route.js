@@ -24,7 +24,7 @@ import "dotenv/config";
 // }
 
 export async function GET() {
-    const result = await client.ClubList.findMany({
+    const result = await client.clublist.findMany({
       include: {
         tags: {
           select: {
@@ -55,7 +55,7 @@ export async function GET() {
 export async function POST(request) {
   const { clubName, department, oneLine, short, tags } = await request.json();
 
-  const result = await client.ClubList.create({
+  const result = await client.clublist.create({
     data: {
       clubName,
       department,
