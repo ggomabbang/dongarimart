@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import client from "../../../prisma/prisma";
 import "dotenv/config";
 
@@ -24,16 +25,16 @@ import "dotenv/config";
 // }
 
 export async function GET() {
-    const result = await client.clublist.findMany({
-      include: {
-        tags: {
-          select: {
-            tag: true
-          },
+  const result = await client.clublist.findMany({
+    include: {
+      tags: {
+        select: {
+          tag: true
         },
       },
-    });
-    return NextResponse.json(result);
+    },
+  });
+  return NextResponse.json(result);
 }
 
 // export async function DELETE(request) {
@@ -53,6 +54,19 @@ export async function GET() {
 // }
 
 export async function POST(request) {
+  const user_token = cookies().get('next-auth.session-token');
+  console.log(user_token);
+
+  const userid = await client.Session.findUnique({
+    where: {
+      sessionToken: user_token.value,
+    },
+    select: {
+      userId: true,
+    },
+  });
+  console.log(userid);
+
   const { clubName, department, oneLine, short, tags } = await request.json();
 
   const result = await client.clublist.create({
@@ -74,8 +88,18 @@ export async function POST(request) {
           };
         }),
       },
-      isRecruiting: 0,
-    }
+      members: {
+        create: {
+          user: {
+            connect: {
+              id: userid.userId,
+            }
+          },
+          isLeader: true,
+        },
+      },
+      isRecruiting: false,
+    },
   })
   
   return NextResponse.json(result);

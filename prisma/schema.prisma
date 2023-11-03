@@ -18,7 +18,7 @@ model clublist {
   recruitTarget String?
   pageURL       String?
   image         String?
-  clubtag       clubtag[]
+  tags          clubtag[]
   members       JoinedClub[]
 }
 
@@ -26,8 +26,8 @@ model clubtag {
   clubId        Int
   tagId         Int
   assignedAt    DateTime    @default(now())
-  clublist      clublist    @relation(fields: [clubId], references: [id])
-  taglist       taglist     @relation(fields: [tagId], references: [id])
+  club          clublist    @relation(fields: [clubId], references: [id])
+  tag           taglist     @relation(fields: [tagId], references: [id])
 
   @@id([clubId, tagId])
 }
@@ -35,7 +35,7 @@ model clubtag {
 model taglist {
   id            Int         @id @default(autoincrement())
   tagName       String      @unique
-  clubtag       clubtag[]
+  clubs         clubtag[]
 }
 
 model user {
