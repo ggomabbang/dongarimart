@@ -45,7 +45,7 @@ model user {
   image         String?
   name          String      @default("이름을 설정해 주세요")
   verifiedEmail Boolean     @default(false)
-  emailVerified DateTime?
+  emailVerified DateTime?   // For github provider
   createDate    DateTime    @default(now())
   updateDate    DateTime?
   clubs         JoinedClub[]

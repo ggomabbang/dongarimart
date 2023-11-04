@@ -55,7 +55,6 @@ export async function GET() {
 
 export async function POST(request) {
   const user_token = cookies().get('next-auth.session-token');
-  console.log(user_token);
 
   const userid = await client.Session.findUnique({
     where: {
