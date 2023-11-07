@@ -7,15 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model clublist {
+model clublist {            // 모집 중일 때 post와 1:1관계 추가 필요, PostId
   id            Int         @id @default(autoincrement())
   clubName      String      @unique
   department    String
   oneLine       String
   short         String
   isRecruiting  Boolean     @default(false)
-  recruitPeriod String?
-  recruitTarget String?
+  recruitPeriod String?     // Start, End 두 개로 나누어야할 필요 있음, DateTime
+  recruitTarget String?     // JSON
   pageURL       String?
   image         String?
   tags          clubtag[]

@@ -6,7 +6,15 @@ import { useEffect, useState } from 'react';
 
 export default function Club({ params }) {
   const clubid = params.id;
-  const [Club, setClub] = useState({});
+  const [Club, setClub] = useState({
+    id: 0,
+    clubName: "",
+    department: "",
+    oneLine: "",
+    short: "",
+    isRecruiting: false,
+    tags: [],
+  });
 
   const GetClub = async (id) => {
     const URL = 'http://localhost:3000';
@@ -14,15 +22,13 @@ export default function Club({ params }) {
       method: "GET"
     });
     const jsonData = await rows.json();
-    setClub(jsonData[0]);
-    console.log(Club);
+    setClub(jsonData);
+    console.log(jsonData);
   }
 
   useEffect(() => {
     GetClub(clubid);
   }, []);
-  
-  const tag = ['스포츠', '야구'];
 
   const contents = '뭐 여러명 모집 하는데 알아서 신청하십쇼들';
 
@@ -40,15 +46,24 @@ export default function Club({ params }) {
           <p className={Styles.ShortText}>{Club.short}</p>
           <div className={Styles.InnerMiddle}>
             <div className={Styles.TagBox}>
-              {tag.map((name, index)=>{
-                return (
-                  <button id={'tag'+index} key={index}>{name}</button>
-                )
-              })}
+              {
+                Club.tags.map((tag)=>{
+                  return (
+                    <button id={'tag'+tag.tag.id} key={tag.tag.id}>
+                      {tag.tag.tagName}
+                    </button>
+                  )
+                })
+              }
             </div>
-            <Link href={'https://plato.pusan.ac.kr/'}>
-              <button className={Styles.BlueButton}>홈페이지</button>
-            </Link>
+            {
+              Club.pageURL == null ?
+                <button className={Styles.BlueButton}>홈페이지 없음</button>
+              :
+                <Link href={Club.pageURL}>
+                  <button className={Styles.BlueButton}>홈페이지</button>
+                </Link>
+            }
           </div>
           <div className={Styles.RecruitBox}>
             <div className={Styles.RecruitInner}>
