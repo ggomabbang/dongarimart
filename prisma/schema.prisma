@@ -41,3 +41,12 @@ model ClubTag {
     @@id([clubId, tagId])
 }
 
+model User {
+    id              Int         @id @default(autoincrement())
+    email           String      @unique
+    password        String
+    username        String
+    verified        Int
+    createAt        DateTime
+    updateAt        DateTime
+}
