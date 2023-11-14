@@ -32,3 +32,81 @@ model clubtag {
   @@id([clubId, tagId])
 }
 
+model taglist {
+  id            Int         @id @default(autoincrement())
+  tagName       String      @unique
+  clubs         clubtag[]
+}
+
+model user {
+  id            Int         @id @default(autoincrement())
+  email         String      @unique
+  password      String?
+  image         String?
+  name          String      @default("이름을 설정해 주세요")
+  verifiedEmail Boolean     @default(false)
+  emailVerified DateTime?   // For github provider
+  createDate    DateTime    @default(now())
+  updateDate    DateTime?
+  clubs         JoinedClub[]
+  posts         Post[]
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model JoinedClub {
+  userId        Int
+  clubId        Int
+  assignedAt    DateTime    @default(now())
+  isLeader      Boolean     @default(false)
+  user          user        @relation(fields: [userId], references: [id])
+  club          clublist    @relation(fields: [clubId], references: [id])
+
+  @@id([userId, clubId])
+}
+
+model Post {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  user          user        @relation(fields: [userId], references: [id])
+  detail        String
+  createDate    DateTime    @default(now())
+  updateDate    DateTime?
+  isNotice      Boolean     @default(false)
+  reportCount   Int         @default(0)
+}
+
+model Account {
+  id                  String  @id @default(cuid())
+  userId              Int
+  type                String
+  provider            String
+  providerAccountId   String
+  refresh_token       String?  @db.Text
+  access_token        String?  @db.Text
+  expires_at          Int?
+  token_type          String?
+  scope               String?
+  id_token            String?  @db.Text
+  session_state       String?
+
+  user                user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
