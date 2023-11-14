@@ -1,8 +1,6 @@
 .Content {
-  margin-top: 50px;
-  margin-bottom: 50px;
   display: flex;
-  width: 1790px;
+  width: 1280px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -30,7 +28,7 @@
 
 .Left {
   display: flex;
-  width: 300px;
+  width: 250px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -38,54 +36,66 @@
   color: #000;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 36px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 13.68px;
+  letter-spacing: 6px;
 }
 
 .Right {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 20px;
   flex: 1 0 0;
 }
 
 .Right input {
   display: flex;
-  padding: 16px 47px;
+  padding: 15px 25px;
   align-items: center;
   gap: 10px;
   flex: 1 0 0;
 
   border-radius: 20px;
   border: 1px solid #000;
-  background: rgba(0, 0, 0, 0.05);
+  background: #FFF;
 
-  color: #000;
+  color: rgba(0, 0, 0, 1);
   font-family: Noto Sans KR;
-  font-size: 50px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 19px;
+  letter-spacing: 10px;
 }
 
 .Right ul {
   margin: 0px;
 }
 
-.Right li {
+#email_check {
   margin: 0px;
   list-style-type: disc; 
   color: #00BB1E;
   font-family: Noto Sans KR;
-  font-size: 36px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 350;
   line-height: normal;
-  letter-spacing: 13.68px;
+  letter-spacing: 10px;
+}
+
+#email_uncheck {
+  margin: 0px;
+  list-style-type: disc; 
+  color: #F10909;
+  font-family: Noto Sans KR;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 350;
+  line-height: normal;
+  letter-spacing: 10px;
 }
 
 .BlueButton {
@@ -101,7 +111,7 @@
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 40px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -126,7 +136,7 @@
 .Title {
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 64px;
+  font-size: 3em;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
@@ -138,5 +148,13 @@
   justify-content: flex-end;
   align-items: center;
   gap: 1018px;
+  align-self: stretch;
+}
+
+.ListBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
   align-self: stretch;
 }

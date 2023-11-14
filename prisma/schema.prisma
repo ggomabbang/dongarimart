@@ -1,52 +1,34 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model ClubList {
-    id              Int         @id @default(autoincrement())
-    clubName        String      @unique
-    department      String
-    oneLine         String
-    short           String
-    isRecruiting    Int
-    recruitPeriod   String?
-    recruitTarget   String?
-    pageURL         String?
-    image           String?
-    tags            ClubTag[]
+model clublist {            // 모집 중일 때 post와 1:1관계 추가 필요, PostId
+  id            Int         @id @default(autoincrement())
+  clubName      String      @unique
+  department    String
+  oneLine       String
+  short         String
+  isRecruiting  Boolean     @default(false)
+  recruitPeriod String?     // Start, End 두 개로 나누어야할 필요 있음, DateTime
+  recruitTarget String?     // JSON
+  pageURL       String?
+  image         String?
+  tags          clubtag[]
+  members       JoinedClub[]
 }
 
+model clubtag {
+  clubId        Int
+  tagId         Int
+  assignedAt    DateTime    @default(now())
+  club          clublist    @relation(fields: [clubId], references: [id])
+  tag           taglist     @relation(fields: [tagId], references: [id])
 
-model TagList {
-    id              Int         @id @default(autoincrement())
-    tagName         String      @unique
-    clubs           ClubTag[]    
+  @@id([clubId, tagId])
 }
 
-model ClubTag {
-    club            ClubList    @relation(fields: [clubId], references: [id])
-    tag             TagList     @relation(fields: [tagId], references: [id])
-    clubId          Int
-    tagId           Int
-    assignedAt      DateTime    @default(now())
-
-    @@id([clubId, tagId])
-}
-
-model User {
-    id              Int         @id @default(autoincrement())
-    email           String      @unique
-    password        String
-    username        String
-    verified        Int
-    createAt        DateTime
-    updateAt        DateTime
-}
