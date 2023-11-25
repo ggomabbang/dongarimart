@@ -44,7 +44,8 @@ model ClubTag {
 
 model User {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt
-  username      String      @unique @default("이름을 설정해 주세요") @db.VarChar(20) // 실명 x
+  username      String      @default("이름") @db.VarChar(20) // 실명 x
+  name          String      @default("이름을 설정해 주세요") @db.VarChar(20) // 임시
   email         String      @unique @db.VarChar(30)
   password      String      @default("0") @db.VarChar(256)
   image         String?     // 임시?
