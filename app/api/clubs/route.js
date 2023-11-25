@@ -109,7 +109,7 @@ export async function GET(request) {
       include: {
         tags: {
           select: {
-            tag: true
+            tagList: true
           },
         },
       },
@@ -117,7 +117,7 @@ export async function GET(request) {
     const order = reverse == 1? 'desc' : 'asc';
     switch(sortBy) {
       case 'registration':
-        query.orderBy = [{id: order}];
+        query.orderBy = [{createdAt: order}];
         break;
       case 'name':
         query.orderBy = [{clubName: order}];
@@ -127,7 +127,7 @@ export async function GET(request) {
         query.where.isRecruiting = 1;
         break;
       case 'popularity':
-        //todo
+        query.orderBy = [{view: order}];
         break;
     }
     if(pagination !== 0) {
@@ -140,8 +140,10 @@ export async function GET(request) {
         query.where.AND.push({
           tags: {
             some: {
-              tag: {
-                tagName: tag[i]
+              tagList: {
+                tagName: {
+                  tagName: tag[i]
+                }
               }
             }
           }
@@ -149,10 +151,10 @@ export async function GET(request) {
       }
     }
     if (college !== null) {
-      query.where.department = college;
+      //query.where.department = college;
     }
 
-    const result = await client.clublist.findMany(query);
+    const result = await client.ClubList.findMany(query);
     return NextResponse.json(result);
 }
 
