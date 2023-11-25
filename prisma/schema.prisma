@@ -21,7 +21,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   image         String?     @db.VarChar(256)
   view          Int         @db.UnsignedInt
   createdAt     DateTime    @default(now()) @db.Timestamp(3)
-  updatedAt     DateTime    @updatedAt @db.Timestamp(3)
+  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   tags          ClubTag[]
   members       JoinedClub[]
 }
@@ -46,11 +46,11 @@ model User {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt
   username      String      @unique @default("이름을 설정해 주세요") @db.VarChar(20) // 실명 x
   email         String      @unique @db.VarChar(30)
-  password      String      @db.VarChar(256)
+  password      String      @default("0") @db.VarChar(256)
   image         String?     // 임시?
   emailVerified DateTime?   // 임시 For github provider // 기존의 이메일 인증 column은 삭제함
   createdAt     DateTime    @default(now()) @db.Timestamp(3)
-  updatedAt     DateTime    @updatedAt @db.Timestamp(3)
+  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
   posts         Post[]
   accounts      Account[]   // 임시
@@ -73,7 +73,7 @@ model Post {
   userId        Int         @db.UnsignedInt
   content       String      @db.Text
   createAt      DateTime    @default(now()) @db.Timestamp(3)
-  updateAt      DateTime    @updatedAt @db.Timestamp(3)
+  updateAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   isNotice      Boolean     @default(false)
   reportCount   Int         @default(0) @db.UnsignedInt
   view          Int         @default(0) @db.UnsignedInt
