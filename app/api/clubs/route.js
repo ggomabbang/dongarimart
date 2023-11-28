@@ -141,9 +141,7 @@ export async function GET(request) {
           tags: {
             some: {
               tagList: {
-                tagName: {
-                  tagName: tag[i]
-                }
+                tagName: tag[i]
               }
             }
           }
@@ -189,20 +187,23 @@ export async function POST(request) {
 
   const { clubName, department, oneLine, short, tags } = await request.json();
 
-  const result = await client.clublist.create({
+  const result = await client.ClubList.create({
     data: {
       clubName,
-      department,
       oneLine,
       short,
       tags: {
         create: tags.map((tag) => {
           return {
-            assignedAt: new Date(),
-            tag: {
+            tagList: {
               connectOrCreate: {
-                where: { tagName: tag },
-                create: { tagName: tag },
+                where: { 
+                  tagName: tag
+                },
+                create: { 
+                  tagName: tag,
+                  createdAt: new Date(),
+                },
               },
             }
           };
@@ -216,9 +217,12 @@ export async function POST(request) {
             }
           },
           isLeader: true,
+          joinedAt: new Date(),
         },
       },
       isRecruiting: false,
+      classification: department,
+      view: 0,
     },
   })
   
