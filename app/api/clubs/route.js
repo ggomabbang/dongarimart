@@ -149,7 +149,7 @@ export async function GET(request) {
       }
     }
     if (college !== null) {
-      //query.where.department = college;
+      query.where.classification = college;
     }
 
     const result = await client.ClubList.findMany(query);
