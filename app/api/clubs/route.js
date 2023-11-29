@@ -135,18 +135,15 @@ export async function GET(request) {
       query.take = pagination;
     }
     if(tag !== null) {
-      query.where.AND = [];
-      for(let i = 0; i < tag.length; i++) {
-        query.where.AND.push({
-          tags: {
-            some: {
-              tagList: {
-                tagName: tag[i]
-              }
+      query.where.AND = tag.map((t) => ({
+        tags: {
+          some: {
+            tagList: {
+              tagName: t
             }
           }
-        });
-      }
+        }
+      }));
     }
     if (college !== null) {
       query.where.classification = college;
