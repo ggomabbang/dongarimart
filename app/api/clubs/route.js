@@ -202,7 +202,6 @@ export async function POST(request) {
                 },
                 create: { 
                   tagName: tag,
-                  createdAt: new Date(),
                 },
               },
             }
