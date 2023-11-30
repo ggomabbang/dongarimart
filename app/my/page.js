@@ -40,7 +40,7 @@ export default function My() {
           <p className={Styles.Left}>이름</p>
           <div className={Styles.Right}>
             <input 
-            value={User.name}
+            value={User.username}
             className={Styles.InputBox} 
             readOnly
             id='name_box'

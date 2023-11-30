@@ -9,7 +9,14 @@ const handler = NextAuth({
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET
+      clientSecret: process.env.GITHUB_SECRET,
+      profile: (profile) => {
+        return {
+          id: profile.id,
+          username: profile.login,
+          email: profile.email
+        }
+      }
     }),
   ],
 });
