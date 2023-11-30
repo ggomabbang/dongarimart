@@ -7,78 +7,91 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model clublist {            // 모집 중일 때 post와 1:1관계 추가 필요, PostId
-  id            Int         @id @default(autoincrement())
-  clubName      String      @unique
-  department    String
-  oneLine       String
-  short         String
-  isRecruiting  Boolean     @default(false)
-  recruitPeriod String?     // Start, End 두 개로 나누어야할 필요 있음, DateTime
-  recruitTarget String?     // JSON
-  pageURL       String?
-  image         String?
-  tags          clubtag[]
+model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요, PostId
+  id            Int         @id @default(autoincrement()) @db.UnsignedInt
+  clubName      String      @unique @db.VarChar(20)
+  classification String     @db.VarChar(20)
+  oneLine       String      @db.VarChar(100)
+  short         String      @db.VarChar(500)
+  isRecruiting  Boolean     @default(false) // mysql에는 tinyint로 적용
+  recruitStart  DateTime?   @db.Date
+  recruitEnd    DateTime?   @db.Date
+  recruitTarget String?     @db.VarChar(100) // JSON
+  pageURL       String?     @db.VarChar(256)
+  image         String?     @db.VarChar(256)
+  view          Int         @db.UnsignedInt
+  createdAt     DateTime    @default(now()) @db.Timestamp(3)
+  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  tags          ClubTag[]
   members       JoinedClub[]
 }
 
-model clubtag {
-  clubId        Int
-  tagId         Int
-  assignedAt    DateTime    @default(now())
-  club          clublist    @relation(fields: [clubId], references: [id])
-  tag           taglist     @relation(fields: [tagId], references: [id])
+model TagList {
+  id            Int         @id @default(autoincrement()) @db.UnsignedInt
+  tagName       String      @unique @db.VarChar(20)
+  createdAt     DateTime    @default(now()) @db.Timestamp(3)
+  clubs         ClubTag[]
+}
+
+model ClubTag {
+  clubId        Int         @db.UnsignedInt
+  tagId         Int         @db.UnsignedInt
+  clubList      ClubList    @relation(fields: [clubId], references: [id])
+  tagList       TagList     @relation(fields: [tagId], references: [id])
 
   @@id([clubId, tagId])
 }
 
-model taglist {
-  id            Int         @id @default(autoincrement())
-  tagName       String      @unique
-  clubs         clubtag[]
-}
-
-model user {
-  id            Int         @id @default(autoincrement())
-  email         String      @unique
-  password      String?
-  image         String?
-  name          String      @default("이름을 설정해 주세요")
-  verifiedEmail Boolean     @default(false)
-  emailVerified DateTime?   // For github provider
-  createDate    DateTime    @default(now())
-  updateDate    DateTime?
+model User {
+  id            Int         @id @default(autoincrement()) @db.UnsignedInt
+  username      String      @default("이름") @db.VarChar(20) // 실명 x
+  name          String      @default("이름을 설정해 주세요") @db.VarChar(20) // 임시
+  email         String      @unique @db.VarChar(30)
+  password      String      @default("0") @db.VarChar(256)
+  image         String?     // 임시?
+  emailVerified DateTime?   // 임시 For github provider // 기존의 이메일 인증 column은 삭제함
+  createdAt     DateTime    @default(now()) @db.Timestamp(3)
+  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
   posts         Post[]
-  accounts      Account[]
-  sessions      Session[]
+  accounts      Account[]   // 임시
+  sessions      Session[]   // 임시
 }
 
 model JoinedClub {
-  userId        Int
-  clubId        Int
-  assignedAt    DateTime    @default(now())
+  userId        Int         @db.UnsignedInt
+  clubId        Int         @db.UnsignedInt
+  joinedAt      DateTime    @db.Date // 기존의 assignedAt
   isLeader      Boolean     @default(false)
-  user          user        @relation(fields: [userId], references: [id])
-  club          clublist    @relation(fields: [clubId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
+  club          ClubList    @relation(fields: [clubId], references: [id])
 
   @@id([userId, clubId])
 }
 
 model Post {
-  id            Int         @id @default(autoincrement())
-  userId        Int
-  user          user        @relation(fields: [userId], references: [id])
-  detail        String
-  createDate    DateTime    @default(now())
-  updateDate    DateTime?
+  id            Int         @id @default(autoincrement()) @db.UnsignedInt 
+  userId        Int         @db.UnsignedInt
+  content       String      @db.Text
+  createAt      DateTime    @default(now()) @db.Timestamp(3)
+  updateAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   isNotice      Boolean     @default(false)
-  reportCount   Int         @default(0)
+  reportCount   Int         @default(0) @db.UnsignedInt
+  view          Int         @default(0) @db.UnsignedInt
+  user          User?       @relation(fields: [userId], references: [id])
 }
 
+model VerifyingEmail {
+  email         String      @id @db.VarChar(30)
+  session       String      
+  code          String      @db.Char(6)
+  verifiedDone  Boolean
+}
+
+// 임시 table
 model Account {
   id                  String  @id @default(cuid())
-  userId              Int
+  userId              Int      @db.UnsignedInt
   type                String
   provider            String
   providerAccountId   String
@@ -90,19 +103,21 @@ model Account {
   id_token            String?  @db.Text
   session_state       String?
 
-  user                user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
+// 임시 table
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       Int
+  userId       Int      @db.UnsignedInt
   expires      DateTime
-  user         user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// 임시 table
 model VerificationToken {
   identifier String
   token      String   @unique
