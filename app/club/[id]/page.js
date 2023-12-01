@@ -47,14 +47,17 @@ export default function Club({ params }) {
           <div className={Styles.InnerMiddle}>
             <div className={Styles.TagBox}>
               {
-                Club.tags.map((tag)=>{
+                Club.tags.map((tagObj)=>{
                   return (
-                    <button id={'tag'+tag.tag.id} key={tag.tag.id}>
-                      {tag.tag.tagName}
+                    <button key={tagObj.tagList.id}>
+                      {tagObj.tagList.tagName}
                     </button>
                   )
                 })
               }
+              <button>
+                {Club.classification}
+              </button>
             </div>
             {
               Club.pageURL == null ?

@@ -22,9 +22,8 @@ export async function GET() {
     },
     select: {
       email: true,
-      image: true,
-      name: true,
-      verifiedEmail: true,
+      username: true,
+      emailVerified: true,
     },
   });
 

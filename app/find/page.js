@@ -11,7 +11,7 @@ export default function Home() {
   const GetClubs = async () => {
     const URL = 'http://localhost:3000';
     const college = 'all';
-    const parameter = '?college=' + college;
+    const parameter = ""
     const rows = await fetch(URL+'/api/clubs'+parameter, {
       method: "GET"
     });

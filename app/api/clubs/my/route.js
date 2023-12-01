@@ -14,7 +14,7 @@ export async function GET() {
     },
   });
 
-  const result = await client.clublist.findMany({
+  const result = await client.ClubList.findMany({
     where: {
       members: {
         some: {
@@ -25,7 +25,7 @@ export async function GET() {
     include: {
       tags: {
         select: {
-          tag: true,
+          tagList: true,
         },
       },
       members: {

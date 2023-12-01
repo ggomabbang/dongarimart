@@ -32,13 +32,13 @@ export default function DongariInList({club, i}) {
           <h4 className={Styles.Title}>{club.clubName}</h4>
           <div className={Styles.TagBox}>
             {
-              club.tags.map((tagObj, index) => {
+              club.tags.map((tagObj) => {
                 return (
-                  <h4 className={Styles.Tag} key={index}>{tagObj.tag.tagName}</h4>
+                  <h4 className={Styles.Tag} key={tagObj.tagList.id}>{tagObj.tagList.tagName}</h4>
                 )
               })
             }
-            <h4 className={Styles.Tag}>{club.department}</h4>
+            <h4 className={Styles.Tag}>{club.classification}</h4>
           </div>
         </div>
         <div className={Styles.Right}>
