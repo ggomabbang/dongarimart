@@ -10,7 +10,7 @@ export default function DongariInList({club, i}) {
   const recruitStyle = club.isRecruiting ? 'flex' : 'none';
 
   const folder = () => {
-    console.log(foldStyle)
+    // console.log(foldStyle)
     if (foldStyle == 'none') {
       setFold('flex');
       setGap('25px');
