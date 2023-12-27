@@ -3,7 +3,7 @@
 import Styles from './find.module.css'
 import DongariInList from './DongariInList';
 import { useEffect, useState } from 'react';
-import College from './College.json';
+import College from '../../public/College.json';
 
 export default function Find() {
   const [Groups, setGroups] = useState([]);
