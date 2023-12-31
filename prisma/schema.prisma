@@ -50,6 +50,7 @@ model User {
   password      String      @default("0") @db.VarChar(256)
   image         String?     // 임시?
   emailVerified DateTime?   // 임시 For github provider // 기존의 이메일 인증 column은 삭제함
+  verifiedDone  Boolean
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
@@ -83,8 +84,7 @@ model Post {
 
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
-  session       String      
-  code          String      @db.Char(6)
+  token         String      @db.VarChar(256)
   verifiedDone  Boolean
 }
 
