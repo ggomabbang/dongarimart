@@ -5,7 +5,11 @@ import Styles from './my.module.css';
 import { useEffect, useState } from 'react';
 
 export default function My() {
-  const [User, setUser] = useState({});
+  const [User, setUser] = useState({
+    email: '로딩 중', 
+    username: '로딩 중', 
+    emailVerified: null
+  });
   const [Groups, setGroups] = useState([]);
 
   const GetMyinfo = async () => {
@@ -15,7 +19,6 @@ export default function My() {
     });
     const jsonData = await rows.json();
     setUser(jsonData);
-    console.log(User);
   }
 
   const GetMyClubs = async () => {
@@ -93,7 +96,7 @@ export default function My() {
                 <DongariInList 
                   club={club}
                   i={index} 
-                  key={club.clubid}
+                  key={club.id}
                 />
               );
             })
