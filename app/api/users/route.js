@@ -62,3 +62,7 @@ export async function POST(request) {
     return NextResponse.json(newUser);
 
 }
+
+export async function GET(request) {
+    
+}
