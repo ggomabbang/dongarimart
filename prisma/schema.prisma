@@ -83,7 +83,7 @@ model Post {
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
   token         String      @db.VarChar(256)
-  verifiedDone  Boolean
+  verifiedDone  Boolean     @default(false)
 }
 
 // 임시 table
