@@ -45,12 +45,9 @@ model ClubTag {
 model User {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt
   username      String      @default("이름") @db.VarChar(20) // 실명 x
-  name          String      @default("이름을 설정해 주세요") @db.VarChar(20) // 임시
   email         String      @unique @db.VarChar(30)
   password      String      @default("0") @db.VarChar(256)
-  image         String?     // 임시?
-  emailVerified DateTime?   // 임시 For github provider // 기존의 이메일 인증 column은 삭제함
-  verifiedDone  Boolean
+  emailVerified Boolean     @default(false)
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
@@ -73,6 +70,7 @@ model JoinedClub {
 model Post {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt 
   userId        Int         @db.UnsignedInt
+  title         String      @default("No title") @db.VarChar(100)
   content       String      @db.Text
   createAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updateAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
