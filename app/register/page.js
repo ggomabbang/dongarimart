@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Styles from './register.module.css';
 import { useRouter } from 'next/navigation'
 import DongariStyles from '../find/DongariInList.module.css';
+import College from '../../public/College.json';
 
 export default function Register() {
   const router = useRouter();
@@ -13,22 +14,31 @@ export default function Register() {
   const [short, setShort] = useState("");
   const [tags, setTags] = useState([]);
 
-  const tagAdder = (e) => {
-    if (e.target.value.length){
-      if (e.key == 'Enter') {
-        if (tags[0] == e.target.value) {
-          alert("중복 태그가 존재합니다.");
-          return 0;
-        }
+  const [department, setCollegeSelected] = useState("pnu");
+  const handleCollegeSelect = (e) => {
+    setCollegeSelected(e.target.value);
+  }
 
-        if (tags.length > 1) {
-          alert("태그는 최대 2개까지 추가할 수 있습니다.");
-          return 0;
-        }
-      
-        setTags([...tags, e.target.value]);
-        e.target.value = "";
+  const [tagValue, setTagValue] = useState("");
+
+  const tagInputChange = (e) => {
+    setTagValue(e.target.value);
+  }
+
+  const tagAdder = () => {
+    if (tagValue.length){
+      if (tags[0] == tagValue) {
+        alert("중복 태그가 존재합니다.");
+        return 0;
       }
+
+      if (tags.length > 1) {
+        alert("태그는 최대 2개까지 추가할 수 있습니다.");
+        return 0;
+      }
+    
+      setTags([...tags, tagValue]);
+      setTagValue("");
     }
   }
 
@@ -51,7 +61,7 @@ export default function Register() {
       },
       body: JSON.stringify({
         clubName,
-        department: 'PNU',
+        department,
         oneLine,
         short,
         tags,
@@ -94,6 +104,22 @@ export default function Register() {
         </lable>
 
         <lable className={Styles.HorizonBox}>
+          <p className={Styles.Left}>소속</p>
+          <div className={Styles.Right}>
+            <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={department}>
+              {
+                Object.entries(College).map(([key, value]) => {
+                  if (key == 'all') return 
+                  return (
+                    <option value={key} key={key}>{value}</option>
+                  )
+                })
+              }
+            </select>
+          </div>
+        </lable>
+
+        <lable className={Styles.HorizonBox}>
           <p className={Styles.Left}>짧은 소개</p>
           <div className={Styles.Right}>
             <textarea 
@@ -132,9 +158,21 @@ export default function Register() {
             <input 
               id='tag' 
               className={Styles.TagInputBox} 
-              placeholder='태그' 
-              onKeyUp={tagAdder}
+              placeholder='태그'
+              value={tagValue}
+              onChange={tagInputChange}
+              onKeyUp={(e) => {
+                if (e.key == 'Enter') {
+                  tagAdder()
+                }
+              }}
             />
+            <button 
+              className={Styles.UploadButton} 
+              onClick={(e)=> {tagAdder()}}
+            >
+              추가
+            </button>
             <div id='tagZone' className={Styles.TagZone}>
               {
                 tags.map((tag, index) => {
