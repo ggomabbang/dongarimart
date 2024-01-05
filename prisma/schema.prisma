@@ -20,7 +20,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   pageURL       String?     @db.VarChar(256)
   image         String?     @db.VarChar(256)
   view          Int         @db.UnsignedInt
-  createdAt     DateTime    @default(now()) @db.Timestamp(3)
+  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   tags          ClubTag[]
   members       JoinedClub[]
@@ -29,7 +29,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
 model TagList {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt
   tagName       String      @unique @db.VarChar(20)
-  createdAt     DateTime    @default(now()) @db.Timestamp(3)
+  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   clubs         ClubTag[]
 }
 
@@ -45,12 +45,10 @@ model ClubTag {
 model User {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt
   username      String      @default("이름") @db.VarChar(20) // 실명 x
-  name          String      @default("이름을 설정해 주세요") @db.VarChar(20) // 임시
   email         String      @unique @db.VarChar(30)
   password      String      @default("0") @db.VarChar(256)
-  image         String?     // 임시?
-  emailVerified DateTime?   // 임시 For github provider // 기존의 이메일 인증 column은 삭제함
-  createdAt     DateTime    @default(now()) @db.Timestamp(3)
+  emailVerified Boolean     @default(false)
+  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
   posts         Post[]
@@ -72,8 +70,9 @@ model JoinedClub {
 model Post {
   id            Int         @id @default(autoincrement()) @db.UnsignedInt 
   userId        Int         @db.UnsignedInt
+  title         String      @default("No title") @db.VarChar(100)
   content       String      @db.Text
-  createAt      DateTime    @default(now()) @db.Timestamp(3)
+  createAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updateAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   isNotice      Boolean     @default(false)
   reportCount   Int         @default(0) @db.UnsignedInt
@@ -83,9 +82,8 @@ model Post {
 
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
-  session       String      
-  code          String      @db.Char(6)
-  verifiedDone  Boolean
+  token         String      @db.VarChar(256)
+  verifiedDone  Boolean     @default(false)
 }
 
 // 임시 table
