@@ -54,6 +54,42 @@ export async function POST(request) {
     const token = randomBytes(256).toString('hex');
     console.log(token);
 
+    // 토큰 재발급인지 확인 
+    const oldEmail = await prisma.VerifyingEmail.findUnique({
+        where: {
+            email: email,
+        },
+        select: {
+            // 만료기한 확인
+            
+        }
+    });
+
+    if (oldEmail !== null) {
+        // 만료기한 확인
+        // 만료 안되었으면 종료
+
+
+        // 만료 되었으면 update
+        const updateEmail = await prisma.VerifyingEmail.update({
+            where: {
+                email: email,
+            },
+            data: {
+
+            },
+        });
+    }
+    
+    // 데이터베이스에 저장
+    const newEmail = await prisma.VerifyingEmail.create({
+        data: {
+            email: email,
+            token: token,
+            // 만료기한 추가
+        },
+    });
+    
     // 이메일 전송 객체 생성
     const transporter = nodeMailer.createTransport({
         service: 'gmail',
@@ -68,6 +104,7 @@ export async function POST(request) {
 
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json(email);
-
+    return new Response(null, {
+        status: 204
+    });
 }
