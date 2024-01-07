@@ -8,26 +8,31 @@ datasource db {
 }
 
 model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요, PostId
-  id            Int         @id @default(autoincrement()) @db.UnsignedInt
+  id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   clubName      String      @unique @db.VarChar(20)
   classification String     @db.VarChar(20)
   oneLine       String      @db.VarChar(100)
   short         String      @db.VarChar(500)
   isRecruiting  Boolean     @default(false) // mysql에는 tinyint로 적용
-  recruitStart  DateTime?   @db.Date
-  recruitEnd    DateTime?   @db.Date
-  recruitTarget String?     @db.VarChar(100) // JSON
-  pageURL       String?     @db.VarChar(256)
-  image         String?     @db.VarChar(256)
-  view          Int         @db.UnsignedInt
+  pageURL       String?     @db.VarChar(255)
+  view          Int         @db.UnsignedInt @default(0)
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  image         Image?
+  schedule      RecruitSchedule?
+  post          Post[]
   tags          ClubTag[]
   members       JoinedClub[]
 }
 
+model RecruitSchedule {
+  clubId        Int         @id @db.UnsignedInt
+  recruitEnd    DateTime    @db.Date
+  club          ClubList    @relation(fields: [clubId], references: [id])
+}
+
 model TagList {
-  id            Int         @id @default(autoincrement()) @db.UnsignedInt
+  id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   tagName       String      @unique @db.VarChar(20)
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   clubs         ClubTag[]
@@ -42,12 +47,49 @@ model ClubTag {
   @@id([clubId, tagId])
 }
 
+model Post {
+  id            Int         @id @db.UnsignedInt @default(autoincrement())  
+  userId        Int         @db.UnsignedInt
+  clubId        Int?        @db.UnsignedInt
+  title         String      @db.VarChar(100) @default("No title") 
+  content       String      @db.Text
+  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
+  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  isNotice      Boolean     @default(false)
+  isRecruit     Boolean     @default(false)
+  reportCount   Int         @db.UnsignedInt @default(0) 
+  view          Int         @db.UnsignedInt @default(0) 
+  image         Image[]
+  recruit       Recruit?
+  club          ClubList?   @relation(fields: [clubId], references: [id])
+  user          User?       @relation(fields: [userId], references: [id])
+}
+
+model Image {
+  id            Int         @id @db.UnsignedInt @default(autoincrement())
+  filename      String      @unique @db.VarChar(50)
+  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
+  postId        Int?        @db.UnsignedInt
+  clubId        Int?        @unique @db.UnsignedInt
+  post          Post?       @relation(fields: [postId], references: [id])
+  club          ClubList?   @relation(fields: [clubId], references: [id])
+}
+
+model Recruit {
+  postId        Int         @id @db.UnsignedInt
+  recruitStart  DateTime    @db.Date
+  recruitEnd    DateTime    @db.Date
+  recruitTarget String?     @db.VarChar(1000)
+  post          Post        @relation(fields: [postId], references: [id])
+}
+
 model User {
-  id            Int         @id @default(autoincrement()) @db.UnsignedInt
-  username      String      @default("이름") @db.VarChar(20) // 실명 x
+  id            Int         @id @db.UnsignedInt @default(autoincrement()) 
+  username      String      @unique @db.VarChar(20) @default("이름")  // 실명 x
   email         String      @unique @db.VarChar(30)
-  password      String      @default("0") @db.VarChar(256)
-  emailVerified Boolean     @default(false)
+  password      String      @db.VarChar(256) @default("0") 
+  emailVerified DateTime?   // github 로그인에 쓰는 중
+  emailConfirm  Boolean     @default(false)
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
@@ -59,7 +101,7 @@ model User {
 model JoinedClub {
   userId        Int         @db.UnsignedInt
   clubId        Int         @db.UnsignedInt
-  joinedAt      DateTime    @db.Date // 기존의 assignedAt
+  joinedAt      DateTime    @db.Date
   isLeader      Boolean     @default(false)
   user          User        @relation(fields: [userId], references: [id])
   club          ClubList    @relation(fields: [clubId], references: [id])
@@ -67,28 +109,16 @@ model JoinedClub {
   @@id([userId, clubId])
 }
 
-model Post {
-  id            Int         @id @default(autoincrement()) @db.UnsignedInt 
-  userId        Int         @db.UnsignedInt
-  title         String      @default("No title") @db.VarChar(100)
-  content       String      @db.Text
-  createAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updateAt      DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
-  isNotice      Boolean     @default(false)
-  reportCount   Int         @default(0) @db.UnsignedInt
-  view          Int         @default(0) @db.UnsignedInt
-  user          User?       @relation(fields: [userId], references: [id])
-}
-
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
-  token         String      @db.VarChar(256)
+  token         String      @unique @db.VarChar(255)
+  tokencreated  DateTime    @db.Timestamp() @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
   verifiedDone  Boolean     @default(false)
 }
 
 // 임시 table
 model Account {
-  id                  String  @id @default(cuid())
+  id                  String   @id @default(cuid())
   userId              Int      @db.UnsignedInt
   type                String
   provider            String
