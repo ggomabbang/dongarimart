@@ -14,7 +14,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   oneLine       String      @db.VarChar(100)
   short         String      @db.VarChar(500)
   isRecruiting  Boolean     @default(false) // mysql에는 tinyint로 적용
-  pageURL       String?     @db.VarChar(256)
+  pageURL       String?     @db.VarChar(255)
   view          Int         @db.UnsignedInt @default(0)
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
@@ -79,7 +79,7 @@ model Recruit {
   postId        Int         @id @db.UnsignedInt
   recruitStart  DateTime    @db.Date
   recruitEnd    DateTime    @db.Date
-  recruitTarget String?     @db.VarChar(100)
+  recruitTarget String?     @db.VarChar(1000)
   post          Post        @relation(fields: [postId], references: [id])
 }
 
@@ -111,7 +111,7 @@ model JoinedClub {
 
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
-  token         String      @unique @db.VarChar(256)
+  token         String      @unique @db.VarChar(255)
   tokencreated  DateTime    @db.Timestamp() @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
   verifiedDone  Boolean     @default(false)
 }
