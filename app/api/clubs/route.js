@@ -102,8 +102,8 @@ export async function GET(request) {
         query.orderBy = [{clubName: order}];
         break;
       case 'deadline':
-        query.orderBy = [{recruitEnd: order}];
-        query.where.isRecruiting = true;
+        query.orderBy = [{recruitPeriod: order}];
+        query.where.isRecruiting = 1;
         break;
       case 'popularity':
         query.orderBy = [{view: order}];
@@ -151,17 +151,67 @@ export async function GET(request) {
 export async function POST(request) {
   const user_token = cookies().get('next-auth.session-token');
 
-  const userid = await client.Session.findUnique({
+  const userid = user_token? await client.Session.findUnique({
     where: {
       sessionToken: user_token.value,
     },
     select: {
       userId: true,
+      expires: true
     },
-  });
+  }) : null;
+
   console.log(userid);
+  if (!user_token || !userid.userId) {
+    return NextResponse.json({
+      message: "유효하지 않은 토큰입니다."
+    }, {
+      status: 401,
+    });
+  }
+  // if (userid.expires <= Date.now()) {
+  //   console.log("!");
+  //   return NextResponse.json({
+  //     message: "토큰이 만료되었습니다."
+  //   }, {
+  //     status: 401,
+  //   });
+  // }
 
   const { clubName, department, oneLine, short, tags } = await request.json();
+
+  if (!clubName) {
+    return NextResponse.json({
+      parameter: "clubName",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!department) {
+    return NextResponse.json({
+      parameter: "department",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!oneLine) {
+    return NextResponse.json({
+      parameter: "oneLine",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!short) {
+    return NextResponse.json({
+      parameter: "short",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
 
   const result = await client.ClubList.create({
     data: {
