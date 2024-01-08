@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { env } from '@/next.config';
 import * as nodeMailer from 'nodemailer';
+import { time } from "node:console";
 
 export async function POST(request) {
     const { email } = await request.json();
@@ -17,13 +18,13 @@ export async function POST(request) {
 
     // 이메일 형식 확인
     const emailRE = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@pusan.ac.kr");
-    let REResult = emailRE.exec(email);
-    if (REResult === null) {
+    let resultRE = emailRE.exec(email);
+    if (resultRE === null) {
         return new Response(null, {
             status: 204
         });
     }
-    if (REResult.input !== email) {
+    if (resultRE.input !== email) {
         return new Response(null, {
             status: 204
         });
@@ -51,7 +52,7 @@ export async function POST(request) {
 
     // 인증 토큰 생성
     const { randomBytes } = await import('node:crypto');
-    const token = randomBytes(100).toString('hex');
+    const token = randomBytes(180).toString('base64');
     console.log(token);
     console.log(token.length);
 
@@ -73,7 +74,7 @@ export async function POST(request) {
         dateExpire.setDate(dateExpire.getDate()+1);
         
         // 만료 안되었으면 종료
-        if (dateExpire < timeNow) {
+        if (dateExpire.getTime() > timeNow.getTime()) {
             return new Response(null, {
                 status: 204
             });
