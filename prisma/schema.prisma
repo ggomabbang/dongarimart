@@ -79,6 +79,7 @@ model Recruit {
   postId        Int         @id @db.UnsignedInt
   recruitStart  DateTime    @db.Date
   recruitEnd    DateTime    @db.Date
+  recruitURL    String?     @db.VarChar(1000)
   recruitTarget String?     @db.VarChar(1000)
   post          Post        @relation(fields: [postId], references: [id])
 }
