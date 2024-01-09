@@ -169,14 +169,6 @@ export async function POST(request) {
       status: 401,
     });
   }
-  // if (userid.expires <= Date.now()) {
-  //   console.log("!");
-  //   return NextResponse.json({
-  //     message: "토큰이 만료되었습니다."
-  //   }, {
-  //     status: 401,
-  //   });
-  // }
 
   const { clubName, department, oneLine, short, tags } = await request.json();
 
