@@ -52,9 +52,7 @@ export async function POST(request) {
 
     // 인증 토큰 생성
     const { randomBytes } = await import('node:crypto');
-    const token = randomBytes(180).toString('base64');
-    console.log(token);
-    console.log(token.length);
+    const token = randomBytes(125).toString('hex');
 
     // 토큰 재발급인지 확인 
     const oldEmail = await prisma.VerifyingEmail.findUnique({
@@ -75,6 +73,7 @@ export async function POST(request) {
         
         // 만료 안되었으면 종료
         if (dateExpire.getTime() > timeNow.getTime()) {
+            console.log("End");
             return new Response(null, {
                 status: 204
             });
