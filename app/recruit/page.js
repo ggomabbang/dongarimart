@@ -1,6 +1,32 @@
+'use client';
+
+import { useState } from 'react';
 import Styles from './recruit.module.css';
 
 export default function Recruit() {
+  const [recruitTarget, setRecruitTarget] = useState([]);
+
+  const targetAdder = (e) => {
+    setRecruitTarget([
+      ...recruitTarget,
+      {
+        name: '',
+        count: 0
+      }
+    ]);
+  }
+
+  const countAdder = (e) => {
+    const to_change = recruitTarget;
+    const id = parseInt(e.target.parentElement.id);
+    if (to_change[id].count) {
+      to_change[id].count = 0;
+    } else {
+      to_change[id].count = 1;
+    }
+    setRecruitTarget(to_change);
+  }
+
   return (
     <div className={Styles.Panel}>
       <div className={Styles.Input}>
@@ -36,7 +62,28 @@ export default function Recruit() {
         <lable className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 인원</p>
           <div className={Styles.RightEditable}>
-            <button className={Styles.AddButton}>
+            {
+              recruitTarget.map((role, index) => {
+                return (
+                  <div className={Styles.Right} key={index} id={index}>
+                    <input 
+                      id={`target+${index}`}
+                      className={Styles.TargetBox}
+                    />
+                    <input 
+                      id={`count+${index}`}
+                      type='number'
+                      className={Styles.NumberBox}
+                    />
+                    <button className={Styles.UploadButton} onClick={countAdder}>
+                      인원 제한
+                    </button>
+                    <button className={Styles.CancelButton}>삭제</button>
+                  </div>
+                )
+              }) 
+            }
+            <button className={Styles.AddButton} onClick={targetAdder}>
               역할 추가 +
             </button>
           </div>
