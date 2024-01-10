@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
-import { createHash } from "crypto";
 
 export async function POST(request) {
     const { username, password, email } = await request.json();
@@ -28,6 +27,24 @@ export async function POST(request) {
         })
     }
 
+    // 이메일 형식 확인 (부산대 이메일만 가입 가능)
+    const emailRE = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@pusan.ac.kr");
+    let resultRE = emailRE.exec(email);
+    if (resultRE === null) {
+        return NextResponse.json({
+            message: "올바르지 않은 parameter입니다."
+        }, {
+            status: 400
+        })
+    }
+    if (resultRE.input !== email) {
+        return NextResponse.json({
+            message: "올바르지 않은 parameter입니다."
+        }, {
+            status: 400
+        })
+    }
+
     // 중복 유저 확인 
     const user = await prisma.User.findUnique({
         where: {
@@ -48,7 +65,9 @@ export async function POST(request) {
     }
 
     // 비밀번호 암호화
-    const hashPW = createHash("sha256").update(password).digest("hex");
+    const bcrypt = require('bcryptjs');
+    const salt = await bcrypt.genSalt(10);
+    const hashPW = await bcrypt.hash(password, salt);
     
     // 데이터베이스에 등록
     const newUser = await prisma.User.create({
@@ -56,10 +75,13 @@ export async function POST(request) {
             username: username,
             email: email,
             password: hashPW,
+            salt: salt,
         },
     });
     
-    return NextResponse.json(newUser);
+    return new Response(null, {
+        status: 201,
+    });
 
 }
 
@@ -75,7 +97,6 @@ export async function GET(request) {
             status: 400
         });
     }
-
 
     // 닉네임으로 중복 확인 
     if (username !== null) {
@@ -137,6 +158,4 @@ export async function GET(request) {
             status: 400
         });
     }
-
-
 }
