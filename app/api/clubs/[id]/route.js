@@ -52,7 +52,7 @@ export async function PATCH(request) {
   }) : null;
 
   console.log(userid);
-  if (!user_token || !userid.userId) {
+  if (!user_token || !userid || !userid.userId) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -96,7 +96,8 @@ export async function PATCH(request) {
       oneLine,
       short,
       tags: {
-        update: tags.map((tag) => {
+        deleteMany: {},
+        create: tags.map((tag) => {
           return {
             tagList: {
               connectOrCreate: {
@@ -111,6 +112,54 @@ export async function PATCH(request) {
           };
         }),
       },
+    }
+  });
+
+  if(result == null) {
+    return new Response(null, {
+      status: 204,
+    })
+  }
+  
+  return NextResponse.json(result);
+}
+
+export async function DELETE(request) {
+  const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
+
+  const user_token = cookies().get('next-auth.session-token');
+
+  const userid = user_token? await client.Session.findUnique({
+    where: {
+      sessionToken: user_token.value,
+    },
+    select: {
+      userId: true,
+      expires: true
+    },
+  }) : null;
+
+  console.log(userid);
+  if (!user_token || !userid || !userid.userId) {
+    return NextResponse.json({
+      message: "유효하지 않은 토큰입니다."
+    }, {
+      status: 401,
+    });
+  }
+  
+  if(isNaN(id)) {
+    return NextResponse.json({
+      parameter: "id",
+      message: "int 형식이 아닌 ID 값입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  const result = await client.clubList.delete({
+    where: {
+      id,
     }
   });
 
