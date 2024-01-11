@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Styles from './recruit.module.css';
 
 export default function Recruit() {
@@ -16,6 +16,13 @@ export default function Recruit() {
     ]);
   }
 
+  const targetDeleter = (e) => {
+    const to_change = recruitTarget;
+    const id = parseInt(e.target.parentElement.id);
+    to_change.splice(id, 1);
+    setRecruitTarget([...to_change]);
+  }
+
   const countAdder = (e) => {
     const to_change = recruitTarget;
     const id = parseInt(e.target.parentElement.id);
@@ -24,8 +31,20 @@ export default function Recruit() {
     } else {
       to_change[id].count = 1;
     }
-    setRecruitTarget(to_change);
+    setRecruitTarget([...to_change]);
   }
+
+  const countChanger = (e) => {
+    const to_change = recruitTarget;
+    const id = parseInt(e.target.parentElement.id);
+    if (e.target.value > 0) to_change[id].count = e.target.value;
+    else to_change[id].count = 1;
+    setRecruitTarget([...to_change]);
+  }
+
+  useEffect(()=>{
+    // console.log(recruitTarget);
+  }, [recruitTarget]);
 
   return (
     <div className={Styles.Panel}>
@@ -70,15 +89,20 @@ export default function Recruit() {
                       id={`target+${index}`}
                       className={Styles.TargetBox}
                     />
-                    <input 
-                      id={`count+${index}`}
-                      type='number'
-                      className={Styles.NumberBox}
-                    />
+                    {
+                      role.count ?
+                        <input 
+                          id={`count+${index}`}
+                          value={role.count}
+                          onChange={countChanger}
+                          type='number'
+                          className={Styles.NumberBox}
+                        /> : null
+                    }
                     <button className={Styles.UploadButton} onClick={countAdder}>
                       인원 제한
                     </button>
-                    <button className={Styles.CancelButton}>삭제</button>
+                    <button className={Styles.CancelButton} onClick={targetDeleter}>삭제</button>
                   </div>
                 )
               }) 
