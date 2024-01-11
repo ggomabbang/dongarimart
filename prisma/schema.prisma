@@ -88,7 +88,7 @@ model User {
   id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   username      String      @unique @db.VarChar(20) @default("이름")  // 실명 x
   email         String      @unique @db.VarChar(30)
-  salt          String      @db.VarChar(10)
+  salt          String?     @db.VarChar(30) // 나중에는 not null로 수정
   password      String      @db.VarChar(256) @default("0") 
   emailVerified DateTime?   // github 로그인에 쓰는 중
   emailConfirm  Boolean     @default(false)
