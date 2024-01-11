@@ -1,0 +1,16 @@
+.Container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  width: 1280px;
+  padding: 40px;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+
+  font-size: 30px;
+}
