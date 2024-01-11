@@ -79,6 +79,7 @@ model Recruit {
   postId        Int         @id @db.UnsignedInt
   recruitStart  DateTime    @db.Date
   recruitEnd    DateTime    @db.Date
+  recruitURL    String?     @db.VarChar(1000)
   recruitTarget String?     @db.VarChar(1000)
   post          Post        @relation(fields: [postId], references: [id])
 }
@@ -87,6 +88,7 @@ model User {
   id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   username      String      @unique @db.VarChar(20) @default("이름")  // 실명 x
   email         String      @unique @db.VarChar(30)
+  salt          String      @db.VarChar(10)
   password      String      @db.VarChar(256) @default("0") 
   emailVerified DateTime?   // github 로그인에 쓰는 중
   emailConfirm  Boolean     @default(false)
