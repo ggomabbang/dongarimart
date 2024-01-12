@@ -30,7 +30,7 @@ export async function GET(request) {
   if(result == null) {
     return new Response(null, {
       status: 204,
-    })
+    });
   }
   
   return NextResponse.json(result);
@@ -66,6 +66,36 @@ export async function PATCH(request) {
       message: "int 형식이 아닌 ID 값입니다."
     }, {
       status: 400,
+    });
+  }
+
+  const club = await client.clubList.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!club) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
+
+  const leader = await client.JoinedClub.findMany({
+    where: {
+      userId: userid.userId,
+      clubId: id
+    },
+    select: {
+      isLeader: true
+    }
+  });
+
+  if (leader.length === 0 || !leader[0].isLeader) {
+    return NextResponse.json({
+      message: "등록 권한이 없는 클라이언트입니다."
+    }, {
+      status: 403,
     });
   }
 
@@ -114,13 +144,6 @@ export async function PATCH(request) {
       },
     }
   });
-
-  if(result == null) {
-    return new Response(null, {
-      status: 204,
-    })
-  }
-  
   return NextResponse.json(result);
 }
 
@@ -154,6 +177,36 @@ export async function DELETE(request) {
       message: "int 형식이 아닌 ID 값입니다."
     }, {
       status: 400,
+    });
+  }
+
+  const club = await client.clubList.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!club) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
+
+  const leader = await client.JoinedClub.findMany({
+    where: {
+      userId: userid.userId,
+      clubId: id
+    },
+    select: {
+      isLeader: true
+    }
+  });
+
+  if (leader.length === 0 || !leader[0].isLeader) {
+    return NextResponse.json({
+      message: "삭제 권한이 없는 클라이언트입니다."
+    }, {
+      status: 403,
     });
   }
 

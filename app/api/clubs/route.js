@@ -102,8 +102,8 @@ export async function GET(request) {
         query.orderBy = [{clubName: order}];
         break;
       case 'deadline':
-        query.orderBy = [{recruitPeriod: order}];
-        query.where.isRecruiting = 1;
+        query.orderBy = [{recruitEnd: order}];
+        query.where.isRecruiting = true;
         break;
       case 'popularity':
         query.orderBy = [{view: order}];
