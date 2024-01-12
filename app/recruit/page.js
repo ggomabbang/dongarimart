@@ -18,14 +18,14 @@ export default function Recruit() {
 
   const targetDeleter = (e) => {
     const to_change = recruitTarget;
-    const id = parseInt(e.target.parentElement.id);
+    const id = parseInt(e.target.parentElement.parentElement.id);
     to_change.splice(id, 1);
     setRecruitTarget([...to_change]);
   }
 
   const countAdder = (e) => {
     const to_change = recruitTarget;
-    const id = parseInt(e.target.parentElement.id);
+    const id = parseInt(e.target.parentElement.parentElement.id);
     if (to_change[id].count) {
       to_change[id].count = 0;
     } else {
@@ -34,16 +34,23 @@ export default function Recruit() {
     setRecruitTarget([...to_change]);
   }
 
-  const countChanger = (e) => {
+  const nameChanger = (e) => {
     const to_change = recruitTarget;
     const id = parseInt(e.target.parentElement.id);
+    to_change[id].name = e.target.value;
+    setRecruitTarget([...to_change]);
+  }
+
+  const countChanger = (e) => {
+    const to_change = recruitTarget;
+    const id = parseInt(e.target.parentElement.parentElement.id);
     if (e.target.value > 0) to_change[id].count = e.target.value;
     else to_change[id].count = 1;
     setRecruitTarget([...to_change]);
   }
 
   useEffect(()=>{
-    // console.log(recruitTarget);
+    console.log(recruitTarget);
   }, [recruitTarget]);
 
   return (
@@ -84,25 +91,32 @@ export default function Recruit() {
             {
               recruitTarget.map((role, index) => {
                 return (
-                  <div className={Styles.Right} key={index} id={index}>
+                  <div className={Styles.InRight} key={index} id={index}>
                     <input 
                       id={`target+${index}`}
+                      value={role.name}
+                      onChange={nameChanger}
+                      placeholder={'역할 이름'}
                       className={Styles.TargetBox}
                     />
-                    {
-                      role.count ?
-                        <input 
-                          id={`count+${index}`}
-                          value={role.count}
-                          onChange={countChanger}
-                          type='number'
-                          className={Styles.NumberBox}
-                        /> : null
-                    }
-                    <button className={Styles.UploadButton} onClick={countAdder}>
-                      인원 제한
-                    </button>
-                    <button className={Styles.CancelButton} onClick={targetDeleter}>삭제</button>
+                    <div className={Styles.HorButtons}>
+                      {
+                        role.count ?
+                          <input 
+                            id={`count+${index}`}
+                            value={role.count}
+                            onChange={countChanger}
+                            type='number'
+                            className={Styles.NumberBox}
+                          /> : null
+                      }
+                      <button className={Styles.UploadButton} onClick={countAdder}>
+                        인원 제한
+                      </button>
+                      <button className={Styles.CancelButton} onClick={targetDeleter}>
+                        삭제
+                      </button>
+                    </div>
                   </div>
                 )
               }) 
@@ -128,6 +142,8 @@ export default function Recruit() {
           <p className={Styles.Left}>이미지</p>
           <div className={Styles.Right}>
             <img className={Styles.ImageBox}/>
+          </div>
+          <div className={Styles.Side}>
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton} htmlFor='input-file'>
                 업로드
@@ -140,6 +156,12 @@ export default function Recruit() {
               >
               </input>
               <button className={Styles.CancelButton}>취소</button>
+            </div>
+            <div className={Styles.Images}>
+              <img className={Styles.ImageSmallBox}/>
+              <img className={Styles.ImageSmallBox}/>
+              <img className={Styles.ImageSmallBox}/>
+              <img className={Styles.ImageSmallBox}/>
             </div>
           </div>
         </lable>
