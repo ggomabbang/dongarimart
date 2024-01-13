@@ -102,7 +102,11 @@ export async function GET(request) {
         query.orderBy = [{clubName: order}];
         break;
       case 'deadline':
-        query.orderBy = [{recruitEnd: order}];
+        query.orderBy = [{
+          schedule: {
+            recruitEnd: order
+          }
+        }];
         query.where.isRecruiting = true;
         break;
       case 'popularity':
@@ -243,7 +247,9 @@ export async function POST(request) {
     },
   })
   
-  return NextResponse.json(result);
+  return new Response(null, {
+    status: 201,
+  });
 }
 
 // export async function PUT(request) {

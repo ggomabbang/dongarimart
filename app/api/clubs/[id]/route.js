@@ -14,24 +14,51 @@ export async function GET(request) {
     });
   }
 
+  const club = await client.clubList.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if(club == null) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
+
+  const view = club.view;
+
+  await client.clubList.update({
+    where: {
+      id,
+    },
+    data: {
+      view: view + 1
+    }
+  });
+
   const result = await client.clubList.findUnique({
     where: {
       id,
     },
     include: {
+      schedule: true,
+      post: {
+        where: {
+          isRecruit: true,
+        },
+        orderBy: {
+          updatedAt: 'desc',
+        },
+        take: 1,
+      },
       tags: {
         select: {
-          tagList: true
+          tagList: true,
         },
       },
     },
   });
-
-  if(result == null) {
-    return new Response(null, {
-      status: 204,
-    });
-  }
   
   return NextResponse.json(result);
 }
@@ -81,17 +108,19 @@ export async function PATCH(request) {
     });
   }
 
-  const leader = await client.JoinedClub.findMany({
+  const leader = await client.JoinedClub.findUnique({
     where: {
-      userId: userid.userId,
-      clubId: id
+      userId_clubId: {
+        userId: userid.userId,
+        clubId: id
+      }
     },
     select: {
       isLeader: true
     }
   });
 
-  if (leader.length === 0 || !leader[0].isLeader) {
+  if (!leader || !leader.isLeader) {
     return NextResponse.json({
       message: "등록 권한이 없는 클라이언트입니다."
     }, {
@@ -144,7 +173,9 @@ export async function PATCH(request) {
       },
     }
   });
-  return NextResponse.json(result);
+  return new Response(null, {
+    status: 201,
+  });
 }
 
 export async function DELETE(request) {
@@ -192,17 +223,19 @@ export async function DELETE(request) {
     });
   }
 
-  const leader = await client.JoinedClub.findMany({
+  const leader = await client.JoinedClub.findUnique({
     where: {
-      userId: userid.userId,
-      clubId: id
+      userId_clubId: {
+        userId: userid.userId,
+        clubId: id
+      }
     },
     select: {
       isLeader: true
     }
   });
 
-  if (leader.length === 0 || !leader[0].isLeader) {
+  if (!leader || !leader.isLeader) {
     return NextResponse.json({
       message: "삭제 권한이 없는 클라이언트입니다."
     }, {
