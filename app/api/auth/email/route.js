@@ -42,7 +42,7 @@ export async function POST(request) {
     });
 
     if (user !== null) {
-        console.log(user.emailVerified);
+        // 이미 인증 되었으면 종료
         if (user.emailVerified === true) {
             return new Response(null, {
                 status: 204
@@ -50,6 +50,7 @@ export async function POST(request) {
         }
     }
     else {
+        // 회원 목록에 없으면 종료
         return new Response(null, {
             status: 204
         });
