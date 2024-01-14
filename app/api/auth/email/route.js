@@ -29,7 +29,7 @@ export async function POST(request) {
             status: 204
         });
     }
-    
+
     // 이미 인증된 이메일 확인
     const user = await prisma.User.findUnique({
         where: {
@@ -48,6 +48,11 @@ export async function POST(request) {
                 status: 204
             });
         }
+    }
+    else {
+        return new Response(null, {
+            status: 204
+        });
     }
 
     // 인증 토큰 생성
