@@ -42,7 +42,6 @@ export async function GET(request) {
       id,
     },
     include: {
-      schedule: true,
       post: {
         where: {
           isRecruit: true,
@@ -51,6 +50,9 @@ export async function GET(request) {
           updatedAt: 'desc',
         },
         take: 1,
+        include: {
+          recruit: true
+        }
       },
       tags: {
         select: {
@@ -147,7 +149,7 @@ export async function PATCH(request) {
     });
   }
 
-  const result = await client.clubList.update({
+  const result = await client.ClubList.update({
     where: {
       id,
     },
@@ -211,7 +213,7 @@ export async function DELETE(request) {
     });
   }
 
-  const club = await client.clubList.findUnique({
+  const club = await client.ClubList.findUnique({
     where: {
       id,
     },

@@ -28,7 +28,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
 model RecruitSchedule {
   clubId        Int         @id @db.UnsignedInt
   recruitEnd    DateTime    @db.Date
-  club          ClubList    @relation(fields: [clubId], references: [id])
+  club          ClubList    @relation(fields: [clubId], references: [id], onDelete: Cascades)
 }
 
 model TagList {
@@ -41,7 +41,7 @@ model TagList {
 model ClubTag {
   clubId        Int         @db.UnsignedInt
   tagId         Int         @db.UnsignedInt
-  clubList      ClubList    @relation(fields: [clubId], references: [id])
+  clubList      ClubList    @relation(fields: [clubId], references: [id], onDelete: Cascade)
   tagList       TagList     @relation(fields: [tagId], references: [id])
 
   @@id([clubId, tagId])
@@ -61,7 +61,7 @@ model Post {
   view          Int         @db.UnsignedInt @default(0) 
   image         Image[]
   recruit       Recruit?
-  club          ClubList?   @relation(fields: [clubId], references: [id])
+  club          ClubList?   @relation(fields: [clubId], references: [id], onDelete: Cascade)
   user          User?       @relation(fields: [userId], references: [id])
 }
 
@@ -72,7 +72,7 @@ model Image {
   postId        Int?        @db.UnsignedInt
   clubId        Int?        @unique @db.UnsignedInt
   post          Post?       @relation(fields: [postId], references: [id])
-  club          ClubList?   @relation(fields: [clubId], references: [id])
+  club          ClubList?   @relation(fields: [clubId], references: [id], onDelete: Cascade)
 }
 
 model Recruit {
@@ -106,7 +106,7 @@ model JoinedClub {
   joinedAt      DateTime    @db.Date
   isLeader      Boolean     @default(false)
   user          User        @relation(fields: [userId], references: [id])
-  club          ClubList    @relation(fields: [clubId], references: [id])
+  club          ClubList    @relation(fields: [clubId], references: [id], onDelete: Cascade)
 
   @@id([userId, clubId])
 }
