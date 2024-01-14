@@ -114,7 +114,7 @@ model JoinedClub {
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
   token         String      @unique @db.VarChar(255)
-  tokencreated  DateTime    @db.Timestamp() @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+  tokenCreated  DateTime    @db.Timestamp @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
   verifiedDone  Boolean     @default(false)
 }
 
