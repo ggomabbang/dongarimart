@@ -121,7 +121,7 @@ export async function POST(request) {
     const mailOptions = {
         to: email,
         subject: 'Wave 가입 인증 메일',
-        html: '<h1>인증링크를 클릭하세요</h1>' + "<a href=\"http://localhost:3000/api/auth/email/" + token + "\">이메일 인증 링크 </a>"
+        html: '<h1>인증링크를 클릭하세요</h1>' + "<a href=\"http://localhost:3000/auth/email/" + token + "\">이메일 인증 링크 </a>"
     };
 
     await transporter.sendMail(mailOptions);
