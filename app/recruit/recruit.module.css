@@ -279,3 +279,24 @@
 @keyframes pop{
     50% {transform: scale(1.1);}
 }
+
+.MenuFont {
+    display: flex;
+    padding: 15px 25px;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+  
+    color: #2D5DEB;
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 2.5px;
+  
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFF;
+    outline: none;
+  }

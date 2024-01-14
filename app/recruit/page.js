@@ -4,6 +4,37 @@ import { useEffect, useState } from 'react';
 import Styles from './recruit.module.css';
 
 export default function Recruit() {
+  const [clubs, setClubs] = useState([]);
+  const [selectClub, setSelectClub] = useState('');
+
+  const GetMyClubs = async () => {
+    const URL = 'http://localhost:3000';
+    const rows = await fetch(URL+'/api/clubs/my', {
+      method: "GET"
+    });
+    const jsonData = await rows.json();
+    setClubs(jsonData);
+  }
+
+  const [title, setTitle] = useState('');
+
+  const leftPad = (value) => {
+    if (value >= 10) return value;
+    return `0${value}`;
+  }
+  const toStringByFormatting = (source, delimiter = '-') => {
+    const year = source.getFullYear();
+    const month = leftPad(source.getMonth() + 1);
+    const day = leftPad(source.getDate());
+
+    return [year, month, day].join(delimiter);
+  }
+
+  const [recruitStart, setRecruitStart] = useState(toStringByFormatting(new Date()))
+  const [recruitEnd, setRecruitEnd] = useState(toStringByFormatting(new Date()))
+
+  const [recruitURL, setURL] = useState('');
+
   const [recruitTarget, setRecruitTarget] = useState([]);
 
   const targetAdder = (e) => {
@@ -49,14 +80,71 @@ export default function Recruit() {
     setRecruitTarget([...to_change]);
   }
 
+  const [content, setContent] = useState('');
+
+  const submitHandler = (e) => {
+    const clubID = selectClub;
+    const toBody = {
+      title,
+      start: recruitStart,
+      end: recruitEnd,
+      url: recruitURL.length ? recruitURL : null,
+      people: recruitTarget,
+      content
+    };
+
+    if (clubID === '') return alert("동아리를 선택해 주세요");
+    if (toBody.title === '') return alert("제목이 필요합니다.");
+    if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요");
+    if (toBody.content === '') return alert("본문을 작성해 주세요");
+
+    console.log(clubID, toBody);
+  }
+
   useEffect(()=>{
-    console.log(recruitTarget);
-  }, [recruitTarget]);
+    GetMyClubs();
+  }, []);
 
   return (
     <div className={Styles.Panel}>
       <div className={Styles.Input}>
+
+        <lable className={Styles.HorizonBox}>
+          <p className={Styles.Left}>동아리</p>
+          <div className={Styles.Right}>
+            <select
+              className={Styles.MenuFont}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setSelectClub(e.target.value);}
+              }
+              value={selectClub}
+            >
+              <option value='' key={-1} disabled>동아리 선택</option>
+              {
+                clubs.map((club, index) => {
+                  return (
+                    <option value={club.id} key={index}>{club.clubName}</option>
+                  )
+                })
+              }
+            </select>
+          </div>
+        </lable>
         
+        <lable className={Styles.HorizonBox}>
+          <p className={Styles.Left}>모집 제목</p>
+          <div className={Styles.Right}>
+            <input
+              className={Styles.InputBox}
+              placeholder='제목'
+              id='title'
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+        </lable>
+
         <lable className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 기간</p>
           <div className={Styles.Right}>
@@ -64,12 +152,16 @@ export default function Recruit() {
               className={Styles.InputBox}
               type='date'
               id='recruitStart'
+              value={recruitStart}
+              onChange={(e) => setRecruitStart(e.target.value)}
             />
             ~
             <input
               className={Styles.InputBox}
               type='date'
               id='recruitEnd'
+              value={recruitEnd}
+              onChange={(e) => setRecruitEnd(e.target.value)}
             />
           </div>
         </lable>
@@ -81,6 +173,8 @@ export default function Recruit() {
               className={Styles.InputBox}
               placeholder='구글 폼, 자체 신청사이트 링크 등'
               id='recruitURL'
+              value={recruitURL}
+              onChange={(e) => setURL(e.target.value)}
             />
           </div>
         </lable>
@@ -134,6 +228,8 @@ export default function Recruit() {
               className={Styles.LargeInputBox}
               placeholder='모집 공고 본문'
               id='content'
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
           </div>
         </lable>
@@ -166,7 +262,7 @@ export default function Recruit() {
           </div>
         </lable>
 
-        <button className={Styles.UploadButton}>
+        <button className={Styles.UploadButton} onClick={submitHandler}>
           완료
         </button>
 
