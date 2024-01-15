@@ -46,7 +46,7 @@ export async function GET(request, { params }) {
     });
 
     const emailVerified = await prisma.VerifyingEmail.update({
-        wherer: {
+        where: {
             email: email.email,
         },
         data: {
