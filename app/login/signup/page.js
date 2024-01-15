@@ -142,7 +142,9 @@ export default function SignUp() {
               onChange={(e)=>{
                 const pw = e.target.value;
                 const newStyle = pwStyle;
-
+                document.getElementById('password_check').value = '';
+                setPwCheck(false);
+                
                 if (8 <= pw.length && pw.length <= 22) {
                   newStyle[1] = true;
                 } else {
