@@ -29,7 +29,7 @@ export async function POST(request) {
             status: 204
         });
     }
-    
+
     // 이미 인증된 이메일 확인
     const user = await prisma.User.findUnique({
         where: {
@@ -42,12 +42,18 @@ export async function POST(request) {
     });
 
     if (user !== null) {
-        console.log(user.emailVerified);
+        // 이미 인증 되었으면 종료
         if (user.emailVerified === true) {
             return new Response(null, {
                 status: 204
             });
         }
+    }
+    else {
+        // 회원 목록에 없으면 종료
+        return new Response(null, {
+            status: 204
+        });
     }
 
     // 인증 토큰 생성
@@ -60,7 +66,7 @@ export async function POST(request) {
             email: email,
         },
         select: {
-            tokencreated: true,    
+            tokenCreated: true,    
             verifiedDone: true,       
         }
     });
@@ -115,7 +121,7 @@ export async function POST(request) {
     const mailOptions = {
         to: email,
         subject: 'Wave 가입 인증 메일',
-        html: '<h1>인증링크를 클릭하세요</h1>' + "<a href=\"http://localhost:3000/api/auth/email/" + token + "\">이메일 인증 링크 </a>"
+        html: '<h1>인증링크를 클릭하세요</h1>' + "<a href=\"http://localhost:3000/auth/email/" + token + "\">이메일 인증 링크 </a>"
     };
 
     await transporter.sendMail(mailOptions);
