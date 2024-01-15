@@ -66,7 +66,7 @@ export async function POST(request) {
             email: email,
         },
         select: {
-            tokencreated: true,    
+            tokenCreated: true,    
             verifiedDone: true,       
         }
     });
