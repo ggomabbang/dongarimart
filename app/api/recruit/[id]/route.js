@@ -71,7 +71,6 @@ export async function POST(request) {
 
   const params = { start, end, url, people, title, content };
   for(const param in params) {
-    console.log(param);
     if (!params[param]) {
       return NextResponse.json({
         parameter: param,
@@ -84,15 +83,13 @@ export async function POST(request) {
 
   await client.Post.create({
     data: {
-      userId: userid.userId,
-      clubId: id,
       title,
       content,
       isRecruit: true,
       recruit: {
         create: {
-          recruitStart: start,
-          recruitEnd: end,
+          recruitStart: new Date(start),
+          recruitEnd: new Date(end),
           recruitURL: url,
           recruitTarget: JSON.stringify(people),
         }
@@ -109,7 +106,38 @@ export async function POST(request) {
           };
         }),
       },
+      club: {
+        connect: {
+          id,
+        }
+      },
+      user: {
+        connect: {
+          id: userid.userId,
+        }
+      }
     },
+  })
+
+  await client.ClubList.update({
+    where: {
+      id,
+    },
+    data: {
+      schedule: {
+        upsert: {
+          where: {
+            clubId: id,
+          },
+          update: {
+            recruitEnd: new Date(end),
+          },
+          create: {
+            recruitEnd: new Date(end),
+          }
+        }
+      }
+    }
   })
 
   return new Response(null, {
