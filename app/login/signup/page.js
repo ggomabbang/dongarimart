@@ -12,6 +12,7 @@ export default function SignUp() {
     1: false,
     2: false,
     3: false,
+    4: false,
   });
   const [pwCheck, setPwCheck] = useState(false);
   const [emailCheck, setEmailCheck] = useState(false);
@@ -54,8 +55,8 @@ export default function SignUp() {
         })
       });
       if (emailRes.status == 204) {
-        alert(`${email}로 전송된 메일을 통해 이메일 인증을 진행해주세요.`)
-        return router.push('/');
+        const id = email.split('@')[0];
+        return router.push(`/login/emailcheck/${id}`);
       } else if (emailRes.status == 400) {
         alert('MY 페이지에서 이메일 확인을 다시 진행해주세요');
         return router.push('/');
@@ -67,7 +68,7 @@ export default function SignUp() {
       alert('요청 오류');
       return router.push('/');
     } else if (res.status == 403) {
-      alert('잘못된 가입 양식입니다.');
+      alert('가입을 다시 진행해주세요.');
       return router.push('/');
     } else {
       alert('Error');
@@ -93,6 +94,8 @@ export default function SignUp() {
             />
             <button
               className={Styles.BlueButton}
+              disabled={nameCheck ? false : true}
+              style={nameCheck ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const username = document.getElementById('ID_box').value;
                 const url = "http://localhost:3000/api/users";
@@ -108,7 +111,6 @@ export default function SignUp() {
                     setNameUnduplicated(false);
                   }
                   else if (body.exist == 'false') {
-                    alert('닉네임 중복확인이 완료되었습니다!')
                     setNameUnduplicated(true);
                   }
                 }
@@ -122,8 +124,9 @@ export default function SignUp() {
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
             <ul>
-              <li id={'name_check_1'} style={{display: nameCheck ? 'none' : 'list-item'}}>닉네임을 입력해 주세요.</li>
-              <li id={'name_check_2'} style={{display: nameUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
+              <li style={{display: nameCheck ? 'none' : 'list-item'}}>닉네임을 입력해 주세요.</li>
+              <li style={{display: nameUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
+              <li style={{display: !nameUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
             </ul>
           </div>
         </div>
@@ -152,11 +155,18 @@ export default function SignUp() {
                   newStyle[2] = false;
                 }
 
-                if (/[`~!@#$%^&*|'";:₩\\?-_+=]/g.test(pw)) {
+                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
                   newStyle[3] = true;
                 } else {
                   newStyle[3] = false;
                 }
+
+                if (/[0-9]/g.test(pw)) {
+                  newStyle[4] = true;
+                } else {
+                  newStyle[4] = false;
+                }
+
                 setPwStyle({...newStyle});
               }}
             />
@@ -167,9 +177,11 @@ export default function SignUp() {
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
             <ul>
-              <li id={'pw_1'} style={{display: pwStyle[1] ? 'none' : 'list-item'}}>8 ~ 22자리 이내로 입력해주세요.</li>
-              <li id={'pw_2'} style={{display: pwStyle[2] ? 'none' : 'list-item'}}>대문자와 소문자를 같이 포함해주세요.</li>
-              <li id={'pw_3'} style={{display: pwStyle[3] ? 'none' : 'list-item'}}>특수문자를 포함해주세요. <br/>허용 특수문자: `~!@#$%^&*|'";:₩\?-_+=</li>
+              <li style={{display: pwStyle[1] ? 'none' : 'list-item'}}>8 ~ 22자리 이내로 입력해주세요.</li>
+              <li style={{display: pwStyle[2] ? 'none' : 'list-item'}}>대문자와 소문자를 같이 포함해주세요.</li>
+              <li style={{display: pwStyle[3] ? 'none' : 'list-item'}}>특수문자를 포함해주세요. <br/>허용 특수문자: `~!@#$%^&*|'";:₩\?-_+=</li>
+              <li style={{display: pwStyle[4] ? 'none' : 'list-item'}}>숫자를 포함해주세요.</li>
+              <li style={{display: Object.values(pwStyle).includes(false)? 'none' : 'list-item', color: 'green'}}>안전한 비밀번호입니다.</li>
             </ul>
           </div>
         </div>
@@ -199,7 +211,8 @@ export default function SignUp() {
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
             <ul>
-              <li id={'pw_check_1'} style={{display: pwCheck ? 'none' : 'list-item'}}>비밀번호가 일치하지 않습니다.</li>
+              <li style={{display: pwCheck ? 'none' : 'list-item'}}>비밀번호가 일치하지 않습니다.</li>
+              <li style={{display: !pwCheck ? 'none' : 'list-item', color: 'green'}}>비밀번호가 일치합니다.</li>
             </ul>
           </div>
         </div>
@@ -222,10 +235,13 @@ export default function SignUp() {
                 else {
                   setEmailCheck(true);
                 }
+                setEmailUnduplicated(false);
               }}  
             />
             <button
               className={Styles.BlueButton}
+              disabled={emailCheck ? false : true}
+              style={emailCheck ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const email = document.getElementById('email').value;
                 const url = "http://localhost:3000/api/users";
@@ -241,7 +257,6 @@ export default function SignUp() {
                     setEmailUnduplicated(false);
                   }
                   else if (body.exist == 'false') {
-                    alert('이메일 중복확인이 완료되었습니다!')
                     setEmailUnduplicated(true);
                   }
                 }
@@ -256,14 +271,14 @@ export default function SignUp() {
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
             <ul>
-              <li id={'email_check_1'} style={{display: emailCheck ? 'none' : 'list-item'}}>부산대학교 이메일 'ID@pusan.ac.kr'만 허용합니다.</li>
-              <li id={'email_check_2'} style={{display: emailUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
+              <li style={{display: emailCheck ? 'none' : 'list-item'}}>부산대학교 이메일 'ID@pusan.ac.kr'만 허용합니다.</li>
+              <li style={{display: emailUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
+              <li style={{display: !emailUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
             </ul>
           </div>
         </div>
         
         <button className={Styles.BlueButton} onClick={submitHandler}>가입하기</button>
-        
       </div>
     </div>
   );
