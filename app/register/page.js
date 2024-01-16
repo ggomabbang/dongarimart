@@ -68,7 +68,7 @@ export default function Register() {
       }),
     });
 
-    if (res.status == 200) {
+    if (res.status == 201) {
       return router.push('/');
     }
   }
