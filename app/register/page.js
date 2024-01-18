@@ -15,10 +15,7 @@ export default function Register() {
   const [short, setShort] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [department, setCollegeSelected] = useState("pnu");
-  const handleCollegeSelect = (e) => {
-    setCollegeSelected(e.target.value);
-  }
+  const [department, setCollegeSelected] = useState("");
 
   const [tagValue, setTagValue] = useState("");
 
@@ -134,7 +131,11 @@ export default function Register() {
         <lable className={Styles.HorizonBox}>
           <p className={Styles.Left}>소속</p>
           <div className={Styles.Right}>
-            <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={department}>
+            <select
+              className={Styles.MenuFont}
+              onChange={(e) => setCollegeSelected(e.target.value)} value={department}
+            >
+              <option value='' key={-1} disabled>동아리 소속 선택</option>
               {
                 Object.entries(College).map(([key, value]) => {
                   if (key == 'all') return 
