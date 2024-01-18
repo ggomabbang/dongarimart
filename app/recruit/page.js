@@ -118,15 +118,19 @@ export default function Recruit() {
     }
     else if (res.status == 204) {
       alert('동아리가 존재하지 않습니다.');
+      return router.push('/');
     }
     else if (res.status == 400) {
       alert('요청 오류.');
+      return router.push('/');
     }
     else if (res.status == 401) {
       alert('로그인 후 다시 진행하여 주세요.');
+      return router.push('/login');
     }
     else if (res.status == 403) {
       alert('권한이 없습니다.');
+      return router.push('/')
     }
   }
 

@@ -61,8 +61,11 @@ export async function GET(request) {
       },
     },
   });
+
+  let body = result;
+  body.post = result.post[0];
   
-  return NextResponse.json(result);
+  return NextResponse.json(body);
 }
 
 export async function PATCH(request) {

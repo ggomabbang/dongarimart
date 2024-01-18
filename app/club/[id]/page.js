@@ -30,8 +30,6 @@ export default function Club({ params }) {
     GetClub(clubid);
   }, []);
 
-  const contents = '뭐 여러명 모집 하는데 알아서 신청하십쇼들';
-
   return (
     <div className={Styles.Container}>
       <div className={Styles.Top}>
@@ -71,17 +69,17 @@ export default function Club({ params }) {
           <div className={Styles.RecruitBox}>
             <div className={Styles.RecruitInner}>
               <button>모집기간</button>
-              <p>{Club.recruitPeriod}</p>
+              <p>{Club.post.recruit.recruitStart}~{Club.post.recruit.recruitEnd}</p>
             </div>
             <div className={Styles.RecruitInner}>
               <button>세부인원</button>
-              <p>{Club.recruitTarget}</p>
+              <p>{Club.post.recruit.recruitTarget}</p>
             </div>
           </div>
         </div>
       </div>
       <p className={Styles.Contents}>
-        {contents}
+        {Club.post.content}
       </p>
       <button className={Styles.BlueButton}>신청하기</button>
     </div>
