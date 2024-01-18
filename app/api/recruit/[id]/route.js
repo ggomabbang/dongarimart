@@ -69,7 +69,7 @@ export async function POST(request) {
 
   const { start, end, url, people, title, content, image } = await request.json();
 
-  const params = { start, end, url, people, title, content };
+  const params = { start, end, title, content };
   for(const param in params) {
     if (!params[param]) {
       return NextResponse.json({
@@ -81,6 +81,10 @@ export async function POST(request) {
     }
   }
 
+  let images;
+  if (image) images = image;
+  else images = [];
+
   await client.Post.create({
     data: {
       title,
@@ -90,12 +94,12 @@ export async function POST(request) {
         create: {
           recruitStart: new Date(start),
           recruitEnd: new Date(end),
-          recruitURL: url,
-          recruitTarget: JSON.stringify(people),
+          recruitURL: url ? url : null,
+          recruitTarget: people ? JSON.stringify(people) : null,
         }
       },
       image: {
-        connectOrCreate: image.map((img) => {
+        connectOrCreate: images.map((img) => {
           return {
             where: {
               filename: img
@@ -124,6 +128,7 @@ export async function POST(request) {
       id,
     },
     data: {
+      isRecruiting: new Date() < new Date(start) ? false : true,
       schedule: {
         upsert: {
           where: {

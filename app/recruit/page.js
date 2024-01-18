@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Styles from './recruit.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function Recruit() {
+  const router = useRouter();
+
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
 
@@ -82,7 +85,7 @@ export default function Recruit() {
 
   const [content, setContent] = useState('');
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     const clubID = selectClub;
     const toBody = {
       title,
@@ -99,6 +102,32 @@ export default function Recruit() {
     if (toBody.content === '') return alert("본문을 작성해 주세요");
 
     console.log(clubID, toBody);
+    
+    const URL = 'http://localhost:3000';
+
+    const res = await fetch(URL + '/api/recruit/' + clubID, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(toBody)
+    });
+
+    if (res.status == 201) {
+      return router.push('/');
+    }
+    else if (res.status == 204) {
+      alert('동아리가 존재하지 않습니다.');
+    }
+    else if (res.status == 400) {
+      alert('요청 오류.');
+    }
+    else if (res.status == 401) {
+      alert('로그인 후 다시 진행하여 주세요.');
+    }
+    else if (res.status == 403) {
+      alert('권한이 없습니다.');
+    }
   }
 
   useEffect(()=>{
