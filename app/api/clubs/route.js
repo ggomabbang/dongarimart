@@ -175,7 +175,7 @@ export async function POST(request) {
     });
   }
 
-  const { clubName, department, oneLine, short, tags } = await request.json();
+  const { clubName, department, oneLine, short, tags, url } = await request.json();
 
   if (!clubName) {
     return NextResponse.json({
@@ -210,7 +210,7 @@ export async function POST(request) {
     });
   }
 
-  const result = await client.ClubList.create({
+  const query = {
     data: {
       clubName,
       oneLine,
@@ -246,7 +246,13 @@ export async function POST(request) {
       classification: department,
       view: 0,
     },
-  })
+  };
+
+  if (url) {
+    query.data.pageURL = url;
+  }
+
+  await client.ClubList.create(query);
   
   return new Response(null, {
     status: 201,

@@ -80,6 +80,14 @@ export async function POST(request) {
       });
     }
   }
+  if (new Date(end) < new Date()) {
+    return NextResponse.json({
+      parameter: "end",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
 
   let images;
   if (image) images = image;
