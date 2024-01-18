@@ -79,12 +79,8 @@ export async function GET(request) {
       });
     }
 
-    const isRecruitingBool = isRecruiting == 1 ? true : false;
-
     let query = {
-      where: {
-        isRecruiting: isRecruitingBool
-      },
+      where: { },
       include: {
         tags: {
           select: {
@@ -93,6 +89,11 @@ export async function GET(request) {
         },
       },
     }
+
+    if (isRecruiting == 1) {
+      query.where.isRecruiting = true;
+    }
+
     const order = reverse == 1? 'desc' : 'asc';
     switch(sortBy) {
       case 'registration':
