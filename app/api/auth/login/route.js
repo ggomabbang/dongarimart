@@ -3,6 +3,14 @@ import prisma from "@/prisma/prisma";
 export async function POST(request) {
     const body = await request.json();
 
+    if (body.email === null || body.email === undefined || body.email === "") {
+        return new Response(JSON.stringify(null));
+    }
+
+    if (body.password === null || body.password === undefined || body.password === "") {
+        return new Response(JSON.stringify(null));
+    }
+
     console.log(body);
 
     const user = await prisma.User.findUnique({
@@ -10,6 +18,8 @@ export async function POST(request) {
             email: body.email,
         },
     });
+
+    console.log(user);
 
     // 유저가 존재하는 지 확인 
     if (user === null) {
@@ -23,8 +33,18 @@ export async function POST(request) {
     // 패스워드 확인 
     const bcrypt = require('bcryptjs');
     if (bcrypt.compareSync(body.password, user.password)) {
-        const { email } = user;
-        return new Response(JSON.stringify(email));
+        const { id, email } = user;
+        let role = "";
+        if (email == "1234") {
+            role = "admin";
+        }
+        else {
+            role = "user";
+        }
+        return new Response(JSON.stringify({
+            id: id, 
+            role: role
+        }));
     }
 
     return new Response(JSON.stringify(null));
