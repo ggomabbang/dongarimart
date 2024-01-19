@@ -25,6 +25,7 @@ export default function Recruit() {
     if (value >= 10) return value;
     return `0${value}`;
   }
+
   const toStringByFormatting = (source, delimiter = '-') => {
     const year = source.getFullYear();
     const month = leftPad(source.getMonth() + 1);
@@ -186,13 +187,24 @@ export default function Recruit() {
               type='date'
               id='recruitStart'
               value={recruitStart}
-              onChange={(e) => setRecruitStart(e.target.value)}
+              onChange={(e) => {
+                setRecruitStart(e.target.value);
+                if (new Date(e.target.value) < new Date(toStringByFormatting(new Date())))
+                  setRecruitEnd(toStringByFormatting(new Date()));
+                else setRecruitEnd(e.target.value);
+              }}
             />
             ~
             <input
               className={Styles.InputBox}
               type='date'
               id='recruitEnd'
+              min={
+                new Date(recruitStart) < new Date(toStringByFormatting(new Date())) ?
+                toStringByFormatting(new Date())
+                :
+                recruitStart
+              }
               value={recruitEnd}
               onChange={(e) => setRecruitEnd(e.target.value)}
             />

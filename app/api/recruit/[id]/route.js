@@ -2,6 +2,23 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import client from "../../../../prisma/prisma";
 
+const leftPad = (value) => {
+  if (value >= 10) return value;
+  return `0${value}`;
+}
+
+/*
+  - Fri May 20 2022 10:30:20과 같은 Date() 형식을
+    2022-05-20과 같은 String으로 바꾸어주는 함수
+*/
+const toStringByFormatting = (source, delimiter = '-') => {
+  const year = source.getFullYear();
+  const month = leftPad(source.getMonth() + 1);
+  const day = leftPad(source.getDate());
+
+  return [year, month, day].join(delimiter);
+}
+
 export async function POST(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
@@ -80,7 +97,7 @@ export async function POST(request) {
       });
     }
   }
-  if (new Date(end) < new Date()) {
+  if (new Date(end) < new Date(toStringByFormatting(new Date()))) {
     return NextResponse.json({
       parameter: "end",
       message: "올바르지 않은 parameter입니다."
@@ -136,7 +153,9 @@ export async function POST(request) {
       id,
     },
     data: {
-      isRecruiting: new Date() < new Date(start) ? false : true,
+      isRecruiting: 
+        new Date(toStringByFormatting(new Date())) < new Date(start) ?
+        false : true,
       schedule: {
         upsert: {
           where: {
