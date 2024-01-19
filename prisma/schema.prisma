@@ -27,6 +27,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
 
 model RecruitSchedule {
   clubId        Int         @id @db.UnsignedInt
+  recruitStart  DateTime    @db.Date
   recruitEnd    DateTime    @db.Date
   club          ClubList    @relation(fields: [clubId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
