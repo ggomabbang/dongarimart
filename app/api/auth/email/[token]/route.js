@@ -24,7 +24,7 @@ export async function GET(request, { params }) {
 
     // 토큰이 만료됨
     const dateExpire = email.tokencreated;
-    const timeNow = new Date();
+    const timeNow = Date.now();
     dateExpire.setDate(dateExpire.getDate() + 1);
 
     if (dateExpire.getTime() < timeNow.getTime()) {
