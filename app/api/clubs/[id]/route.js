@@ -41,7 +41,22 @@ export async function GET(request) {
     where: {
       id,
     },
-    include: {
+    select: {
+      id: true,
+      clubName: true,
+      classification: true,
+      oneLine: true,
+      short: true,
+      isRecruiting: true,
+      pageURL: true,
+      image: {
+        select:{
+          filename: true,
+        }
+      },
+      view: true,
+      createdAt: true,
+      updatedAt: true,
       post: {
         where: {
           isRecruit: true,
@@ -50,8 +65,22 @@ export async function GET(request) {
           updatedAt: 'desc',
         },
         take: 1,
-        include: {
-          recruit: true
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          image: {
+            select: {
+              filename: true,
+            }
+          },
+          recruit: {
+            select: {
+              recruitStart: true,
+              recruitEnd: true,
+              recruitTarget: true
+            }
+          }
         }
       },
       tags: {
@@ -64,6 +93,9 @@ export async function GET(request) {
 
   let body = result;
   body.post = result.post[0];
+  body.recruitStart = body.post && body.post.recruit? body.post.recruit.recruitStart : null;
+  body.recruitEnd = body.post && body.post.recruit? body.post.recruit.recruitEnd: null;
+  body.recruitTarget = body.post && body.post.recruit? body.post.recruit.recruitTarget: null;
   
   return NextResponse.json(body);
 }

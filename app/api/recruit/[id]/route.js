@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import client from "../../../../prisma/prisma";
+import { Prisma } from '@prisma/client'
 
 const leftPad = (value) => {
   if (value >= 10) return value;
@@ -110,7 +111,7 @@ export async function POST(request) {
   if (image) images = image;
   else images = [];
 
-  await client.Post.create({
+  const query = {
     data: {
       title,
       content,
@@ -124,12 +125,9 @@ export async function POST(request) {
         }
       },
       image: {
-        connectOrCreate: images.map((img) => {
+        connect: images.map((img) => {
           return {
             where: {
-              filename: img
-            },
-            create: {
               filename: img
             }
           };
@@ -146,7 +144,19 @@ export async function POST(request) {
         }
       }
     },
-  })
+  };
+
+  try {
+    await client.Post.create(query);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+  }
 
   await client.ClubList.update({
     where: {
