@@ -1,5 +1,7 @@
 import prisma from "@/prisma/prisma";
 
+const adminId = process.env.ADMIN_ID;
+
 export async function POST(request) {
     const body = await request.json();
 
@@ -11,15 +13,11 @@ export async function POST(request) {
         return new Response(JSON.stringify(null));
     }
 
-    console.log(body);
-
     const user = await prisma.User.findUnique({
         where: {
             email: body.email,
         },
     });
-
-    console.log(user);
 
     // 유저가 존재하는 지 확인 
     if (user === null) {
@@ -35,7 +33,7 @@ export async function POST(request) {
     if (bcrypt.compareSync(body.password, user.password)) {
         const { id, email } = user;
         let role = "";
-        if (email == "1234") {
+        if (email == adminId) {
             role = "admin";
         }
         else {
