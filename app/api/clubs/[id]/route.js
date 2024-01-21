@@ -78,7 +78,8 @@ export async function GET(request) {
             select: {
               recruitStart: true,
               recruitEnd: true,
-              recruitTarget: true
+              recruitTarget: true,
+              recruitURL: true
             }
           }
         }
