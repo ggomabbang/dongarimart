@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import client from "../../../prisma/prisma";
 import "dotenv/config";
+import { Prisma } from '@prisma/client'
 import { parse } from "dotenv";
 
 export async function GET(request) {
@@ -79,12 +80,8 @@ export async function GET(request) {
       });
     }
 
-    const isRecruitingBool = isRecruiting == 1 ? true : false;
-
     let query = {
-      where: {
-        isRecruiting: isRecruitingBool
-      },
+      where: { },
       include: {
         tags: {
           select: {
@@ -93,6 +90,11 @@ export async function GET(request) {
         },
       },
     }
+
+    if (isRecruiting == 1) {
+      query.where.isRecruiting = true;
+    }
+
     const order = reverse == 1? 'desc' : 'asc';
     switch(sortBy) {
       case 'registration':
@@ -174,7 +176,7 @@ export async function POST(request) {
     });
   }
 
-  const { clubName, department, oneLine, short, tags } = await request.json();
+  const { clubName, department, oneLine, short, tags, url } = await request.json();
 
   if (!clubName) {
     return NextResponse.json({
@@ -208,28 +210,34 @@ export async function POST(request) {
       status: 400,
     });
   }
+  if (tags && !Array.isArray(tags)) {
+    return NextResponse.json({
+      parameter: "tags",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  
+  const club = await client.ClubList.findUnique({
+    where: {
+      clubName
+    }
+  });
+  if (club) {
+    return NextResponse.json({
+      parameter: "clubName",
+      message: "해당 parameter가 중복된 값입니다."
+    }, {
+      status: 400,
+    });
+  }
 
-  const result = await client.ClubList.create({
+  const query = {
     data: {
       clubName,
       oneLine,
       short,
-      tags: {
-        create: tags.map((tag) => {
-          return {
-            tagList: {
-              connectOrCreate: {
-                where: { 
-                  tagName: tag
-                },
-                create: { 
-                  tagName: tag,
-                },
-              },
-            }
-          };
-        }),
-      },
       members: {
         create: {
           user: {
@@ -245,7 +253,42 @@ export async function POST(request) {
       classification: department,
       view: 0,
     },
-  })
+  };
+
+  if (url) {
+    query.data.pageURL = url;
+  }
+
+  if (tags) {
+    query.data.tags = {
+      create: tags.map((tag) => {
+        return {
+          tagList: {
+            connectOrCreate: {
+              where: { 
+                tagName: tag
+              },
+              create: { 
+                tagName: tag,
+              },
+            },
+          }
+        };
+      }),
+    };
+  }
+
+  try {
+    await client.ClubList.create(query);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+  }
   
   return new Response(null, {
     status: 201,

@@ -1,6 +1,24 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import client from "../../../../prisma/prisma";
+import { Prisma } from '@prisma/client'
+
+const leftPad = (value) => {
+  if (value >= 10) return value;
+  return `0${value}`;
+}
+
+/*
+  - Fri May 20 2022 10:30:20과 같은 Date() 형식을
+    2022-05-20과 같은 String으로 바꾸어주는 함수
+*/
+const toStringByFormatting = (source, delimiter = '-') => {
+  const year = source.getFullYear();
+  const month = leftPad(source.getMonth() + 1);
+  const day = leftPad(source.getDate());
+
+  return [year, month, day].join(delimiter);
+}
 
 export async function POST(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
@@ -69,7 +87,7 @@ export async function POST(request) {
 
   const { start, end, url, people, title, content, image } = await request.json();
 
-  const params = { start, end, url, people, title, content };
+  const params = { start, end, title, content };
   for(const param in params) {
     if (!params[param]) {
       return NextResponse.json({
@@ -80,8 +98,20 @@ export async function POST(request) {
       });
     }
   }
+  if (new Date(end) < new Date(toStringByFormatting(new Date()))) {
+    return NextResponse.json({
+      parameter: "end",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
 
-  await client.Post.create({
+  let images;
+  if (image) images = image;
+  else images = [];
+
+  const query = {
     data: {
       title,
       content,
@@ -90,17 +120,14 @@ export async function POST(request) {
         create: {
           recruitStart: new Date(start),
           recruitEnd: new Date(end),
-          recruitURL: url,
-          recruitTarget: JSON.stringify(people),
+          recruitURL: url ? url : null,
+          recruitTarget: people ? JSON.stringify(people) : null,
         }
       },
       image: {
-        connectOrCreate: image.map((img) => {
+        connect: images.map((img) => {
           return {
             where: {
-              filename: img
-            },
-            create: {
               filename: img
             }
           };
@@ -117,13 +144,28 @@ export async function POST(request) {
         }
       }
     },
-  })
+  };
+
+  try {
+    await client.Post.create(query);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+  }
 
   await client.ClubList.update({
     where: {
       id,
     },
     data: {
+      isRecruiting: 
+        new Date(toStringByFormatting(new Date())) < new Date(start) ?
+        false : true,
       schedule: {
         upsert: {
           where: {
