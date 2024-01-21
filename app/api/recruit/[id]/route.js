@@ -432,5 +432,20 @@ export async function DELETE(request) {
     }
   });
 
+  await client.RecruitSchedule.delete({
+    where: {
+      clubId: myPost.clubId
+    }
+  })
+
+  await client.clubList.update({
+    where: {
+      id: myPost.clubId
+    },
+    data: {
+      isRecruiting: false
+    }
+  })
+
   return NextResponse.json(result);
 }
