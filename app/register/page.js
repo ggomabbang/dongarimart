@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Styles from './register.module.css';
 import { useRouter } from 'next/navigation'
 import DongariStyles from '../find/DongariInList.module.css';
@@ -8,6 +8,13 @@ import College from '../../public/College.json';
 
 export default function Register() {
   const router = useRouter();
+
+  const [image, setImage] = useState(null);
+  const imageHandler = (e) => {
+    setImage(e.target.files[0]);
+  }
+
+  useEffect(() => console.log(image), [image]);
 
   const [clubName, setClubName] = useState("");
   const [oneLine, setOneLine] = useState("");
@@ -174,8 +181,25 @@ export default function Register() {
                 type="file"
                 accept='image/png, image/jpeg'
                 style={{display: "none"}}
+                onChange={imageHandler}
               >
               </input>
+              <button 
+                className={Styles.UploadButton}
+                onClick={ async (e) => {
+                  const res = await fetch('/api/image', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': image.type,
+                    },
+                    body: image,
+                  });
+                  const json = await res.json();
+                  console.log(json.filename);
+                }}
+              >
+                테스트
+              </button>
               <button className={Styles.CancelButton}>취소</button>
             </div>
           </div>

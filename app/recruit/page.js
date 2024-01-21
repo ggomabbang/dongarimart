@@ -7,6 +7,17 @@ import { useRouter } from 'next/navigation';
 export default function Recruit() {
   const router = useRouter();
 
+  const formData = new FormData();
+  const [images, setImages] = useState([]);
+  const imageHandler = (e) => {
+    const newImages = [];
+    for (let i = 0; i < e.target.files.length; i++)
+      newImages.push(e.target.files[i]);
+    setImages(newImages);
+  };
+
+  useEffect(() => console.log(images), [images]);
+
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
 
@@ -293,9 +304,30 @@ export default function Recruit() {
                 id="input-file"
                 type="file"
                 accept='image/png, image/jpeg'
+                multiple
                 style={{display: "none"}}
+                onChange={imageHandler}
               >
               </input>
+              <button 
+                className={Styles.UploadButton}
+                onClick={ async (e) => {
+                  const formData = new FormData();
+                  images.forEach((img) => {
+                    if (img instanceof File && img.size > 0)
+                      formData.append("image", img);
+                  });
+                  console.log(formData);
+                  const res = await fetch('/api/image', {
+                    method: 'POST',
+                    body: formData,
+                  });
+                  const json = await res.json();
+                  console.log(json.filename);
+                }}
+              >
+                테스트
+              </button>
               <button className={Styles.CancelButton}>취소</button>
             </div>
             <div className={Styles.Images}>
