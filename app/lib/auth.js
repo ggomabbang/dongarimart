@@ -15,7 +15,7 @@ export const authOptions = {
                 password: { label: 'password', type: 'password' }
             },
             async authorize(credentials, req) {
-                const res = await fetch(`${process.env.NEXTAUTH_URL}/login`, {
+                const response = await fetch(`${process.env.NEXTAUTH_URL}/login`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -25,8 +25,7 @@ export const authOptions = {
                       password: credentials?.password
                     }),
                 });
-                const user = await res.json();
-                console.log(user);
+                const user = await response.json();
 
                 if (user) {
                     return user;    
@@ -37,30 +36,59 @@ export const authOptions = {
     ],
     callbacks: {
         async jwt({token, user}) {
+            console.log("callback jwt");
             // 처음 로그인할 때 토큰 발급 
             if (user) {
-                const accessToken = crypto.randomUUID();
-                console.log(accessToken);
                 return {
-                    userID: user.id,
-                    userRole: "user",
-                    accessToken: accessToken
+                    userId: user.id,
+                    userRole: user.role,
+                    accessToken: user.accessToken,
+                    tokenExpires: new Date().setTime(Date.now() + 60*60*1000),
+                    refreshToken: user.refreshToken
                 }
             }
-            console.log(`token keys : ${Object.keys(token)}`);
-            console.log(`token values : ${Object.values(token)}`);
-            // refresh
-            return token;
+            // 만료 시간이 지나지 않았으면 그대로 반환 
+            if (Date.now() < token.tokenExpires) {
+                return token;
+            }
+            // 만료 시간 지나면 refresh 
+            return refreshAccessToken(token);
         },
 
         async session({session, token}) {
-            console.log(`session keys : ${Object.keys(session)}`);
-            console.log(`session values : ${Object.values(session)}`);
-            console.log(`token keys : ${Object.keys(token)}`);
-            console.log(`token values : ${Object.values(token)}`);
-            session.userID = token.userID;
-            session.role = token.userRole;
+            console.log("callback session");
+            if (token) {
+                session.userId = token.userId;
+                session.role = token.userRole;
+            }
             return session;
         }
     }
 };
+
+async function refreshAccessToken(token) {
+    const { userId, refreshToken } = token;
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/refresh`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: userId,
+            refreshToken: refreshToken,
+        }),
+    });
+
+    const refreshAccessToken = await response.json();
+
+    if (!response.ok) {
+        throw refreshAccessToken;
+    }
+
+    return {
+        ...token,
+        accessToken: refreshAccessToken.accessToken,
+        tokenExpires: refreshAccessToken.tokenExpires,
+        refreshToken: refreshAccessToken.refreshToken,
+    };
+}

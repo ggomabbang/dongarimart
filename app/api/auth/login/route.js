@@ -32,6 +32,9 @@ export async function POST(request) {
     const bcrypt = require('bcryptjs');
     if (bcrypt.compareSync(body.password, user.password)) {
         const { id, email } = user;
+        const accessToken = crypto.randomUUID();
+        const expires = new Date().setTime(Date.now() + + 24*60*60*1000);
+        const refreshToken = crypto.randomUUID();
         let role = "";
         if (email == adminId) {
             role = "admin";
@@ -39,9 +42,20 @@ export async function POST(request) {
         else {
             role = "user";
         }
+        const updateRefreshToken = await prisma.User.update({
+            where: {
+                id: id,
+            },
+            data: {
+                refreshToken: refreshToken,
+                refreshExpireAt: expires,
+            }
+        });
         return new Response(JSON.stringify({
             id: id, 
-            role: role
+            role: role,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
         }));
     }
 
