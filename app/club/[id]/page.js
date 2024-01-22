@@ -8,7 +8,7 @@ export default function Club({ params }) {
   const clubid = params.id;
   const [Club, setClub] = useState({
     id: 0,
-    clubName: "로딩 중",
+    clubName: "",
     department: "",
     oneLine: "",
     short: "",
@@ -30,17 +30,7 @@ export default function Club({ params }) {
     GetClub(clubid);
   }, []);
 
-  function getDate(date) {
-    const today = new Date(date);
-  
-    const year = today.getFullYear(); // 2023
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // 06
-    const day = today.getDate().toString().padStart(2, '0'); // 18
-  
-    const dateString = year + '-' + month + '-' + day; // 2023-06-18
-  
-    return dateString;
-  }
+  const contents = '뭐 여러명 모집 하는데 알아서 신청하십쇼들';
 
   return (
     <div className={Styles.Container}>
@@ -78,57 +68,22 @@ export default function Club({ params }) {
                 </Link>
             }
           </div>
-          {
-            Club.isRecruiting ?
-            <div className={Styles.RecruitBox}>
-              <div className={Styles.RecruitInner}>
-                <button>모집기간</button>
-                <p>{getDate(Club.post.recruit.recruitStart)} ~ {getDate(Club.post.recruit.recruitEnd)}</p>
-              </div>
-              <div className={Styles.RecruitInner}>
-                <button>세부인원</button>
-                <div>
-                  {
-                    JSON.parse(Club.post.recruit.recruitTarget).map((target, index) => {
-                      return (
-                        <p key={index}>
-                          {`${target.name} - ${target.count}명`}
-                        </p>
-                      )
-                    })
-                  }
-                </div>
-              </div>
-            </div> : null
-          }
+          <div className={Styles.RecruitBox}>
+            <div className={Styles.RecruitInner}>
+              <button>모집기간</button>
+              <p>{Club.recruitPeriod}</p>
+            </div>
+            <div className={Styles.RecruitInner}>
+              <button>세부인원</button>
+              <p>{Club.recruitTarget}</p>
+            </div>
+          </div>
         </div>
       </div>
-      {
-        Club.isRecruiting ?
-          <p className={Styles.Contents}>
-            {Club.post.title}<br/><br/>
-            {Club.post.content}
-          </p> : null
-      }
-      {
-        Club.isRecruiting ?
-          Club.post.recruit.recruitURL ?
-            <Link href={Club.post.recruit.recruitURL}>
-              <button className={Styles.BlueButton}>신청 링크</button>
-            </Link>
-            :
-            <button
-              className={Styles.BlueButton}
-              style={{backgroundColor: 'gray'}}
-              disabled={true}
-              onClick={Club.post.recruit.recruitURL}
-            >
-              신청 링크 없음
-            </button>
-          :
-          null
-      }
-      
+      <p className={Styles.Contents}>
+        {contents}
+      </p>
+      <button className={Styles.BlueButton}>신청하기</button>
     </div>
   )
 }

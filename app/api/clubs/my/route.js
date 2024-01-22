@@ -14,14 +14,6 @@ export async function GET() {
     },
   });
 
-  if (!user_token || !userid || !userid.userId) {
-    return NextResponse.json({
-      message: "유효하지 않은 토큰입니다."
-    }, {
-      status: 401,
-    });
-  }
-
   const result = await client.ClubList.findMany({
     where: {
       members: {
@@ -30,38 +22,21 @@ export async function GET() {
         }
       },
     },
-    select: {
-      id: true,
-      clubName: true,
-      classification: true,
-      oneLine: true,
-      short: true,
-      pageURL: true,
+    include: {
       tags: {
         select: {
           tagList: true,
         },
       },
       members: {
-        where: {
-          userId: userid.userId,
-        },
         select: {
           isLeader: true,
-        }
-      }
+        },
+      },
     },
   });
 
-  const body = [];
+  console.log('clublist:', result);
 
-  result.map((club) => {
-    club.isLeader = club.members[0].isLeader;
-    delete club.members;
-    body.push(club);
-  });
-
-  console.log('clublist:', body);
-
-  return NextResponse.json(body);
+  return NextResponse.json(result);
 }
