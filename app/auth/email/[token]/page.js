@@ -1,10 +1,11 @@
 'use client'
 
 import Styles from './email.module.css';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Club({ params }) {
+  const router = useRouter();
   const [status, setStatus] = useState("응답을 기다리는 중");
 
   const tokenAPI = async (token) => {
