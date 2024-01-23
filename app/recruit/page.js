@@ -12,22 +12,33 @@ export default function Recruit() {
   const [images, setImages] = useState([]);
   const [imageSrcs, setImageSrcs] = useState([null, null, null, null]);
   const imageHandler = (e) => {
-    const newImages = [];
-    const newImageSrcs = [null, null, null, null];
-    for (let i = 0; i < e.target.files.length; i++) {
-      newImages.push(e.target.files[i]);
+    if (e.target.files.length < 2) {
+      const newImages = images;
+      newImages[imageSelect] = e.target.files[0];
+      const newImageSrcs = imageSrcs;
       const reader = new FileReader();
-      reader.readAsDataURL(e.target.files[i]);
+      reader.readAsDataURL(e.target.files[0]);
       reader.onload = () => {
-        newImageSrcs[i] = reader.result;
+        newImageSrcs[imageSelect] = reader.result;
         setImageSrcs([...newImageSrcs]);
       }
+      setImages([...newImages]);
     }
-    setImages(newImages);
+    else {
+      const newImages = [];
+      const newImageSrcs = [null, null, null, null];
+      for (let i = 0; i < e.target.files.length; i++) {
+        newImages.push(e.target.files[i]);
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[i]);
+        reader.onload = () => {
+          newImageSrcs[i] = reader.result;
+          setImageSrcs([...newImageSrcs]);
+        }
+      }
+      setImages(newImages);
+    }
   };
-
-  useEffect(() => console.log(images), [images]);
-  useEffect(() => console.log(imageSrcs), [imageSrcs]);
 
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
@@ -124,7 +135,21 @@ export default function Recruit() {
     if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요");
     if (toBody.content === '') return alert("본문을 작성해 주세요");
 
-    console.log(clubID, toBody);
+    if (images.length) {
+      const formData = new FormData();
+      images.forEach((img) => {
+        if (img instanceof File && img.size > 0)
+          formData.append("image", img);
+      });
+      const imgRes = await fetch('/api/image', {
+        method: 'POST',
+        body: formData,
+      });
+      const imagename = await imgRes.json();
+      const imagenames = [];
+      for (let i = 0; i < images.length; i++) imagenames.push(imagename[i]);
+      toBody.image = imagenames;
+    }
     
     const URL = 'http://localhost:3000';
 
@@ -171,7 +196,6 @@ export default function Recruit() {
             <select
               className={Styles.MenuFont}
               onChange={(e) => {
-                console.log(e.target.value);
                 setSelectClub(e.target.value);}
               }
               value={selectClub}
@@ -196,8 +220,14 @@ export default function Recruit() {
               placeholder='제목'
               id='title'
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 100)
+                  setTitle(e.target.value)
+              }}
             />
+          </div>
+          <div className={Styles.FixedCount}>
+            {`${title.length}/100`}
           </div>
         </label>
 
@@ -241,8 +271,14 @@ export default function Recruit() {
               placeholder='구글 폼, 자체 신청사이트 링크 등'
               id='recruitURL'
               value={recruitURL}
-              onChange={(e) => setURL(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 1000)
+                  setURL(e.target.value)
+              }}
             />
+            <div className={Styles.FixedCount}>
+              {`${recruitURL.length}/1000`}
+            </div>
           </div>
         </label>
 
@@ -303,8 +339,9 @@ export default function Recruit() {
 
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이미지</p>
-          <div className={Styles.Right}>
+          <div className={Styles.ImageRoom}>
             <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
+            <div>{imageSelect+1}</div>
           </div>
           <div className={Styles.Side}>
             <div className={Styles.Buttons}>
@@ -319,37 +356,33 @@ export default function Recruit() {
                   onChange={imageHandler}
                 />
               </label>
-              <button 
-                className={Styles.UploadButton}
-                onClick={ async (e) => {
-                  const formData = new FormData();
-                  images.forEach((img) => {
-                    if (img instanceof File && img.size > 0)
-                      formData.append("image", img);
-                  });
-                  console.log(formData);
-                  const res = await fetch('/api/image', {
-                    method: 'POST',
-                    body: formData,
-                  });
-                  const json = await res.json();
-                  console.log(json);
+              <button
+                className={Styles.CancelButton}
+                onClick={(e) => {
+                  setImageSelect(0);
+                  setImages([]);
+                  setImageSrcs([null,null,null,null]);
                 }}
               >
-                테스트
+                취소
               </button>
-              <button className={Styles.CancelButton}>취소</button>
             </div>
             <div className={Styles.Images}>
               {
                 imageSrcs.map((imgSrc, index) => {
                   return (
-                    <img 
-                      className={Styles.ImageSmallBox}
-                      src={imgSrc}
-                      key={`img${index}`}
-                      onClick={(e) => setImageSelect(index)}
-                    />
+                    <div className={Styles.ImageRoom} key={`img${index}`}>
+                      {
+                        index <= images.length ?
+                        <img 
+                          className={Styles.ImageSmallBox}
+                          src={imgSrc}
+                          onClick={(e) => setImageSelect(index)}
+                        /> :
+                        <img className={Styles.ImageSmallBox} />
+                      }
+                      <div>{index+1}</div>
+                    </div>
                   )
                 })
               }

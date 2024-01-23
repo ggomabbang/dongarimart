@@ -231,7 +231,15 @@ export default function Register() {
                 onChange={imageHandler}
               >
               </input>
-              <button className={Styles.CancelButton}>취소</button>
+              <button 
+                className={Styles.CancelButton}
+                onClick={(e) => {
+                  setImage(null);
+                  setImageSrc('');
+                }}
+              >
+                취소
+              </button>
             </div>
           </div>
         </label>
