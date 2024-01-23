@@ -286,6 +286,7 @@ export async function POST(request) {
     await client.ClubList.create(query);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
+      console.log(e);
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
