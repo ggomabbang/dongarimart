@@ -7,16 +7,27 @@ import { useRouter } from 'next/navigation';
 export default function Recruit() {
   const router = useRouter();
 
-  const formData = new FormData();
+  const [imageSelect, setImageSelect] = useState(0);
+
   const [images, setImages] = useState([]);
+  const [imageSrcs, setImageSrcs] = useState([null, null, null, null]);
   const imageHandler = (e) => {
     const newImages = [];
-    for (let i = 0; i < e.target.files.length; i++)
+    const newImageSrcs = [null, null, null, null];
+    for (let i = 0; i < e.target.files.length; i++) {
       newImages.push(e.target.files[i]);
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[i]);
+      reader.onload = () => {
+        newImageSrcs[i] = reader.result;
+        setImageSrcs([...newImageSrcs]);
+      }
+    }
     setImages(newImages);
   };
 
   useEffect(() => console.log(images), [images]);
+  useEffect(() => console.log(imageSrcs), [imageSrcs]);
 
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
@@ -154,7 +165,7 @@ export default function Recruit() {
     <div className={Styles.Panel}>
       <div className={Styles.Input}>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>동아리</p>
           <div className={Styles.Right}>
             <select
@@ -175,9 +186,9 @@ export default function Recruit() {
               }
             </select>
           </div>
-        </lable>
+        </label>
         
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 제목</p>
           <div className={Styles.Right}>
             <input
@@ -188,9 +199,9 @@ export default function Recruit() {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 기간</p>
           <div className={Styles.Right}>
             <input
@@ -220,9 +231,9 @@ export default function Recruit() {
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>신청 링크</p>
           <div className={Styles.Right}>
             <input
@@ -233,9 +244,9 @@ export default function Recruit() {
               onChange={(e) => setURL(e.target.value)}
             />
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 인원</p>
           <div className={Styles.RightEditable}>
             {
@@ -275,9 +286,9 @@ export default function Recruit() {
               역할 추가 +
             </button>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 글</p>
           <div className={Styles.Right}>
             <textarea 
@@ -288,27 +299,26 @@ export default function Recruit() {
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이미지</p>
           <div className={Styles.Right}>
-            <img className={Styles.ImageBox}/>
+            <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
           </div>
           <div className={Styles.Side}>
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton} htmlFor='input-file'>
                 업로드
+                <input 
+                  id="input-file"
+                  type="file"
+                  accept='image/png, image/jpeg'
+                  multiple
+                  style={{display: "none"}}
+                  onChange={imageHandler}
+                />
               </label>
-              <input 
-                id="input-file"
-                type="file"
-                accept='image/png, image/jpeg'
-                multiple
-                style={{display: "none"}}
-                onChange={imageHandler}
-              >
-              </input>
               <button 
                 className={Styles.UploadButton}
                 onClick={ async (e) => {
@@ -331,13 +341,21 @@ export default function Recruit() {
               <button className={Styles.CancelButton}>취소</button>
             </div>
             <div className={Styles.Images}>
-              <img className={Styles.ImageSmallBox}/>
-              <img className={Styles.ImageSmallBox}/>
-              <img className={Styles.ImageSmallBox}/>
-              <img className={Styles.ImageSmallBox}/>
+              {
+                imageSrcs.map((imgSrc, index) => {
+                  return (
+                    <img 
+                      className={Styles.ImageSmallBox}
+                      src={imgSrc}
+                      key={`img${index}`}
+                      onClick={(e) => setImageSelect(index)}
+                    />
+                  )
+                })
+              }
             </div>
           </div>
-        </lable>
+        </div>
 
         <button className={Styles.UploadButton} onClick={submitHandler}>
           완료

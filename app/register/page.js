@@ -20,8 +20,6 @@ export default function Register() {
     }
   }
 
-  useEffect(() => console.log(image), [image]);
-
   const [clubName, setClubName] = useState("");
   const [oneLine, setOneLine] = useState("");
   const [url, setUrl] = useState("");
@@ -74,13 +72,11 @@ export default function Register() {
       const formData = new FormData();
       if (image instanceof File && image.size > 0)
         formData.append("image", image);
-      console.log(formData);
       const imgRes = await fetch('/api/image', {
         method: 'POST',
         body: formData,
       });
       imagename = await imgRes.json();
-      console.log(imagename);
     }
 
     const res = await fetch('/api/clubs', {
@@ -235,23 +231,6 @@ export default function Register() {
                 onChange={imageHandler}
               >
               </input>
-              <button 
-                className={Styles.UploadButton}
-                onClick={ async (e) => {
-                  const formData = new FormData();
-                  if (image instanceof File && image.size > 0)
-                    formData.append("image", image);
-                  console.log(formData);
-                  const res = await fetch('/api/image', {
-                    method: 'POST',
-                    body: formData,
-                  });
-                  const json = await res.json();
-                  console.log(json);
-                }}
-              >
-                테스트
-              </button>
               <button className={Styles.CancelButton}>취소</button>
             </div>
           </div>
