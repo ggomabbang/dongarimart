@@ -323,7 +323,7 @@ export default function Recruit() {
                     body: formData,
                   });
                   const json = await res.json();
-                  console.log(json.filename);
+                  console.log(json);
                 }}
               >
                 테스트

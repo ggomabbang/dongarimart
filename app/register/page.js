@@ -10,8 +10,14 @@ export default function Register() {
   const router = useRouter();
 
   const [image, setImage] = useState(null);
-  const imageHandler = (e) => {
+  const [imageSrc, setImageSrc] = useState('');
+  const imageHandler = async (e) => {
     setImage(e.target.files[0]);
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      setImageSrc(reader.result);
+    }
   }
 
   useEffect(() => console.log(image), [image]);
@@ -27,7 +33,8 @@ export default function Register() {
   const [tagValue, setTagValue] = useState("");
 
   const tagInputChange = (e) => {
-    setTagValue(e.target.value);
+    if (e.target.value.length <= 10)
+      setTagValue(e.target.value);
   }
 
   const tagAdder = () => {
@@ -62,9 +69,21 @@ export default function Register() {
     if (department == '') return alert('소속 항목을 선택해 주세요');
     if (short == '') return alert('짧은 소개를 작성해 주세요.');
 
-    const URL = 'http://localhost:3000';
+    let imagename = null;
+    if (image) {
+      const formData = new FormData();
+      if (image instanceof File && image.size > 0)
+        formData.append("image", image);
+      console.log(formData);
+      const imgRes = await fetch('/api/image', {
+        method: 'POST',
+        body: formData,
+      });
+      imagename = await imgRes.json();
+      console.log(imagename);
+    }
 
-    const res = await fetch(URL + '/api/clubs', {
+    const res = await fetch('/api/clubs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,6 +95,7 @@ export default function Register() {
         short,
         tags,
         url,
+        image: imagename ? imagename[0] : null,
       }),
     });
 
@@ -96,46 +116,64 @@ export default function Register() {
     <div className={Styles.Panel}>
       <div className={Styles.Input}>
         
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>동아리 명</p>
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
               placeholder='동아리 이름'
               value={clubName}
-              onChange={(e)=>setClubName(e.target.value)} 
+              onChange={(e)=>{
+                if (e.target.value.length <= 20)
+                  setClubName(e.target.value)
+              }} 
               id='clubname'
             />
+            <div className={Styles.FixedCount}>
+              {`${clubName.length}/20`}
+            </div>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>한 줄 소개</p>
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
               placeholder='한 줄 소개'
               value={oneLine}
-              onChange={(e)=>setOneLine(e.target.value)}
+              onChange={(e)=>{
+                if (e.target.value.length <= 100)
+                  setOneLine(e.target.value)
+              }}
               id='short_inst' 
             />
+            <div className={Styles.FixedCount}>
+              {`${oneLine.length}/100`}
+            </div>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>홈페이지</p>
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
               placeholder='https://wave.com'
               value={url}
-              onChange={(e)=>setUrl(e.target.value)}
+              onChange={(e)=>{
+                if (e.target.value.length <= 255)
+                  setUrl(e.target.value)
+              }}
               id='url' 
             />
+            <div className={Styles.FixedCount}>
+              {`${url.length}/255`}
+            </div>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>소속</p>
           <div className={Styles.Right}>
             <select
@@ -153,25 +191,38 @@ export default function Register() {
               }
             </select>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>짧은 소개</p>
           <div className={Styles.Right}>
-            <textarea 
-              className={Styles.LargeInputBox}
-              placeholder='짧은 동아리 소개 문구'
-              value={short}
-              onChange={(e)=>setShort(e.target.value)}
-              id='inst'
-            />
+            <div className={Styles.InputWithCount}>
+              <textarea 
+                className={Styles.LargeInputBox}
+                placeholder='짧은 동아리 소개 문구'
+                value={short}
+                onChange={(e)=>{
+                  if (e.target.value.length <= 500)
+                    setShort(e.target.value)
+                }}
+                id='inst'
+              />
+              <div className={Styles.Count}>
+                {`${short.length}/500`}
+              </div>
+            </div>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>배너</p>
           <div className={Styles.Right}>
-            <img className={Styles.ImageBox}/>
+            {
+              imageSrc.length ?
+              <img className={Styles.ImageBox} src={imageSrc}/>
+              :
+              <img className={Styles.ImageBox}/>
+            }
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton} htmlFor='input-file'>
                 업로드
@@ -187,15 +238,16 @@ export default function Register() {
               <button 
                 className={Styles.UploadButton}
                 onClick={ async (e) => {
+                  const formData = new FormData();
+                  if (image instanceof File && image.size > 0)
+                    formData.append("image", image);
+                  console.log(formData);
                   const res = await fetch('/api/image', {
                     method: 'POST',
-                    headers: {
-                      'Content-Type': image.type,
-                    },
-                    body: image,
+                    body: formData,
                   });
                   const json = await res.json();
-                  console.log(json.filename);
+                  console.log(json);
                 }}
               >
                 테스트
@@ -203,9 +255,9 @@ export default function Register() {
               <button className={Styles.CancelButton}>취소</button>
             </div>
           </div>
-        </lable>
+        </label>
         
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>태그</p>
           <div className={Styles.Right}>
             <input 
@@ -244,7 +296,7 @@ export default function Register() {
               }
             </div>
           </div>
-        </lable>
+        </label>
 
         <button className={Styles.UploadButton} onClick={handleSubmit}>
           신청
