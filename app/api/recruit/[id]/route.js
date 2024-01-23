@@ -172,9 +172,11 @@ export async function POST(request) {
             clubId: id,
           },
           update: {
+            recruitStart: new Date(start),
             recruitEnd: new Date(end),
           },
           create: {
+            recruitStart: new Date(start),
             recruitEnd: new Date(end),
           }
         }
@@ -342,9 +344,11 @@ export async function PUT(request) {
             clubId: myPost.clubId,
           },
           update: {
+            recruitStart: new Date(start),
             recruitEnd: new Date(end),
           },
           create: {
+            recruitStart: new Date(start),
             recruitEnd: new Date(end),
           }
         }
