@@ -2,7 +2,6 @@ import prisma from "@/prisma/prisma";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-    console.log("token refresh");
     const body = await request.json();
 
     // 입력 파라미터 확인 

@@ -1,16 +1,302 @@
-.MainPanel{
-    width: 150vh;
-    height: 80vh;
-    margin-left: 14%;
-    margin-top: 3.8%;
+.Panel{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    width: 960px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
     flex-shrink: 0;
-    border-radius: 4vh;
+  }
+
+.Input {
+    display: flex;
+    padding: 40px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 50px;
+    align-self: stretch;
+
+    border-radius: 30px;
     background: #FFF;
-    box-shadow: 1vh 1vh 4vh 1vh rgba(0, 0, 0, 0.13);
-    vertical-align: middle;
+    box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.25);
 }
 
-.HorDiv{
-    display: grid;
+.HorizonBox{
+    display: flex;
+    align-items: center;
+    align-self: stretch;
 }
+
+.Left {
+    display: flex;
+    width: 250px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    color: #000;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 6px;
+}
+
+.Right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex: 1 0 0;
+}
+
+.InRight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+.RightEditable {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    flex: 1 0 0;
+}
+
+.Side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.InputBox {
+    display: flex;
+    padding: 15px 25px;
+    width: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex: 1 0 0;
+
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFF;
+
+    color: rgba(0, 0, 0, 1);
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 10px;
+}
+
+.TargetBox {
+    display: flex;
+    padding: 15px 25px;
+    width: 40%;
+    align-items: center;
+    justify-content: stretch;
+    gap: 10px;
+
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFF;
+
+    color: rgba(0, 0, 0, 1);
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 10px;
+}
+
+.NumberBox {
+    display: flex;
+    padding: 0px 10px;
+    width: 70px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFF;
+
+    color: rgba(0, 0, 0, 1);
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 10px;
+}
+
+.LargeInputBox {
+    display: flex;
+    height: 250px;
+    padding: 15px 25px;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1 0 0;
+
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFF;
+
+    color: rgba(0, 0, 0, 1);
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 10px;
+}
+
+.Images {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    
+    gap: 5px;
+}
+
+.ImageSmallBox {
+    display: flex;
+    width: 75px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 13.7px;
+    background: #D9D9D9;
+}
+
+.ImageBox {
+    display: flex;
+    width: 300px;
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 48px;
+    background: #D9D9D9;
+}
+
+.HorButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.Buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.UploadButton {
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 20px;
+    border: 2px solid #2D5DEB;
+
+    color: #2D5DEB;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.CancelButton {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 20px;
+    background: #FF5454;
+
+    color: #FFF;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.AddButton {
+    display: flex;
+    padding: 8px 0px;
+    justify-content: center;
+    align-self: stretch;
+
+    border-radius: 20px;
+    border: 2px solid #2D5DEB;
+
+    color: white;
+    background-color: #2D5DEB;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.Button:hover{
+    animation: pop 0.3s linear 1;
+}
+
+.ButtonText{
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 4vh;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+@keyframes pop{
+    50% {transform: scale(1.1);}
+}
+
+.MenuFont {
+    display: flex;
+    padding: 15px 25px;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
   
+    color: #2D5DEB;
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 2.5px;
+  
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFF;
+    outline: none;
+  }

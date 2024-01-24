@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import client from "../../../prisma/prisma";
 import "dotenv/config";
+import { Prisma } from '@prisma/client'
 import { parse } from "dotenv";
 
 export async function GET(request) {
@@ -79,12 +80,8 @@ export async function GET(request) {
       });
     }
 
-    const isRecruitingBool = isRecruiting == 1 ? true : false;
-
     let query = {
-      where: {
-        isRecruiting: isRecruitingBool
-      },
+      where: { },
       include: {
         tags: {
           select: {
@@ -93,6 +90,11 @@ export async function GET(request) {
         },
       },
     }
+
+    if (isRecruiting == 1) {
+      query.where.isRecruiting = true;
+    }
+
     const order = reverse == 1? 'desc' : 'asc';
     switch(sortBy) {
       case 'registration':
@@ -102,7 +104,11 @@ export async function GET(request) {
         query.orderBy = [{clubName: order}];
         break;
       case 'deadline':
-        query.orderBy = [{recruitEnd: order}];
+        query.orderBy = [{
+          schedule: {
+            recruitEnd: order
+          }
+        }];
         query.where.isRecruiting = true;
         break;
       case 'popularity':
@@ -151,39 +157,87 @@ export async function GET(request) {
 export async function POST(request) {
   const user_token = cookies().get('next-auth.session-token');
 
-  const userid = await client.Session.findUnique({
+  const userid = user_token? await client.Session.findUnique({
     where: {
       sessionToken: user_token.value,
     },
     select: {
       userId: true,
+      expires: true
     },
-  });
+  }) : null;
+
   console.log(userid);
+  if (!user_token || !userid.userId) {
+    return NextResponse.json({
+      message: "유효하지 않은 토큰입니다."
+    }, {
+      status: 401,
+    });
+  }
 
-  const { clubName, department, oneLine, short, tags } = await request.json();
+  const { clubName, department, oneLine, short, tags, url } = await request.json();
 
-  const result = await client.ClubList.create({
+  if (!clubName) {
+    return NextResponse.json({
+      parameter: "clubName",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!department) {
+    return NextResponse.json({
+      parameter: "department",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!oneLine) {
+    return NextResponse.json({
+      parameter: "oneLine",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!short) {
+    return NextResponse.json({
+      parameter: "short",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (tags && !Array.isArray(tags)) {
+    return NextResponse.json({
+      parameter: "tags",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  
+  const club = await client.ClubList.findUnique({
+    where: {
+      clubName
+    }
+  });
+  if (club) {
+    return NextResponse.json({
+      parameter: "clubName",
+      message: "해당 parameter가 중복된 값입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  const query = {
     data: {
       clubName,
       oneLine,
       short,
-      tags: {
-        create: tags.map((tag) => {
-          return {
-            tagList: {
-              connectOrCreate: {
-                where: { 
-                  tagName: tag
-                },
-                create: { 
-                  tagName: tag,
-                },
-              },
-            }
-          };
-        }),
-      },
       members: {
         create: {
           user: {
@@ -199,9 +253,46 @@ export async function POST(request) {
       classification: department,
       view: 0,
     },
-  })
+  };
+
+  if (url) {
+    query.data.pageURL = url;
+  }
+
+  if (tags) {
+    query.data.tags = {
+      create: tags.map((tag) => {
+        return {
+          tagList: {
+            connectOrCreate: {
+              where: { 
+                tagName: tag
+              },
+              create: { 
+                tagName: tag,
+              },
+            },
+          }
+        };
+      }),
+    };
+  }
+
+  try {
+    await client.ClubList.create(query);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+  }
   
-  return NextResponse.json(result);
+  return new Response(null, {
+    status: 201,
+  });
 }
 
 // export async function PUT(request) {

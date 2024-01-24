@@ -27,7 +27,6 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
 
 model RecruitSchedule {
   clubId        Int         @id @db.UnsignedInt
-  recruitStart  DateTime    @db.Date
   recruitEnd    DateTime    @db.Date
   club          ClubList    @relation(fields: [clubId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -93,8 +92,6 @@ model User {
   password      String      @db.VarChar(256) @default("0") 
   emailVerified DateTime?   // github 로그인에 쓰는 중
   emailConfirm  Boolean     @default(false)
-  refreshToken  String?     @db.Char(36)
-  refreshExpiresAt DateTime?  
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
