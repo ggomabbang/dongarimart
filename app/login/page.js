@@ -18,7 +18,7 @@ export default function Home() {
           <input id='pw' className={Styles.InputBox} placeholder='PW'/>
           <div className={Styles.Bottom}>
             <Link href={'/login/signup'}>가입하기</Link>
-            <Link href={'/login/findpw'}>PW찾기</Link>
+            <Link href={'/login/fidpw'}>ID/PW찾기</Link>
           </div>
         </div>
         <button className={Styles.GithubLogin} onClick={() => signIn()}>
@@ -27,10 +27,10 @@ export default function Home() {
         <button 
           className={Styles.LoginBtn}
           onClick={()=>{
-            const _id = document.getElementById('id').value;
-            const _pw = document.getElementById('pw').value;
-            if (_id == ""|| _pw == "") alert("ID나 PW를 확인해주세요");
-            else {
+            var _id = document.getElementById('id').value;
+            var _pw = document.getElementById('pw').value;
+            if(_id == ""|| _pw == "") alert("ID나 PW를 확인해주세요");
+            else{
               try{
                 //로그인 정보 입력
                 location.replace('http://localhost:3000/');

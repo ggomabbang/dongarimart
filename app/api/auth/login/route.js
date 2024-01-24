@@ -4,6 +4,7 @@ import moment from "moment";
 const adminId = process.env.ADMIN_ID;
 
 export async function POST(request) {
+    console.log("login");
     const body = await request.json();
 
     if (body.email === null || body.email === undefined || body.email === "") {

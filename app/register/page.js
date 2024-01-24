@@ -11,11 +11,13 @@ export default function Register() {
 
   const [clubName, setClubName] = useState("");
   const [oneLine, setOneLine] = useState("");
-  const [url, setUrl] = useState("");
   const [short, setShort] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [department, setCollegeSelected] = useState("");
+  const [department, setCollegeSelected] = useState("pnu");
+  const handleCollegeSelect = (e) => {
+    setCollegeSelected(e.target.value);
+  }
 
   const [tagValue, setTagValue] = useState("");
 
@@ -50,11 +52,6 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (clubName == '') return alert('동아리 명을 입력해 주세요.');
-    if (oneLine == '') return alert('한 줄 소개를 작성해 주세요.');
-    if (department == '') return alert('소속 항목을 선택해 주세요');
-    if (short == '') return alert('짧은 소개를 작성해 주세요.');
-
     const URL = 'http://localhost:3000';
 
     const res = await fetch(URL + '/api/clubs', {
@@ -68,20 +65,11 @@ export default function Register() {
         oneLine,
         short,
         tags,
-        url,
       }),
     });
 
-    if (res.status == 201) {
+    if (res.status == 200) {
       return router.push('/');
-    }
-    else if (res.status == 400) {
-      alert('요청 오류.');
-      return router.push('/');
-    }
-    else if (res.status == 401) {
-      alert('로그인 후 다시 진행하여 주세요.');
-      return router.push('/login');
     }
   }
 
@@ -116,26 +104,9 @@ export default function Register() {
         </lable>
 
         <lable className={Styles.HorizonBox}>
-          <p className={Styles.Left}>홈페이지</p>
-          <div className={Styles.Right}>
-            <input 
-              className={Styles.InputBox}
-              placeholder='https://wave.com'
-              value={url}
-              onChange={(e)=>setUrl(e.target.value)}
-              id='url' 
-            />
-          </div>
-        </lable>
-
-        <lable className={Styles.HorizonBox}>
           <p className={Styles.Left}>소속</p>
           <div className={Styles.Right}>
-            <select
-              className={Styles.MenuFont}
-              onChange={(e) => setCollegeSelected(e.target.value)} value={department}
-            >
-              <option value='' key={-1} disabled>동아리 소속 선택</option>
+            <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={department}>
               {
                 Object.entries(College).map(([key, value]) => {
                   if (key == 'all') return 

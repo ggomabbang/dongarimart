@@ -3,10 +3,8 @@
 import DongariInList from '../find/DongariInList';
 import Styles from './my.module.css';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function My() {
-  const router = useRouter();
   const [User, setUser] = useState({
     email: '로딩 중', 
     username: '로딩 중', 
@@ -30,29 +28,6 @@ export default function My() {
     });
     const jsonData = await rows.json();
     setGroups(jsonData);
-  }
-
-  const emailHandler = async (e) => {
-    const emailURL = 'http://localhost:3000/api/auth/email';
-    const emailRes = await fetch(emailURL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: User.email
-      })
-    });
-    if (emailRes.status == 204) {
-      alert(`${User.email}로 전송된 메일을 통해 이메일 인증을 진행해주세요.`)
-      return router.push('/');
-    } else if (emailRes.status == 400) {
-      alert('MY 페이지에서 이메일 확인을 다시 진행해주세요');
-      return router.push('/');
-    } else {
-      alert('Error');
-      return router.push('/');
-    }
   }
 
   useEffect(() => {
@@ -98,11 +73,6 @@ export default function My() {
                   <li id={Styles.email_uncheck}>인증되지 않은 이메일 ❌</li>
               }
             </ul>
-            {
-              User.verifiedEmail ?
-                null :
-                <button className={Styles.BlueButton} onClick={emailHandler}>이메일 인증하기</button>
-            }
           </div>
         </div>
 

@@ -66,14 +66,14 @@ export async function POST(request) {
             email: email,
         },
         select: {
-            tokenCreated: true,    
+            tokencreated: true,    
             verifiedDone: true,       
         }
     });
 
     if (oldEmail !== null) {
         // 만료기한 확인
-        const dateExpire = oldEmail.tokenCreated;
+        const dateExpire = oldEmail.tokencreated;
         const timeNow = new Date();
         dateExpire.setDate(dateExpire.getDate()+1);
         
