@@ -1,0 +1,28 @@
+/*
+  Warnings:
+
+  - You are about to alter the column `tokenCreated` on the `verifyingemail` table. The data in that column could be lost. The data in that column will be cast from `Timestamp(0)` to `Timestamp`.
+
+*/
+-- AlterTable
+ALTER TABLE `clublist` MODIFY `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    MODIFY `updatedAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `image` MODIFY `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `post` MODIFY `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    MODIFY `updatedAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `taglist` MODIFY `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `user` ADD COLUMN `refreshExpiresAt` DATETIME(3) NULL,
+    ADD COLUMN `refreshToken` CHAR(36) NULL,
+    MODIFY `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    MODIFY `updatedAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE `verifyingemail` MODIFY `tokenCreated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
