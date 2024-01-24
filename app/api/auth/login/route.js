@@ -1,4 +1,5 @@
 import prisma from "@/prisma/prisma";
+import moment from "moment";
 
 const adminId = process.env.ADMIN_ID;
 
@@ -48,7 +49,7 @@ export async function POST(request) {
             },
             data: {
                 refreshToken: refreshToken,
-                refreshExpireAt: expires,
+                refreshExpiresAt: moment(expires).format(),
             }
         });
         return new Response(JSON.stringify({

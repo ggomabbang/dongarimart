@@ -43,7 +43,7 @@ export async function POST(request) {
         },
         data: {
             refreshToken: refreshToken,
-            refreshExpireAt: expires,
+            refreshExpiresAt: expires,
         }
     });
 
