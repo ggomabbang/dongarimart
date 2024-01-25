@@ -176,7 +176,7 @@ export async function POST(request) {
     });
   }
 
-  const { clubName, department, oneLine, short, tags, url } = await request.json();
+  const { clubName, department, oneLine, short, tags, url, image } = await request.json();
 
   if (!clubName) {
     return NextResponse.json({
@@ -278,10 +278,15 @@ export async function POST(request) {
     };
   }
 
+  if (image) {
+    query.data.image = image;
+  }
+
   try {
     await client.ClubList.create(query);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
+      console.log(e);
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
