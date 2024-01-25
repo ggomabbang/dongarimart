@@ -78,7 +78,8 @@ export async function GET(request) {
             select: {
               recruitStart: true,
               recruitEnd: true,
-              recruitTarget: true
+              recruitTarget: true,
+              recruitURL: true
             }
           }
         }
@@ -93,9 +94,6 @@ export async function GET(request) {
 
   let body = result;
   body.post = result.post[0];
-  body.recruitStart = body.post && body.post.recruit? body.post.recruit.recruitStart : null;
-  body.recruitEnd = body.post && body.post.recruit? body.post.recruit.recruitEnd: null;
-  body.recruitTarget = body.post && body.post.recruit? body.post.recruit.recruitTarget: null;
   
   return NextResponse.json(body);
 }
