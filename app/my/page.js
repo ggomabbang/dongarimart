@@ -4,6 +4,7 @@ import DongariInList from '../find/DongariInList';
 import Styles from './my.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function My() {
   const router = useRouter();
@@ -109,7 +110,11 @@ export default function My() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>비밀번호</p>
           <div className={Styles.Right}>
-            <button className={Styles.BlueButton}>비밀번호 변경하기</button>
+            <Link href={'/my/password'}>
+              <button className={Styles.BlueButton}>
+                비밀번호 변경하기
+              </button>
+            </Link>
           </div>
         </div>
 

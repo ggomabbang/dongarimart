@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from './findID.module.css';
+import Styles from './findpw.module.css';
 import { useState, useEffect } from 'react';
 
 export default function SignUp() {
