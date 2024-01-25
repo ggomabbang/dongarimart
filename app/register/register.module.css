@@ -52,6 +52,27 @@
   flex: 1 0 0;
 }
 
+.InputWithCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  flex: 1 0 0;
+}
+
+.Count {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.FixedCount {
+  display: flex;
+  width: 45px;
+  justify-content: right;
+  align-items: flex-end;
+}
+
 .InputBox {
   display: flex;
   padding: 15px 25px;
@@ -74,11 +95,12 @@
 
 .LargeInputBox {
   display: flex;
-  height: 250px;
+  height: 200px;
   padding: 15px 25px;
   align-items: flex-start;
+  align-self: stretch;
   gap: 10px;
-  flex: 1 0 0;
+  resize: vertical;
 
   border-radius: 20px;
   border: 1px solid #000;
@@ -95,13 +117,13 @@
 
 .ImageBox{
   display: flex;
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: 300px;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  object-fit: contain;
 
-  border-radius: 48px;
   background: #D9D9D9;
 }
 

@@ -7,6 +7,39 @@ import { useRouter } from 'next/navigation';
 export default function Recruit() {
   const router = useRouter();
 
+  const [imageSelect, setImageSelect] = useState(0);
+
+  const [images, setImages] = useState([]);
+  const [imageSrcs, setImageSrcs] = useState([null, null, null, null]);
+  const imageHandler = (e) => {
+    if (e.target.files.length < 2) {
+      const newImages = images;
+      newImages[imageSelect] = e.target.files[0];
+      const newImageSrcs = imageSrcs;
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+        newImageSrcs[imageSelect] = reader.result;
+        setImageSrcs([...newImageSrcs]);
+      }
+      setImages([...newImages]);
+    }
+    else {
+      const newImages = [];
+      const newImageSrcs = [null, null, null, null];
+      for (let i = 0; i < e.target.files.length; i++) {
+        newImages.push(e.target.files[i]);
+        const reader = new FileReader();
+        reader.readAsDataURL(e.target.files[i]);
+        reader.onload = () => {
+          newImageSrcs[i] = reader.result;
+          setImageSrcs([...newImageSrcs]);
+        }
+      }
+      setImages(newImages);
+    }
+  };
+
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
 
@@ -102,7 +135,21 @@ export default function Recruit() {
     if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요");
     if (toBody.content === '') return alert("본문을 작성해 주세요");
 
-    console.log(clubID, toBody);
+    if (images.length) {
+      const formData = new FormData();
+      images.forEach((img) => {
+        if (img instanceof File && img.size > 0)
+          formData.append("image", img);
+      });
+      const imgRes = await fetch('/api/image', {
+        method: 'POST',
+        body: formData,
+      });
+      const imagename = await imgRes.json();
+      const imagenames = [];
+      for (let i = 0; i < images.length; i++) imagenames.push(imagename[i]);
+      toBody.image = imagenames;
+    }
     
     const URL = 'http://localhost:3000';
 
@@ -143,13 +190,12 @@ export default function Recruit() {
     <div className={Styles.Panel}>
       <div className={Styles.Input}>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>동아리</p>
           <div className={Styles.Right}>
             <select
               className={Styles.MenuFont}
               onChange={(e) => {
-                console.log(e.target.value);
                 setSelectClub(e.target.value);}
               }
               value={selectClub}
@@ -164,9 +210,9 @@ export default function Recruit() {
               }
             </select>
           </div>
-        </lable>
+        </label>
         
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 제목</p>
           <div className={Styles.Right}>
             <input
@@ -174,12 +220,18 @@ export default function Recruit() {
               placeholder='제목'
               id='title'
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 100)
+                  setTitle(e.target.value)
+              }}
             />
           </div>
-        </lable>
+          <div className={Styles.FixedCount}>
+            {`${title.length}/100`}
+          </div>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 기간</p>
           <div className={Styles.Right}>
             <input
@@ -209,9 +261,9 @@ export default function Recruit() {
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>신청 링크</p>
           <div className={Styles.Right}>
             <input
@@ -219,12 +271,18 @@ export default function Recruit() {
               placeholder='구글 폼, 자체 신청사이트 링크 등'
               id='recruitURL'
               value={recruitURL}
-              onChange={(e) => setURL(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 1000)
+                  setURL(e.target.value)
+              }}
             />
+            <div className={Styles.FixedCount}>
+              {`${recruitURL.length}/1000`}
+            </div>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 인원</p>
           <div className={Styles.RightEditable}>
             {
@@ -264,9 +322,9 @@ export default function Recruit() {
               역할 추가 +
             </button>
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 글</p>
           <div className={Styles.Right}>
             <textarea 
@@ -277,35 +335,60 @@ export default function Recruit() {
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
-        </lable>
+        </label>
 
-        <lable className={Styles.HorizonBox}>
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이미지</p>
-          <div className={Styles.Right}>
-            <img className={Styles.ImageBox}/>
+          <div className={Styles.ImageRoom}>
+            <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
+            <div>{imageSelect+1}</div>
           </div>
           <div className={Styles.Side}>
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton} htmlFor='input-file'>
                 업로드
+                <input 
+                  id="input-file"
+                  type="file"
+                  accept='image/png, image/jpeg'
+                  multiple
+                  style={{display: "none"}}
+                  onChange={imageHandler}
+                />
               </label>
-              <input 
-                id="input-file"
-                type="file"
-                accept='image/png, image/jpeg'
-                style={{display: "none"}}
+              <button
+                className={Styles.CancelButton}
+                onClick={(e) => {
+                  setImageSelect(0);
+                  setImages([]);
+                  setImageSrcs([null,null,null,null]);
+                }}
               >
-              </input>
-              <button className={Styles.CancelButton}>취소</button>
+                취소
+              </button>
             </div>
             <div className={Styles.Images}>
-              <img className={Styles.ImageSmallBox}/>
-              <img className={Styles.ImageSmallBox}/>
-              <img className={Styles.ImageSmallBox}/>
-              <img className={Styles.ImageSmallBox}/>
+              {
+                imageSrcs.map((imgSrc, index) => {
+                  return (
+                    <div className={Styles.ImageRoom} key={`img${index}`}>
+                      {
+                        index <= images.length ?
+                        <img 
+                          className={Styles.ImageSmallBox}
+                          src={imgSrc}
+                          onClick={(e) => setImageSelect(index)}
+                        /> :
+                        <img className={Styles.ImageSmallBox} />
+                      }
+                      <div>{index+1}</div>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
-        </lable>
+        </div>
 
         <button className={Styles.UploadButton} onClick={submitHandler}>
           완료
