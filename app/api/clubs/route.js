@@ -168,7 +168,7 @@ export async function POST(request) {
   }) : null;
 
   console.log(userid);
-  if (!user_token || !userid.userId) {
+  if (!user_token || !userid || !userid.userId) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -279,7 +279,11 @@ export async function POST(request) {
   }
 
   if (image) {
-    query.data.image = image;
+    query.data.image = {
+      connect: {
+        filename: image
+      }
+    };
   }
 
   try {

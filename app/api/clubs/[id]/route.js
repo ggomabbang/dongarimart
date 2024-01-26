@@ -278,11 +278,32 @@ export async function DELETE(request) {
     });
   }
 
+  const imageId = await client.clubList.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      image: {
+        select: {
+          id: true,
+        }
+      }
+    }
+  })
+
   const result = await client.clubList.delete({
     where: {
       id,
     }
   });
+
+  if(imageId) {
+    await client.Image.delete({
+      where: {
+        id: imageId.id
+      }
+    });
+  }
 
   if(result == null) {
     return new Response(null, {
