@@ -279,6 +279,19 @@ export async function POST(request) {
   }
 
   if (image) {
+    const validImage = await client.Image.findUnique({
+      where: {
+        filename: image
+      }
+    });
+    if (image) {
+      return NextResponse.json({
+        parameter: "image",
+        message: "해당 parameter가 잘못된 값입니다."
+      }, {
+        status: 400,
+      });
+    }
     query.data.image = {
       connect: {
         filename: image
