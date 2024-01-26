@@ -307,9 +307,7 @@ export async function PUT(request) {
       image: {
         connect: images.map((img) => {
           return {
-            where: {
-              filename: img
-            }
+            filename: img
           };
         }),
       },
