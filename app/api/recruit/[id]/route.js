@@ -127,9 +127,7 @@ export async function POST(request) {
       image: {
         connect: images.map((img) => {
           return {
-            where: {
-              filename: img
-            }
+            filename: img
           };
         }),
       },
