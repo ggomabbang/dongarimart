@@ -37,4 +37,6 @@ next-env.d.ts
 
 # prisma local enviroment migrations
 migrations/
-!migration_lock.toml
+
+# downloaded images
+public/image/*
