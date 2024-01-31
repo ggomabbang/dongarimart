@@ -15,6 +15,8 @@ export default function My() {
   });
   const [Groups, setGroups] = useState([]);
 
+  const [clubFix, setClubFix] = useState(false);
+
   const GetMyinfo = async () => {
     const URL = 'http://localhost:3000';
     const rows = await fetch(URL+'/api/users/my', {
@@ -128,17 +130,40 @@ export default function My() {
           {
             Groups.map((club,index)=>{
               return(
-                <DongariInList 
-                  club={club}
-                  i={index} 
-                  key={club.id}
-                />
+                <div className={Styles.ClubRow}>
+                  <Link className={Styles.ClubFix} href={`/my/club/${club.id}`}>
+                    <div
+                      style={clubFix ? null :
+                        {display: 'none'}
+                      }
+                    >
+                      관리
+                    </div>
+                  </Link>
+                  <DongariInList
+                    club={club}
+                    i={index} 
+                    key={club.id}
+                  />
+                </div>
               );
             })
           }
         </div>
         <div className={Styles.ButtonSpace}>
-          <button className={Styles.BlueButton}>관리하기</button>
+          <button
+            className={Styles.BlueButton}
+            onClick={(e) => {
+              setClubFix(!clubFix);
+            }}
+            style={clubFix ? 
+              {backgroundColor: 'gray'} : null
+            }
+          >
+            {
+              clubFix ? '취소' : '관리하기'
+            }
+          </button>
         </div>
       </div>
 

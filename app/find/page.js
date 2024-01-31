@@ -74,11 +74,13 @@ export default function Find() {
         {
           Groups.map((club,index)=>{
             return(
-              <DongariInList 
-                club={club}
-                i={index} 
-                key={club.id}
-              />
+              <div className={Styles.ClubRow}>
+                <DongariInList 
+                  club={club}
+                  i={index} 
+                  key={club.id}
+                />
+              </div>
             );
           })
         }
