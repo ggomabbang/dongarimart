@@ -131,14 +131,14 @@ export default function My() {
             Groups.map((club,index)=>{
               return(
                 <div className={Styles.ClubRow}>
-                  <Link className={Styles.ClubFix} href={`/my/club/${club.id}`}>
-                    <div
-                      style={clubFix ? null :
-                        {display: 'none'}
-                      }
-                    >
-                      관리
-                    </div>
+                  <Link 
+                    className={Styles.ClubFix}
+                    style={clubFix ? null :
+                      {display: 'none'}
+                    }
+                    href={`/my/club/${club.id}`}
+                  >
+                    관리
                   </Link>
                   <DongariInList
                     club={club}

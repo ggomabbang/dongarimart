@@ -17,6 +17,7 @@ export default function ClubFix({ params }) {
     setOneLine(data.oneLine);
     setUrl(data.pageURL);
     setShort(data.short);
+    setCollegeSelected(data.classification);
     setTags(data.tags.map((obj, index) => {
       return obj.tagList.tagName
     }));
@@ -82,9 +83,7 @@ export default function ClubFix({ params }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (clubName == '') return alert('동아리 명을 입력해 주세요.');
     if (oneLine == '') return alert('한 줄 소개를 작성해 주세요.');
-    if (department == '') return alert('소속 항목을 선택해 주세요');
     if (short == '') return alert('짧은 소개를 작성해 주세요.');
 
     let imagename = null;
@@ -99,14 +98,12 @@ export default function ClubFix({ params }) {
       imagename = await imgRes.json();
     }
 
-    const res = await fetch('/api/clubs', {
-      method: 'POST',
+    const res = await fetch(`/api/clubs/${clubid}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        clubName,
-        department,
         oneLine,
         short,
         tags,
@@ -118,12 +115,20 @@ export default function ClubFix({ params }) {
     if (res.status == 201) {
       return router.push('/');
     }
+    else if (res.status == 204) {
+      alert('요청 오류. ID');
+      return router.push('/');
+    }
     else if (res.status == 400) {
       alert('요청 오류.');
       return router.push('/');
     }
     else if (res.status == 401) {
       alert('로그인 후 다시 진행하여 주세요.');
+      return router.push('/login');
+    }
+    else if (res.status == 403) {
+      alert('권한이 없습니다!');
       return router.push('/login');
     }
   }
@@ -139,11 +144,8 @@ export default function ClubFix({ params }) {
               className={Styles.InputBox}
               placeholder='동아리 이름'
               value={clubName}
-              onChange={(e)=>{
-                if (e.target.value.length <= 20)
-                  setClubName(e.target.value)
-              }} 
               id='clubname'
+              readOnly
             />
             <div className={Styles.FixedCount}>
               {`${clubName.length}/20`}
@@ -194,14 +196,15 @@ export default function ClubFix({ params }) {
           <div className={Styles.Right}>
             <select
               className={Styles.MenuFont}
-              onChange={(e) => setCollegeSelected(e.target.value)} value={department}
+              onChange={(e) => setCollegeSelected(e.target.value)}
+              value={department}
             >
               <option value='' key={-1} disabled>동아리 소속 선택</option>
               {
                 Object.entries(College).map(([key, value]) => {
-                  if (key == 'all') return 
+                  if (key != department) return 
                   return (
-                    <option value={key} key={key}>{value}</option>
+                    <option value={key} key={key} disabled>{value}</option>
                   )
                 })
               }

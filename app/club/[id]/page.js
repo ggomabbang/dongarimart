@@ -14,7 +14,10 @@ export default function Club({ params }) {
     short: "",
     isRecruiting: false,
     tags: [],
+    image: null,
   });
+
+  const [imageSrc, setImageSrc] = useState(null);
 
   const GetClub = async (id) => {
     const URL = 'http://localhost:3000';
@@ -23,6 +26,13 @@ export default function Club({ params }) {
     });
     const jsonData = await rows.json();
     setClub(jsonData);
+
+    if (jsonData.image) {
+      const img = fetch(`/api/image?filename=${jsonData.image}`, {
+        method:"GET"
+      });
+      console.log(img);
+    }
     console.log(jsonData);
   }
 
@@ -53,7 +63,18 @@ export default function Club({ params }) {
           IMAGE<img />
         </div>
         <div className={Styles.MiddleRight}>
-          <p className={Styles.ShortText}>{Club.short}</p>
+          <div className={Styles.ShortText}>
+            {
+              Club.short.split('\n').map((line, index) => {
+                return (
+                  <span key={`Short${index}`}>
+                    {line}
+                    <br />
+                  </span>
+                )
+              })
+            }
+            </div>
           <div className={Styles.InnerMiddle}>
             <div className={Styles.TagBox}>
               {
