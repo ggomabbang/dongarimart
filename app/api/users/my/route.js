@@ -1,33 +1,43 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import client from "../../../../prisma/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+import prisma from "@/prisma/prisma";
 import "dotenv/config";
 
 export async function GET() {
-  const user_token = cookies().get('next-auth.session-token');
-  const userid = await client.Session.findUnique({
-    where: {
-      sessionToken: user_token.value,
-    },
-    select: {
-      userId: true,
-    },
-  });
 
-  console.log(userid);
+  try {
+    const session = await getServerSession(authOptions);
+  
+    if (!session) {
+      return NextResponse.json({
+        message: "유효하지 않은 토큰입니다."
+      }, 
+      {
+        status: 401
+      });
+    }
+  
+    const userData = await prisma.User.findUnique({
+      where: {
+        id: session.userId,
+      },
+      select: {
+        email: true,
+        username: true,
+        emailConfirm: true,
+      }
+    });
 
-  const result = await client.user.findUnique({
-    where: {
-      id: userid.userId,
-    },
-    select: {
-      email: true,
-      username: true,
-      emailVerified: true,
-    },
-  });
-
-  console.log('user:', result);
-
-  return NextResponse.json(result);
+    return NextResponse.json(userData);
+  }
+  catch (error) {
+    console.log(error);
+    return NextResponse.json({
+      message: "유효하지 않은 토큰입니다."
+    }, 
+    {
+      status: 401
+    });
+  }
 }
