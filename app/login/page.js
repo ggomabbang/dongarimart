@@ -2,9 +2,14 @@
 
 import Styles from './Login.module.css'
 import Link from "next/link"
+import { useRef } from 'react';
 import { signIn, useSession } from "next-auth/react";
 
 export default function Home() {
+  const emailRef = useRef(null);
+
+  const passwordRef = useRef(null);
+
   const { data: session } = useSession();
   console.log(session);
   return (
@@ -14,31 +19,35 @@ export default function Home() {
           <img src='/WAVE.png'/>
         </div>
         <div className={Styles.LoginInput}>
-          <input id='id' className={Styles.InputBox} placeholder='ID'/>
-          <input id='pw' className={Styles.InputBox} placeholder='PW'/>
+          <input 
+            className={Styles.InputBox}
+            ref={emailRef}
+            placeholder='XXX@pusan.ac.kr'
+          />
+          <input
+            className={Styles.InputBox}
+            ref={passwordRef}
+            placeholder='Password'
+            type='password'
+          />
           <div className={Styles.Bottom}>
             <Link href={'/login/signup'}>가입하기</Link>
             <Link href={'/login/findpw'}>PW찾기</Link>
           </div>
         </div>
-        <button className={Styles.GithubLogin} onClick={() => signIn()}>
-          Github 로그인
-        </button>
         <button 
           className={Styles.LoginBtn}
           onClick={()=>{
-            const _id = document.getElementById('id').value;
-            const _pw = document.getElementById('pw').value;
-            if (_id == ""|| _pw == "") alert("ID나 PW를 확인해주세요");
-            else {
-              try{
-                //로그인 정보 입력
-                location.replace('http://localhost:3000/');
-              }
-              catch(e){
-                //예외처리 
-              }
-            }
+            if (!emailRef.current || !passwordRef.current) 
+              return alert("로그인 양식을 다시 확인해 주세요.");
+            if (emailRef.current.value == '')
+              return alert("이메일을 입력해 주세요.");
+            if (passwordRef.current.value == '')
+              return alert("비밀번호를 입력해 주세요.");
+            signIn('credentials', {
+              email: emailRef.current.value,
+              password: passwordRef.current.value,
+            });
           }}
         >
           로그인
