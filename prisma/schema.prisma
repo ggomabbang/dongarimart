@@ -94,7 +94,7 @@ model User {
   emailVerified DateTime?   // github 로그인에 쓰는 중
   emailConfirm  Boolean     @default(false)
   refreshToken  String?     @db.Char(36)
-  refreshExpiresAt DateTime?  
+  refreshExpiresAt DateTime? @db.Timestamp() 
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
