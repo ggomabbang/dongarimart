@@ -3,11 +3,19 @@
 import Link from "next/link";
 import Styles from "./layout.module.css";
 import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function loginBtn() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
   console.log(session);
   console.log(status);
+
+  useEffect(() => {
+    if (session?.error === "RefreshAccessTokenError") {
+      console.log('signout');
+      signOut();
+    }
+  }, [session?.error]);
 
   if (status === "authenticated") {
     return (
