@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
-import client from "../../../../prisma/prisma";
+import client from "../../../prisma/prisma";
 import { Prisma } from '@prisma/client'
 
 const leftPad = (value) => {
@@ -21,8 +21,10 @@ const toStringByFormatting = (source, delimiter = '-') => {
   return [year, month, day].join(delimiter);
 }
 
-export async function PUT(request) {
-  const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
+export async function POST(request) {
+  const param = request.nextUrl.searchParams;
+  let clubId = param.get("clubid");
+  clubId = parseInt(clubId);
 
   const session = await getServerSession(authOptions);
 
@@ -35,7 +37,7 @@ export async function PUT(request) {
     });
   }
   
-  if(isNaN(id)) {
+  if(isNaN(clubId)) {
     return NextResponse.json({
       parameter: "id",
       message: "int 형식이 아닌 ID 값입니다."
@@ -44,17 +46,13 @@ export async function PUT(request) {
     });
   }
 
-  const myPost = await client.Post.findUnique({
+  const club = await client.clubList.findUnique({
     where: {
-      id,
+      id: clubId,
     },
-    select: {
-      userId: true,
-      clubId: true,
-    }
   });
 
-  if (!myPost) {
+  if (!club) {
     return new Response(null, {
       status: 204,
     });
@@ -64,7 +62,7 @@ export async function PUT(request) {
     where: {
       userId_clubId: {
         userId: session.userId,
-        clubId: myPost.clubId
+        clubId
       }
     },
     select: {
@@ -106,25 +104,42 @@ export async function PUT(request) {
   if (image) images = image;
   else images = [];
 
+  const isValidImage = await Promise.all(
+    images.map(async (img) => {
+      const validImage = await client.Image.findUnique({
+        where: {
+          filename: img
+        }
+      });
+      if (!validImage) {
+        return "failed";
+      }
+      else {
+        return "success";
+      }
+    })
+  );
+
+  if (isValidImage.includes("failed")) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
   const query = {
-    where: {
-      id,
-    },
     data: {
       title,
       content,
       isRecruit: true,
       recruit: {
-        update: {
-          where: {
-            postId: id,
-          },
-          data: {
-            recruitStart: new Date(start),
-            recruitEnd: new Date(end),
-            recruitURL: url ? url : null,
-            recruitTarget: people ? JSON.stringify(people) : null,
-          }
+        create: {
+          recruitStart: new Date(start),
+          recruitEnd: new Date(end),
+          recruitURL: url ? url : null,
+          recruitTarget: people ? JSON.stringify(people) : null,
         }
       },
       image: {
@@ -134,11 +149,22 @@ export async function PUT(request) {
           };
         }),
       },
+      club: {
+        connect: {
+          id: clubId,
+        }
+      },
+      user: {
+        connect: {
+          id: session.userId,
+        }
+      }
     },
   };
 
   try {
-    await client.Post.update(query);
+    const result = await client.Post.create(query);
+    console.log(!result);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
       console.log(e);
@@ -152,7 +178,7 @@ export async function PUT(request) {
 
   await client.ClubList.update({
     where: {
-      id: myPost.clubId,
+      id: clubId,
     },
     data: {
       isRecruiting: 
@@ -161,7 +187,7 @@ export async function PUT(request) {
       schedule: {
         upsert: {
           where: {
-            clubId: myPost.clubId,
+            clubId,
           },
           update: {
             recruitStart: new Date(start),
@@ -179,87 +205,4 @@ export async function PUT(request) {
   return new Response(null, {
     status: 201,
   });
-}
-
-export async function DELETE(request) {
-  const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
-
-  const session = await getServerSession(authOptions);
-
-  console.log(session);
-  if (!session) {
-    return NextResponse.json({
-      message: "유효하지 않은 토큰입니다."
-    }, {
-      status: 401,
-    });
-  }
-  
-  if(isNaN(id)) {
-    return NextResponse.json({
-      parameter: "id",
-      message: "int 형식이 아닌 ID 값입니다."
-    }, {
-      status: 400,
-    });
-  }
-
-  const myPost = await client.Post.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      userId: true,
-      clubId: true,
-    }
-  });
-
-  if (!myPost) {
-    return new Response(null, {
-      status: 204,
-    });
-  }
-
-  const leader = await client.JoinedClub.findUnique({
-    where: {
-      userId_clubId: {
-        userId: session.userId,
-        clubId: myPost.clubId
-      }
-    },
-    select: {
-      isLeader: true
-    }
-  });
-
-  if (!leader || !leader.isLeader) {
-    return NextResponse.json({
-      message: "등록 권한이 없는 클라이언트입니다."
-    }, {
-      status: 403,
-    });
-  }
-
-  const result = await client.Post.delete({
-    where: {
-      id,
-    }
-  });
-
-  await client.RecruitSchedule.delete({
-    where: {
-      clubId: myPost.clubId
-    }
-  })
-
-  await client.clubList.update({
-    where: {
-      id: myPost.clubId
-    },
-    data: {
-      isRecruiting: false
-    }
-  })
-
-  return NextResponse.json(result);
 }
