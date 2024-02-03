@@ -1,0 +1,135 @@
+import { NextResponse } from "next/server";
+import client from "../../../../prisma/prisma";
+import "dotenv/config";
+import { Prisma } from '@prisma/client'
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+
+export async function PATCH(request) {
+  const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
+
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
+  if (!session) {
+    return NextResponse.json({
+      message: "유효하지 않은 토큰입니다."
+    }, {
+      status: 401,
+    });
+  }
+  
+  if(isNaN(id)) {
+    return NextResponse.json({
+      parameter: "id",
+      message: "int 형식이 아닌 ID 값입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  const post = await client.Post.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!post) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
+
+  if (post.userId !== session.userId) {
+    return NextResponse.json({
+      message: "등록 권한이 없는 클라이언트입니다."
+    }, {
+      status: 403,
+    });
+  }
+
+  const { title, content } = await request.json();
+
+  if (!title) {
+    return NextResponse.json({
+      parameter: "title",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+  if (!content) {
+    return NextResponse.json({
+      parameter: "content",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  const result = await client.Post.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      content
+    }
+  });
+
+  return new Response(null, {
+    status: 201,
+  });
+}
+
+export async function DELETE(request) {
+  const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
+
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
+  if (!session) {
+    return NextResponse.json({
+      message: "유효하지 않은 토큰입니다."
+    }, {
+      status: 401,
+    });
+  }
+  
+  if(isNaN(id)) {
+    return NextResponse.json({
+      parameter: "id",
+      message: "int 형식이 아닌 ID 값입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  const myPost = await client.Post.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!myPost) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
+
+  if (myPost.userId !== session.userId) {
+    return NextResponse.json({
+      message: "등록 권한이 없는 클라이언트입니다."
+    }, {
+      status: 403,
+    });
+  }
+
+  const result = await client.Post.delete({
+    where: {
+      id,
+    }
+  });
+
+  return NextResponse.json(result);
+}

@@ -1,18 +1,29 @@
-export async function POST(request) {
-  const user_token = cookies().get('next-auth.session-token');
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+import client from "../../../../prisma/prisma";
+import { Prisma } from '@prisma/client'
 
-  const userid = user_token? await client.Session.findUnique({
+export async function GET(request) {
+  const result = await client.Post.findMany({
     where: {
-      sessionToken: user_token.value,
+      "isNotice": true
     },
     select: {
-      userId: true,
-      expires: true
-    },
-  }) : null;
+      "id": true,
+      "title": true,
+      "updatedAt": true
+    }
+  });
 
-  console.log(userid);
-  if (!user_token || !userid || !userid.userId) {
+  return NextResponse.json(result);
+}
+
+export async function POST(request) {
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -20,25 +31,13 @@ export async function POST(request) {
     });
   }
 
-  const club = await client.clubList.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  if (!club) {
-    return new Response(null, {
-      status: 204,
+  if (session.userRole !== 'admin') {
+    return NextResponse.json({
+      message: "등록 권한이 없는 클라이언트입니다."
+    }, {
+      status: 403,
     });
   }
-
-  // if (!leader || !leader.isLeader) {
-  //   return NextResponse.json({
-  //     message: "등록 권한이 없는 클라이언트입니다."
-  //   }, {
-  //     status: 403,
-  //   });
-  // }
 
   const { title, content } = await request.json();
 
@@ -67,7 +66,7 @@ export async function POST(request) {
       isNotice: true,
       user: {
         connect: {
-          id: userid.userId,
+          id: session.userId,
         }
       }
     },
