@@ -1,20 +1,14 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
 import client from "../../../../prisma/prisma";
 import "dotenv/config";
 
 export async function GET() {
-  const user_token = cookies().get('next-auth.session-token');
-  const userid = await client.Session.findUnique({
-    where: {
-      sessionToken: user_token.value,
-    },
-    select: {
-      userId: true,
-    },
-  });
+  const session = await getServerSession(authOptions);
 
-  if (!user_token || !userid || !userid.userId) {
+  console.log(session);
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -26,7 +20,7 @@ export async function GET() {
     where: {
       members: {
         some: {
-          userId: userid.userId,
+          userId: session.userId,
         }
       },
     },
@@ -44,7 +38,7 @@ export async function GET() {
       },
       members: {
         where: {
-          userId: userid.userId,
+          userId: session.userId,
         },
         select: {
           isLeader: true,

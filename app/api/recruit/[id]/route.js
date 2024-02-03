@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
 import client from "../../../../prisma/prisma";
 import { Prisma } from '@prisma/client'
 
@@ -23,20 +24,10 @@ const toStringByFormatting = (source, delimiter = '-') => {
 export async function POST(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
-  const user_token = cookies().get('next-auth.session-token');
+  const session = await getServerSession(authOptions);
 
-  const userid = user_token? await client.Session.findUnique({
-    where: {
-      sessionToken: user_token.value,
-    },
-    select: {
-      userId: true,
-      expires: true
-    },
-  }) : null;
-
-  console.log(userid);
-  if (!user_token || !userid || !userid.userId) {
+  console.log(session);
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -68,7 +59,7 @@ export async function POST(request) {
   const leader = await client.JoinedClub.findUnique({
     where: {
       userId_clubId: {
-        userId: userid.userId,
+        userId: session.userId,
         clubId: id
       }
     },
@@ -163,7 +154,7 @@ export async function POST(request) {
       },
       user: {
         connect: {
-          id: userid.userId,
+          id: session.userId,
         }
       }
     },
@@ -217,20 +208,10 @@ export async function POST(request) {
 export async function PUT(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
-  const user_token = cookies().get('next-auth.session-token');
+  const session = await getServerSession(authOptions);
 
-  const userid = user_token? await client.Session.findUnique({
-    where: {
-      sessionToken: user_token.value,
-    },
-    select: {
-      userId: true,
-      expires: true
-    },
-  }) : null;
-
-  console.log(userid);
-  if (!user_token || !userid || !userid.userId) {
+  console.log(session);
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -266,7 +247,7 @@ export async function PUT(request) {
   const leader = await client.JoinedClub.findUnique({
     where: {
       userId_clubId: {
-        userId: userid.userId,
+        userId: session.userId,
         clubId: myPost.clubId
       }
     },
@@ -387,20 +368,10 @@ export async function PUT(request) {
 export async function DELETE(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
-  const user_token = cookies().get('next-auth.session-token');
+  const session = await getServerSession(authOptions);
 
-  const userid = user_token? await client.Session.findUnique({
-    where: {
-      sessionToken: user_token.value,
-    },
-    select: {
-      userId: true,
-      expires: true
-    },
-  }) : null;
-
-  console.log(userid);
-  if (!user_token || !userid || !userid.userId) {
+  console.log(session);
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -436,7 +407,7 @@ export async function DELETE(request) {
   const leader = await client.JoinedClub.findUnique({
     where: {
       userId_clubId: {
-        userId: userid.userId,
+        userId: session.userId,
         clubId: myPost.clubId
       }
     },
