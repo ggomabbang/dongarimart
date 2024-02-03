@@ -14,7 +14,7 @@ export default function Home() {
   console.log(session);
   return (
     <div className={Styles.Panel}>
-      <div className={Styles.LoginContent}>
+      <form className={Styles.LoginContent}>
         <div className={Styles.Logo}>
           <img src='/WAVE.png'/>
         </div>
@@ -35,9 +35,12 @@ export default function Home() {
             <Link href={'/login/findpw'}>PW찾기</Link>
           </div>
         </div>
-        <button 
+        <input
+          type='submit'
+          value='로그인'
           className={Styles.LoginBtn}
-          onClick={()=>{
+          onClick={(e)=>{
+            e.preventDefault()
             if (!emailRef.current || !passwordRef.current) 
               return alert("로그인 양식을 다시 확인해 주세요.");
             if (emailRef.current.value == '')
@@ -49,10 +52,8 @@ export default function Home() {
               password: passwordRef.current.value,
             });
           }}
-        >
-          로그인
-        </button>
-      </div>
+        />
+      </form>
       <div className={Styles.MiddleLine}/>
       <div className={Styles.ADpanel}>
           AD
