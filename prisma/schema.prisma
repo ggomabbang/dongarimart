@@ -24,7 +24,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   tags          ClubTag[]
   members       JoinedClub[]
 }
-
+// 모집 일정
 model RecruitSchedule {
   clubId        Int         @id @db.UnsignedInt
   recruitStart  DateTime    @db.Date
