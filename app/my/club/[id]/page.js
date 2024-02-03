@@ -41,6 +41,8 @@ export default function ClubFix({ params }) {
     }
   }
 
+  const [delToggle, setDelToggle] = useState(false);
+
   const [clubName, setClubName] = useState("");
   const [oneLine, setOneLine] = useState("");
   const [url, setUrl] = useState("");
@@ -130,6 +132,44 @@ export default function ClubFix({ params }) {
     else if (res.status == 403) {
       alert('권한이 없습니다!');
       return router.push('/login');
+    }
+  }
+  
+  const deleteHandler = async (e) => {
+    const rows = await fetch(`/api/clubs/${clubid}`, {
+      method: "GET"
+    });
+    const data = await rows.json();
+
+    if (data.clubName === document.getElementById('deleteName').value) {
+      const res = await fetch(`/api/clubs/${clubid}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+
+      switch (res.status) {
+        case 200:
+          return router.push('/');
+        case 204:
+          alert('요청 오류. ID');
+          return router.push('/')    
+        case 400:
+          alert('요청 오류');
+          return router.push('/');
+        case 401:
+          alert('로그인 후 다시 진행하여 주세요.');
+          return router.push('/login');  
+        case 403:
+          alert('권한이 없습니다!');
+          return router.push('/login');
+        default:
+          return alert('Error');
+      }
+    }
+    else {
+      alert('이름이 일치하지 않습니다.');
     }
   }
 
@@ -308,9 +348,44 @@ export default function ClubFix({ params }) {
           </div>
         </label>
 
-        <button className={Styles.UploadButton} onClick={handleSubmit}>
-          신청
+        <button className={Styles.ConfirmButton} onClick={handleSubmit}>
+          수정 완료
         </button>
+        
+        {
+          !delToggle ?
+          <button
+            className={Styles.CancelButton}
+            onClick={(e)=>{
+              setDelToggle(true);
+            }}
+          >
+            동아리 삭제
+          </button>
+          :
+          <div className={Styles.HorizonBox}>
+            <div className={Styles.Right}>
+              <input
+                id='deleteName'
+                className={Styles.InputBox}
+                placeholder='동아리 이름을 똑같이 입력해 주세요'
+              />
+              <button
+                className={Styles.UploadButton}
+                onClick={(e)=>{setDelToggle(false)}}
+              >
+                삭제 취소
+              </button>
+              <button
+                className={Styles.CancelButton}
+                onClick={deleteHandler}
+              >
+                삭제 확인
+              </button>
+            </div>
+          </div>
+        }
+        
 
       </div>
     </div>

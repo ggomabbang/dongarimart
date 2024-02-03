@@ -138,13 +138,36 @@
 .UploadButton {
   display: flex;
   padding: 8px 16px;
+  justify-content: center;
   align-items: center;
   gap: 10px;
+  /* align-self: stretch; */
 
   border-radius: 20px;
   border: 2px solid #2D5DEB;
 
   color: #2D5DEB;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.ConfirmButton {
+  display: flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+
+  border-radius: 20px;
+  border: 2px solid #2D5DEB;
+  background-color: #2D5DEB;
+
+  color: white;
   text-align: center;
   font-family: Noto Sans KR;
   font-size: 18px;
