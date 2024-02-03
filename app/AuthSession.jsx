@@ -2,7 +2,7 @@
 import { SessionProvider, getSession } from "next-auth/react";
 
 export default function AuthSession({ children }) {
-  const refresh = 10 * 60;
+  const refresh = 30 * 60;
   return (
   <SessionProvider
     refetchInterval={refresh}
