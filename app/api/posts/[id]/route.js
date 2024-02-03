@@ -5,6 +5,71 @@ import { Prisma } from '@prisma/client'
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 
+export async function GET(request) {
+  const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
+
+  if(isNaN(parseInt(id))) {
+    return NextResponse.json({
+      parameter: "id",
+      message: "int 형식이 아닌 ID 값입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  const post = await client.Post.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if(post === null || post.isRecruit) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
+
+  const view = post.view;
+
+  await client.Post.update({
+    where: {
+      id,
+    },
+    data: {
+      view: view + 1
+    }
+  });
+
+  const user = await client.User.findUnique({
+    where: {
+      id: post.userId
+    }
+  });
+  const username = user.username;
+
+  const result = await client.Post.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      updatedAt: true,
+      view: true,
+      image: {
+        select:{
+          filename: true,
+        }
+      },
+    },
+  });
+
+  result.username = username;
+  
+  return NextResponse.json(result);
+}
+
 export async function PATCH(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
