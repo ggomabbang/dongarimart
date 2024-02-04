@@ -15,7 +15,7 @@ export default function ClubFix({ params }) {
     const data = await rows.json();
     setClubName(data.clubName);
     setOneLine(data.oneLine);
-    setUrl(data.pageURL);
+    setUrl(data.pageURL ? data.pageURL : '');
     setShort(data.short);
     setCollegeSelected(data.classification);
     setTags(data.tags.map((obj, index) => {
@@ -280,7 +280,7 @@ export default function ClubFix({ params }) {
               imageSrc.length ?
               <img className={Styles.ImageBox} src={imageSrc}/>
               :
-              <img className={Styles.ImageBox}/>
+              <div className={Styles.ImageBox}/>
             }
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton} htmlFor='input-file'>

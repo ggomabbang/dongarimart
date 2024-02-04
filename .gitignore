@@ -40,3 +40,4 @@ migrations/
 
 # downloaded images
 public/image/*
+!public/image/cat.jpg

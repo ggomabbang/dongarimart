@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Styles from './register.module.css';
 import { useRouter } from 'next/navigation'
-import DongariStyles from '../find/DongariInList.module.css';
-import College from '../../public/College.json';
+import College from '@/public/College.json';
 
 export default function Register() {
   const router = useRouter();

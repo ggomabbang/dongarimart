@@ -1,7 +1,7 @@
 'use client'
 
 import Styles from './find.module.css'
-import DongariInList from './DongariInList';
+import DongariInList from '../component/ClubInList';
 import { useEffect, useState } from 'react';
 import College from '../../public/College.json';
 
@@ -32,7 +32,7 @@ export default function Find() {
     if (CollegeSelected !== "all") {
       urlParams.append("college", CollegeSelected);
     }
-    console.log(urlParams.toString());
+    // console.log(urlParams.toString());
     const rows = await fetch(getURL + '?' + urlParams.toString(), {
       method: "GET"
     });
@@ -74,11 +74,10 @@ export default function Find() {
         {
           Groups.map((club,index)=>{
             return(
-              <div className={Styles.ClubRow}>
+              <div className={Styles.ClubRow} key={club.id}>
                 <DongariInList 
                   club={club}
-                  i={index} 
-                  key={club.id}
+                  i={index}
                 />
               </div>
             );

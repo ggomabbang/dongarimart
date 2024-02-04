@@ -3,6 +3,7 @@
 import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Colleage from '@/public/College.json'
 
 export default function Club({ params }) {
   const clubid = params.id;
@@ -33,7 +34,6 @@ export default function Club({ params }) {
       });
       console.log(img);
     }
-    console.log(jsonData);
   }
 
   useEffect(() => {
@@ -87,12 +87,12 @@ export default function Club({ params }) {
                 })
               }
               <button>
-                {Club.classification}
+                {Colleage[Club.classification]}
               </button>
             </div>
             {
               Club.pageURL == null ?
-                <button className={Styles.BlueButton}>홈페이지 없음</button>
+                null
               :
                 <Link href={Club.pageURL}>
                   <button className={Styles.BlueButton}>홈페이지</button>
@@ -113,7 +113,7 @@ export default function Club({ params }) {
                     JSON.parse(Club.post.recruit.recruitTarget).map((target, index) => {
                       return (
                         <p key={index}>
-                          {`${target.name} - ${target.count}명`}
+                          {`${target.name} - ${target.count > 0 ? target.count + '명' : '인원 제한 없음'}`}
                         </p>
                       )
                     })
@@ -126,10 +126,11 @@ export default function Club({ params }) {
       </div>
       {
         Club.isRecruiting ?
-          <p className={Styles.Contents}>
-            {Club.post.title}<br/><br/>
-            {Club.post.content}
-          </p> : null
+          <div className={Styles.Contents}>
+            <h2>{Club.post.title}</h2>
+            <p>{Club.post.content}</p>
+          </div>
+           : null
       }
       {
         Club.isRecruiting ?

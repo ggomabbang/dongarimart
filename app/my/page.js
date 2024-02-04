@@ -1,6 +1,6 @@
 'use client'
 
-import DongariInList from '../find/DongariInList';
+import DongariInList from '@/app/component/ClubInList.js';
 import Styles from './my.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -130,7 +130,7 @@ export default function My() {
           {
             Groups.map((club,index)=>{
               return(
-                <div className={Styles.ClubRow}>
+                <div className={Styles.ClubRow} key={club.id}>
                   <Link 
                     className={Styles.ClubFix}
                     style={clubFix ? null :
@@ -142,8 +142,7 @@ export default function My() {
                   </Link>
                   <DongariInList
                     club={club}
-                    i={index} 
-                    key={club.id}
+                    i={index}
                   />
                 </div>
               );

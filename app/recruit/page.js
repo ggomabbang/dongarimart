@@ -153,7 +153,7 @@ export default function Recruit() {
     
     const URL = 'http://localhost:3000';
 
-    const res = await fetch(URL + '/api/recruit/' + clubID, {
+    const res = await fetch(URL + `/api/recruit?clubid=${selectClub}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
