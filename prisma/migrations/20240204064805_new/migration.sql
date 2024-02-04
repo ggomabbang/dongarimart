@@ -93,7 +93,7 @@ CREATE TABLE `User` (
     `emailVerified` DATETIME(3) NULL,
     `emailConfirm` BOOLEAN NOT NULL DEFAULT false,
     `refreshToken` CHAR(36) NULL,
-    `refreshExpiresAt` TIMESTAMP NULL,
+    `refreshExpiresAt` TIMESTAMP(3) NULL,
     `createdAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
 
@@ -116,7 +116,7 @@ CREATE TABLE `JoinedClub` (
 CREATE TABLE `VerifyingEmail` (
     `email` VARCHAR(30) NOT NULL,
     `token` VARCHAR(255) NOT NULL,
-    `tokenCreated` TIMESTAMP NOT NULL,
+    `tokenCreated` TIMESTAMP(3) NOT NULL,
     `verifiedDone` BOOLEAN NOT NULL DEFAULT false,
 
     UNIQUE INDEX `VerifyingEmail_token_key`(`token`),
