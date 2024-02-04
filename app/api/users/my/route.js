@@ -5,10 +5,8 @@ import prisma from "@/prisma/prisma";
 import "dotenv/config";
 
 export async function GET() {
-
   try {
     const session = await getServerSession(authOptions);
-  
     if (!session) {
       return NextResponse.json({
         message: "유효하지 않은 토큰입니다."
@@ -17,7 +15,6 @@ export async function GET() {
         status: 401
       });
     }
-  
     const userData = await prisma.User.findUnique({
       where: {
         id: session.userId,
@@ -33,10 +30,7 @@ export async function GET() {
   }
   catch (error) {
     console.log(error);
-    return NextResponse.json({
-      message: "유효하지 않은 토큰입니다."
-    }, 
-    {
+    return new Response(null, {
       status: 401
     });
   }
