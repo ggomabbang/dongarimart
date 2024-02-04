@@ -16,8 +16,8 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   isRecruiting  Boolean     @default(false) 
   pageURL       String?     @db.VarChar(255)
   view          Int         @db.UnsignedInt @default(0)
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
+  updatedAt     DateTime    @db.Timestamp(3) @updatedAt
   image         Image?
   schedule      RecruitSchedule?
   post          Post[]
@@ -35,7 +35,7 @@ model RecruitSchedule {
 model TagList {
   id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   tagName       String      @unique @db.VarChar(20)
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
   clubs         ClubTag[]
 }
 
@@ -54,8 +54,8 @@ model Post {
   clubId        Int?        @db.UnsignedInt
   title         String      @db.VarChar(100) @default("No title") 
   content       String      @db.Text
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
+  updatedAt     DateTime    @db.Timestamp(3) @updatedAt
   isNotice      Boolean     @default(false)
   isRecruit     Boolean     @default(false)
   reportCount   Int         @db.UnsignedInt @default(0) 
@@ -69,7 +69,7 @@ model Post {
 model Image {
   id            Int         @id @db.UnsignedInt @default(autoincrement())
   filename      String      @unique @db.VarChar(50)
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
   postId        Int?        @db.UnsignedInt
   clubId        Int?        @unique @db.UnsignedInt
   post          Post?       @relation(fields: [postId], references: [id], onDelete: SetNull, onUpdate: Cascade)
@@ -95,8 +95,8 @@ model User {
   emailConfirm  Boolean     @default(false)
   refreshToken  String?     @db.Char(36)
   refreshExpiresAt DateTime? @db.Timestamp(3) 
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
+  updatedAt     DateTime    @db.Timestamp(3) @updatedAt
   clubs         JoinedClub[]
   posts         Post[]
 }
