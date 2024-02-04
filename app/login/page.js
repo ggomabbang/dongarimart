@@ -32,7 +32,7 @@ export default function Home() {
           />
           <div className={Styles.Bottom}>
             <Link href={'/login/signup'}>가입하기</Link>
-            <Link href={'/login/findpw'}>PW찾기</Link>
+            <Link href={'/login/findpw'}>비밀번호 찾기</Link>
           </div>
         </div>
         <input

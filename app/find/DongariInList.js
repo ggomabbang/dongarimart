@@ -3,6 +3,7 @@
 import Styles from './DongariInList.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
+import College from '@/public/college.json'
 
 export default function DongariInList({club, i}) {
   const [foldStyle, setFold] = useState('none');
@@ -38,7 +39,7 @@ export default function DongariInList({club, i}) {
                 )
               })
             }
-            <h4 className={Styles.Tag}>{club.classification}</h4>
+            <h4 className={Styles.Tag}>{College[club.classification]}</h4>
           </div>
         </div>
         <div className={Styles.Right}>

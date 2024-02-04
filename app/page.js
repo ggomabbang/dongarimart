@@ -25,12 +25,12 @@ export default function Home() {
           <div className={Styles.InnerDiv}>
             <Link href={'/register'} className={Styles.Register_Btn}>
               <button>
-                등록/관리
+                동아리 등록
               </button>
             </Link>
             <Link href={'/recruit'} className={Styles.Recruit_Btn}>
               <button>
-                모집하기
+                인원 모집
               </button>
             </Link>
           </div>

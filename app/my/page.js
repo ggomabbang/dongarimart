@@ -11,7 +11,7 @@ export default function My() {
   const [User, setUser] = useState({
     email: '로딩 중', 
     username: '로딩 중', 
-    emailVerified: null
+    emailConfirm: null
   });
   const [Groups, setGroups] = useState([]);
 
@@ -96,13 +96,13 @@ export default function My() {
           <div className={Styles.Right}>
             <ul>
               {
-                User.verifiedEmail ? 
+                User.emailConfirm ? 
                   <li id={Styles.email_check}>인증된 이메일 ✅</li> :
                   <li id={Styles.email_uncheck}>인증되지 않은 이메일 ❌</li>
               }
             </ul>
             {
-              User.verifiedEmail ?
+              User.emailConfirm ?
                 null :
                 <button className={Styles.BlueButton} onClick={emailHandler}>이메일 인증하기</button>
             }
@@ -151,30 +151,41 @@ export default function My() {
           }
         </div>
         <div className={Styles.ButtonSpace}>
-          <button
-            className={Styles.BlueButton}
-            onClick={(e) => {
-              setClubFix(!clubFix);
-            }}
-            style={clubFix ? 
-              {backgroundColor: 'gray'} : null
-            }
-          >
-            {
-              clubFix ? '취소' : '관리하기'
-            }
-          </button>
+          {
+            Groups.length ?
+            <button
+              className={Styles.BlueButton}
+              onClick={(e) => {
+                setClubFix(!clubFix);
+              }}
+              style={clubFix ? 
+                {backgroundColor: 'gray'} : null
+              }
+            >
+              {
+                clubFix ? '취소' : '관리하기'
+              }
+            </button>
+            :
+            <button
+              className={Styles.BlueButton}
+              style={{backgroundColor: 'gray'}}
+            >
+              현재 관리 중인 동아리가 없습니다.
+            </button>
+          }
+          
         </div>
       </div>
-
-      <div className={Styles.DongariPanel}>
+      
+      {/* <div className={Styles.DongariPanel}>
         <div className={Styles.Top}>
           <h1 className={Styles.Title}>소속된 동아리 📌</h1>
         </div>
         <div className={Styles.ListBox}>
 
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
