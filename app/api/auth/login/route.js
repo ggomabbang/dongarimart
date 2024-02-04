@@ -23,8 +23,7 @@ export async function POST(request) {
             },
             select: {
                 id: true,
-                email: true,
-                emailConfirm: true,
+                username: true,
                 password: true,
             }
         });
@@ -35,23 +34,18 @@ export async function POST(request) {
             return new Response(JSON.stringify(null));
         }
         
-        // 이메일 인증되었는지 확인
-        if (user.emailConfirm !== true) {
-            console.log("no email verified");
-            return new Response(JSON.stringify(null));
-        }
         // 패스워드 확인 
         const bcrypt = require('bcryptjs');
         const checkPassword = await bcrypt.compare(body.password, user.password);
         if (checkPassword) {
-            const { id, email } = user;
+            const { id, username } = user;
             const accessToken = crypto.randomUUID();
             const refreshToken = crypto.randomUUID();
             const refreshExpires = moment().add(1, 'd');
             console.log("Now : " + moment().format());
             console.log("Refresh Token Expires : " + refreshExpires.format());
             let role = "";
-            if (email == adminId) {
+            if (username === adminId) { 
                 role = "admin";
             }
             else {
