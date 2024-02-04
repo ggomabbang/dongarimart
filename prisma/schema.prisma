@@ -99,8 +99,6 @@ model User {
   updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
   clubs         JoinedClub[]
   posts         Post[]
-  accounts      Account[]   // 임시
-  sessions      Session[]   // 임시
 }
 
 model JoinedClub {
@@ -119,33 +117,4 @@ model VerifyingEmail {
   token         String      @unique @db.VarChar(255)
   tokenCreated  DateTime    @db.Timestamp()
   verifiedDone  Boolean     @default(false)
-}
-
-// 임시 table
-model Account {
-  id                  String   @id @default(cuid())
-  userId              Int      @db.UnsignedInt
-  type                String
-  provider            String
-  providerAccountId   String
-  refresh_token       String?  @db.Text
-  access_token        String?  @db.Text
-  expires_at          Int?
-  token_type          String?
-  scope               String?
-  id_token            String?  @db.Text
-  session_state       String?
-
-  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-// 임시 table
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       Int      @db.UnsignedInt
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
