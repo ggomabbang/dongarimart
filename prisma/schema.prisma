@@ -13,7 +13,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   classification String     @db.VarChar(20)
   oneLine       String      @db.VarChar(100)
   short         String      @db.VarChar(500)
-  isRecruiting  Boolean     @default(false) // mysql에는 tinyint로 적용
+  isRecruiting  Boolean     @default(false) 
   pageURL       String?     @db.VarChar(255)
   view          Int         @db.UnsignedInt @default(0)
   createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
@@ -24,7 +24,7 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   tags          ClubTag[]
   members       JoinedClub[]
 }
-// 모집 일정
+
 model RecruitSchedule {
   clubId        Int         @id @db.UnsignedInt
   recruitStart  DateTime    @db.Date
@@ -117,7 +117,7 @@ model JoinedClub {
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
   token         String      @unique @db.VarChar(255)
-  tokenCreated  DateTime    @db.Timestamp @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+  tokenCreated  DateTime    @db.Timestamp()
   verifiedDone  Boolean     @default(false)
 }
 
