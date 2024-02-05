@@ -275,7 +275,7 @@ export async function POST(request) {
         filename: image
       }
     });
-    if (image) {
+    if (!validImage) {
       return NextResponse.json({
         parameter: "image",
         message: "해당 parameter가 잘못된 값입니다."

@@ -28,6 +28,7 @@ export async function GET() {
       id: true,
       clubName: true,
       classification: true,
+      isRecruiting: true,
       oneLine: true,
       short: true,
       pageURL: true,
