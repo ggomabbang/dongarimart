@@ -90,6 +90,24 @@ export async function DELETE(request) {
         data: {
             password: newHash,
         }
+    });
+
+    // 이메일 전송 객체 생성
+    const transporter = nodeMailer.createTransport({
+        service: 'gmail',
+        auth: { user: process.env.EMAIL_ADDRESS , pass: process.env.EMAIL_PASSWORD },
     })
+
+    const mailOptions = {
+        to: email,
+        subject: '동아리마트 비밀번호 초기화 메일',
+        html: "<h1>새 비밀번호입니다</h1>" + "<p>" + newPassword + "</p>"
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return new Response(null, {
+        status: 200
+    });
 
 }
