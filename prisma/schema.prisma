@@ -118,7 +118,7 @@ model VerifyingEmail {
 
 model RefreshToken {
   userId        Int         @id @db.UnsignedInt
-  refreshToken  String?     @db.Char(36)
-  refreshExpiresAt DateTime? @db.Timestamp(3)
+  token         String?     @db.Char(36)
+  tokenExpires  DateTime?   @db.Timestamp(3)
   user          User?       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
 }
