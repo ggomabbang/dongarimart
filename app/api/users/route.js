@@ -82,7 +82,11 @@ export async function POST(request) {
 
     const newToken = await prisma.RefreshToken.create({
         data: {
-            userid: newUser.id,
+            user: {
+                connect: {
+                    id: newUser.id,
+                }
+            }
         }
     });
     

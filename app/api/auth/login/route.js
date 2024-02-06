@@ -58,11 +58,11 @@ export async function POST(request) {
         
         const updateRefreshToken = await prisma.RefreshToken.update({
             where: {
-                id: id,
+                userId: id,
             },
             data: {
                 token: refreshToken,
-                tokenExpiresAt: refreshExpires,
+                tokenExpires: refreshExpires,
             }
         });
         return new Response(JSON.stringify({

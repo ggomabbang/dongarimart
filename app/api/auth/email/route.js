@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
 import { env } from '@/next.config';
 import * as nodeMailer from 'nodemailer';
-import { time } from "node:console";
+import moment from "moment";
 
 export async function POST(request) {
     try {
@@ -39,13 +39,13 @@ export async function POST(request) {
             },
             select: {
                 id: true,
-                emailVerified: true,
+                emailConfirm: true,
             },
         });
     
         if (user !== null) {
             // 이미 인증 되었으면 종료
-            if (user.emailVerified === true) {
+            if (user.emailConfirm === true) {
                 return new Response(null, {
                     status: 204
                 });
@@ -68,14 +68,14 @@ export async function POST(request) {
                 email: email,
             },
             select: {
-                tokenCreated: true,    
+                tokenExpires: true,    
                 verifiedDone: true,       
             }
         });
     
         if (oldEmail) {
             // 만료기한 확인
-            const dateExpire = moment(oldEmail.tokenCreated);
+            const dateExpire = moment(oldEmail.tokenExpires);
             const nextExpire = moment().add(1, 'd');
             
             // 만료 안되었으면 종료
@@ -100,17 +100,18 @@ export async function POST(request) {
                 },
                 data: {
                     token: token,
-                    tokenCreated: nextExpire,
+                    tokenExpires: nextExpire,
                 },
             });
         }
         else {
+            const nextExpire = moment().add(1, 'd');
             // 새로운 이메일인 경우 데이터베이스에 저장
             const newEmail = await prisma.VerifyingEmail.create({
                 data: {
                     email: email,
                     token: token,
-                    tokenCreated: nextExpire,
+                    tokenExpires: nextExpire,
                 },
             });
         }
