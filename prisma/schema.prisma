@@ -89,14 +89,11 @@ model User {
   id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   username      String      @unique @db.VarChar(20) @default("이름")  // 실명 x
   email         String      @unique @db.VarChar(30)
-  salt          String?     @db.VarChar(30) // 나중에는 not null로 수정
-  password      String      @db.VarChar(256) @default("0") 
-  emailVerified DateTime?   // github 로그인에 쓰는 중
+  password      String      @db.VarChar(256) 
   emailConfirm  Boolean     @default(false)
-  refreshToken  String?     @db.Char(36)
-  refreshExpiresAt DateTime? @db.Timestamp(3) 
   createdAt     DateTime    @db.Timestamp(3) @default(now())
   updatedAt     DateTime    @db.Timestamp(3) @updatedAt
+  token         RefreshToken?
   clubs         JoinedClub[]
   posts         Post[]
 }
@@ -115,6 +112,13 @@ model JoinedClub {
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
   token         String      @unique @db.VarChar(255)
-  tokenCreated  DateTime    @db.Timestamp(3)
+  tokenExpires  DateTime    @db.Timestamp(3)
   verifiedDone  Boolean     @default(false)
+}
+
+model RefreshToken {
+  userId        Int         @id @db.UnsignedInt
+  refreshToken  String?     @db.Char(36)
+  refreshExpiresAt DateTime? @db.Timestamp(3)
+  user          User?       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
 }
