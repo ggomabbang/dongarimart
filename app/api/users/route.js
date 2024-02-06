@@ -77,7 +77,6 @@ export async function POST(request) {
             username: username,
             email: email,
             password: hashPW,
-            salt: salt, // salt 저장하는 부분 삭제
         },
     });
     
