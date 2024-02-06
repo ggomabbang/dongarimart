@@ -75,7 +75,8 @@ export async function POST(request) {
     
         if (oldEmail) {
             // 만료기한 확인
-            const dateExpire = moment(oldEmail.tokenCreated).add(1, 'd');
+            const dateExpire = moment(oldEmail.tokenCreated);
+            const nextExpire = moment().add(1, 'd');
             
             // 만료 안되었으면 종료
             if (moment().isBefore(dateExpire)) {
@@ -99,6 +100,7 @@ export async function POST(request) {
                 },
                 data: {
                     token: token,
+                    tokenCreated: nextExpire,
                 },
             });
         }
@@ -108,7 +110,7 @@ export async function POST(request) {
                 data: {
                     email: email,
                     token: token,
-    
+                    tokenCreated: nextExpire,
                 },
             });
         }
