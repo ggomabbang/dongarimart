@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import client from "../../../prisma/prisma";
 import "dotenv/config";
 import { Prisma } from '@prisma/client'
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
 import { parse } from "dotenv";
 
 export async function GET(request) {
@@ -155,20 +156,10 @@ export async function GET(request) {
 // }
 
 export async function POST(request) {
-  const user_token = cookies().get('next-auth.session-token');
+  const session = await getServerSession(authOptions);
 
-  const userid = user_token? await client.Session.findUnique({
-    where: {
-      sessionToken: user_token.value,
-    },
-    select: {
-      userId: true,
-      expires: true
-    },
-  }) : null;
-
-  console.log(userid);
-  if (!user_token || !userid.userId) {
+  console.log(session);
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -242,7 +233,7 @@ export async function POST(request) {
         create: {
           user: {
             connect: {
-              id: userid.userId,
+              id: session.userId,
             }
           },
           isLeader: true,
@@ -279,7 +270,24 @@ export async function POST(request) {
   }
 
   if (image) {
-    query.data.image = image;
+    const validImage = await client.Image.findUnique({
+      where: {
+        filename: image
+      }
+    });
+    if (image) {
+      return NextResponse.json({
+        parameter: "image",
+        message: "해당 parameter가 잘못된 값입니다."
+      }, {
+        status: 400,
+      });
+    }
+    query.data.image = {
+      connect: {
+        filename: image
+      }
+    };
   }
 
   try {
