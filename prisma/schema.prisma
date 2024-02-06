@@ -13,18 +13,18 @@ model ClubList {            // 모집 중일 때 post와 1:1관계 추가 필요
   classification String     @db.VarChar(20)
   oneLine       String      @db.VarChar(100)
   short         String      @db.VarChar(500)
-  isRecruiting  Boolean     @default(false) // mysql에는 tinyint로 적용
+  isRecruiting  Boolean     @default(false) 
   pageURL       String?     @db.VarChar(255)
   view          Int         @db.UnsignedInt @default(0)
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
+  updatedAt     DateTime    @db.Timestamp(3) @updatedAt
   image         Image?
   schedule      RecruitSchedule?
   post          Post[]
   tags          ClubTag[]
   members       JoinedClub[]
 }
-// 모집 일정
+
 model RecruitSchedule {
   clubId        Int         @id @db.UnsignedInt
   recruitStart  DateTime    @db.Date
@@ -35,7 +35,7 @@ model RecruitSchedule {
 model TagList {
   id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   tagName       String      @unique @db.VarChar(20)
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
   clubs         ClubTag[]
 }
 
@@ -54,8 +54,8 @@ model Post {
   clubId        Int?        @db.UnsignedInt
   title         String      @db.VarChar(100) @default("No title") 
   content       String      @db.Text
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
+  updatedAt     DateTime    @db.Timestamp(3) @updatedAt
   isNotice      Boolean     @default(false)
   isRecruit     Boolean     @default(false)
   reportCount   Int         @db.UnsignedInt @default(0) 
@@ -69,7 +69,7 @@ model Post {
 model Image {
   id            Int         @id @db.UnsignedInt @default(autoincrement())
   filename      String      @unique @db.VarChar(50)
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
   postId        Int?        @db.UnsignedInt
   clubId        Int?        @unique @db.UnsignedInt
   post          Post?       @relation(fields: [postId], references: [id], onDelete: SetNull, onUpdate: Cascade)
@@ -89,18 +89,13 @@ model User {
   id            Int         @id @db.UnsignedInt @default(autoincrement()) 
   username      String      @unique @db.VarChar(20) @default("이름")  // 실명 x
   email         String      @unique @db.VarChar(30)
-  salt          String?     @db.VarChar(30) // 나중에는 not null로 수정
-  password      String      @db.VarChar(256) @default("0") 
-  emailVerified DateTime?   // github 로그인에 쓰는 중
+  password      String      @db.VarChar(256) 
   emailConfirm  Boolean     @default(false)
-  refreshToken  String?     @db.Char(36)
-  refreshExpiresAt DateTime? @db.Timestamp() 
-  createdAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3)"))
-  updatedAt     DateTime    @db.Timestamp(3) @default(dbgenerated("CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)"))
+  createdAt     DateTime    @db.Timestamp(3) @default(now())
+  updatedAt     DateTime    @db.Timestamp(3) @updatedAt
+  token         RefreshToken?
   clubs         JoinedClub[]
   posts         Post[]
-  accounts      Account[]   // 임시
-  sessions      Session[]   // 임시
 }
 
 model JoinedClub {
@@ -117,35 +112,13 @@ model JoinedClub {
 model VerifyingEmail {
   email         String      @id @db.VarChar(30)
   token         String      @unique @db.VarChar(255)
-  tokenCreated  DateTime    @db.Timestamp @default(dbgenerated("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+  tokenExpires  DateTime    @db.Timestamp(3)
   verifiedDone  Boolean     @default(false)
 }
 
-// 임시 table
-model Account {
-  id                  String   @id @default(cuid())
-  userId              Int      @db.UnsignedInt
-  type                String
-  provider            String
-  providerAccountId   String
-  refresh_token       String?  @db.Text
-  access_token        String?  @db.Text
-  expires_at          Int?
-  token_type          String?
-  scope               String?
-  id_token            String?  @db.Text
-  session_state       String?
-
-  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-// 임시 table
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       Int      @db.UnsignedInt
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model RefreshToken {
+  userId        Int         @id @db.UnsignedInt
+  token         String?     @db.Char(36)
+  tokenExpires  DateTime?   @db.Timestamp(3)
+  user          User?       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
 }
