@@ -176,10 +176,18 @@ export async function DELETE(request) {
     const { password } = await request.json();
 
     if (!session) {
+        console.log("no login");
         return new Response(null, {
             status: 401
         });
     } 
+
+    if (password === null || password === undefined || password === "") {
+        console.log("no password");
+        return new Response(null, {
+            status: 400,
+        });
+    }
 
     const user = await prisma.User.findUnique({
         where: {
@@ -190,18 +198,28 @@ export async function DELETE(request) {
         }
     });
 
+    if (!user) {
+        console.log("no user");
+        return new Response(null, {
+            status: 401,
+        });
+    }
+
     const bcrypt = require("bcryptjs");
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) {
+        console.log("wrong password");
         return NextResponse.json(null, {
             status: 400
         });
     }
-    const deleteUser = await prisma.User.findUnique({
+    
+    const deleteUser = await prisma.User.delete({
         where: {
             id: session.userId
         }
     });
+
     return NextResponse.json(null, {
         status: 200
     });
