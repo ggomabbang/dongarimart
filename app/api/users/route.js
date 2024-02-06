@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
 
 export async function POST(request) {
     const { username, password, email } = await request.json();
@@ -75,7 +77,7 @@ export async function POST(request) {
             username: username,
             email: email,
             password: hashPW,
-            salt: salt,
+            salt: salt, // salt 저장하는 부분 삭제
         },
     });
     
@@ -158,4 +160,40 @@ export async function GET(request) {
             status: 400
         });
     }
+}
+
+export async function DELETE(request) {
+    const session = await getServerSession(authOptions);
+    const { password } = await request.json();
+
+    if (!session) {
+        return new Response(null, {
+            status: 401
+        });
+    } 
+
+    const user = await prisma.User.findUnique({
+        where: {
+            id: session.userId,
+        }, 
+        select: {
+            password: true,
+        }
+    });
+
+    const bcrypt = require("bcryptjs");
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword) {
+        return NextResponse.json(null, {
+            status: 400
+        });
+    }
+    const deleteUser = await prisma.User.findUnique({
+        where: {
+            id: session.userId
+        }
+    });
+    return NextResponse.json(null, {
+        status: 200
+    });
 }
