@@ -37,38 +37,40 @@ export async function POST(request) {
         // 패스워드 확인 
         const bcrypt = require('bcryptjs');
         const checkPassword = await bcrypt.compare(body.password, user.password);
-        if (checkPassword) {
-            const { id, username } = user;
-            const accessToken = crypto.randomUUID();
-            const refreshToken = crypto.randomUUID();
-            const refreshExpires = moment().add(1, 'd');
-            console.log("Now : " + moment().format());
-            console.log("Refresh Token Expires : " + refreshExpires.format());
-            let role = "";
-            if (username === adminId) { 
-                role = "admin";
-            }
-            else {
-                role = "user";
-            }
-            const updateRefreshToken = await prisma.User.update({
-                where: {
-                    id: id,
-                },
-                data: {
-                    refreshToken: refreshToken,
-                    refreshExpiresAt: refreshExpires,
-                }
-            });
-            return new Response(JSON.stringify({
-                id: id, 
-                role: role,
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-            }));
+        if (!checkPassword) {
+            console.log("wrong password");
+            return new Response(JSON.stringify(null));
         }
-        console.log("wrong password");
-        return new Response(JSON.stringify(null));
+
+        const { id, username } = user;
+        const accessToken = crypto.randomUUID();
+        const refreshToken = crypto.randomUUID();
+        const refreshExpires = moment().add(1, 'd');
+        console.log("Now : " + moment().format());
+        console.log("Refresh Token Expires : " + refreshExpires.format());
+        let role = "";
+        if (username === adminId) { 
+            role = "admin";
+        }
+        else {
+            role = "user";
+        }
+        
+        const updateRefreshToken = await prisma.RefreshToken.update({
+            where: {
+                id: id,
+            },
+            data: {
+                token: refreshToken,
+                tokenExpiresAt: refreshExpires,
+            }
+        });
+        return new Response(JSON.stringify({
+            id: id, 
+            role: role,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        }));
     }
     catch (error) {
         console.log(error);

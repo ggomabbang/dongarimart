@@ -79,6 +79,12 @@ export async function POST(request) {
             password: hashPW,
         },
     });
+
+    const newToken = await prisma.RefreshToken.create({
+        data: {
+            userid: newUser.id,
+        }
+    });
     
     return new Response(null, {
         status: 201,
