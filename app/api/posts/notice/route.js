@@ -39,7 +39,7 @@ export async function POST(request) {
     });
   }
 
-  const { title, content } = await request.json();
+  const { title, content, image } = await request.json();
 
   if (!title) {
     return NextResponse.json({
@@ -59,6 +59,35 @@ export async function POST(request) {
     });
   }
 
+  let images;
+  if (image) images = image;
+  else images = [];
+
+  const isValidImage = await Promise.all(
+    images.map(async (img) => {
+      const validImage = await client.Image.findUnique({
+        where: {
+          filename: img
+        }
+      });
+      if (!validImage) {
+        return "failed";
+      }
+      else {
+        return "success";
+      }
+    })
+  );
+
+  if (isValidImage.includes("failed")) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
   const query = {
     data: {
       title,
@@ -68,7 +97,14 @@ export async function POST(request) {
         connect: {
           id: session.userId,
         }
-      }
+      },
+      image: {
+        connect: images.map((img) => {
+          return {
+            filename: img
+          };
+        }),
+      },
     },
   };
 
