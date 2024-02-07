@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
 
 export async function POST(request) {
     const { username, password, email } = await request.json();
@@ -75,8 +77,17 @@ export async function POST(request) {
             username: username,
             email: email,
             password: hashPW,
-            salt: salt,
         },
+    });
+
+    const newToken = await prisma.RefreshToken.create({
+        data: {
+            user: {
+                connect: {
+                    id: newUser.id,
+                }
+            }
+        }
     });
     
     return new Response(null, {
@@ -158,4 +169,58 @@ export async function GET(request) {
             status: 400
         });
     }
+}
+
+export async function DELETE(request) {
+    const session = await getServerSession(authOptions);
+    const { password } = await request.json();
+
+    if (!session) {
+        console.log("no login");
+        return new Response(null, {
+            status: 401
+        });
+    } 
+
+    if (password === null || password === undefined || password === "") {
+        console.log("no password");
+        return new Response(null, {
+            status: 400,
+        });
+    }
+
+    const user = await prisma.User.findUnique({
+        where: {
+            id: session.userId,
+        }, 
+        select: {
+            password: true,
+        }
+    });
+
+    if (!user) {
+        console.log("no user");
+        return new Response(null, {
+            status: 401,
+        });
+    }
+
+    const bcrypt = require("bcryptjs");
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword) {
+        console.log("wrong password");
+        return NextResponse.json(null, {
+            status: 400
+        });
+    }
+    
+    const deleteUser = await prisma.User.delete({
+        where: {
+            id: session.userId
+        }
+    });
+
+    return NextResponse.json(null, {
+        status: 200
+    });
 }

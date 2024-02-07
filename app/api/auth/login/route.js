@@ -23,8 +23,7 @@ export async function POST(request) {
             },
             select: {
                 id: true,
-                email: true,
-                emailConfirm: true,
+                username: true,
                 password: true,
             }
         });
@@ -35,46 +34,43 @@ export async function POST(request) {
             return new Response(JSON.stringify(null));
         }
         
-        // 이메일 인증되었는지 확인
-        if (user.emailConfirm !== true) {
-            console.log("no email verified");
-            return new Response(JSON.stringify(null));
-        }
         // 패스워드 확인 
         const bcrypt = require('bcryptjs');
         const checkPassword = await bcrypt.compare(body.password, user.password);
-        if (checkPassword) {
-            const { id, email } = user;
-            const accessToken = crypto.randomUUID();
-            const refreshToken = crypto.randomUUID();
-            const refreshExpires = moment().add(1, 'd');
-            console.log("Now : " + moment().format());
-            console.log("Refresh Token Expires : " + refreshExpires.format());
-            let role = "";
-            if (email == adminId) {
-                role = "admin";
-            }
-            else {
-                role = "user";
-            }
-            const updateRefreshToken = await prisma.User.update({
-                where: {
-                    id: id,
-                },
-                data: {
-                    refreshToken: refreshToken,
-                    refreshExpiresAt: refreshExpires,
-                }
-            });
-            return new Response(JSON.stringify({
-                id: id, 
-                role: role,
-                accessToken: accessToken,
-                refreshToken: refreshToken,
-            }));
+        if (!checkPassword) {
+            console.log("wrong password");
+            return new Response(JSON.stringify(null));
         }
-        console.log("wrong password");
-        return new Response(JSON.stringify(null));
+
+        const { id, username } = user;
+        const accessToken = crypto.randomUUID();
+        const refreshToken = crypto.randomUUID();
+        const refreshExpires = moment().add(1, 'd');
+        console.log("Now : " + moment().format());
+        console.log("Refresh Token Expires : " + refreshExpires.format());
+        let role = "";
+        if (username === adminId) { 
+            role = "admin";
+        }
+        else {
+            role = "user";
+        }
+        
+        const updateRefreshToken = await prisma.RefreshToken.update({
+            where: {
+                userId: id,
+            },
+            data: {
+                token: refreshToken,
+                tokenExpires: refreshExpires,
+            }
+        });
+        return new Response(JSON.stringify({
+            id: id, 
+            role: role,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        }));
     }
     catch (error) {
         console.log(error);

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 import prisma from "@/prisma/prisma";
+import moment from "moment";
 
 export async function GET(request, { params }) {
     const token = params.token;
@@ -23,11 +24,10 @@ export async function GET(request, { params }) {
     }
 
     // 토큰이 만료됨
-    const dateExpire = email.tokenCreated;
-    const timeNow = new Date();
-    dateExpire.setDate(dateExpire.getDate() + 1);
-
-    if (dateExpire.getTime() < timeNow.getTime()) {
+    const dateExpire = moment(email.tokenExpires);
+    const timeNow = moment();
+    
+    if (moment().isAfter(dateExpire)) {
         return NextResponse.json({
             message: "토큰이 만료되었습니다."
         }, {
