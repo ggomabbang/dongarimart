@@ -22,13 +22,13 @@ export async function POST(request) {
         }
         
         // refresh token 검증
-        const tokenRefresh = await prisma.User.findUnique({
+        const tokenRefresh = await prisma.RefreshToken.findUnique({
             where: {
-                id: body.userId,
+                userId: body.userId,
             },
             select: {
-                refreshToken: true,
-                refreshExpiresAt : true
+                token: true,
+                tokenExpires : true
             }
         });
 
@@ -52,12 +52,12 @@ export async function POST(request) {
         const accessTokenExpires = moment().add(1, 'h');
         const refreshToken = crypto.randomUUID();
         
-        const updateRefreshToken = await prisma.User.update({
+        const updateRefreshToken = await prisma.RefreshToken.update({
             where: {
-                id: body.userId,
+                userId: body.userId,
             },
             data: {
-                refreshToken: refreshToken,
+                token: refreshToken,
             }
         });
         
