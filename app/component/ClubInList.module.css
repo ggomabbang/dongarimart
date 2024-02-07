@@ -2,8 +2,9 @@
   display: flex;
   padding: 16px 38px;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
+  justify-content: stretch;
+  align-items: stretch;
+  flex: 1 0 0;
 
   border-radius: 30px;
   background: #FFF;
