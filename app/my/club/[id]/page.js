@@ -1,11 +1,33 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Styles from './register.module.css';
+import { useState, useEffect } from 'react'
+import Styles from './register.module.css'
 import { useRouter } from 'next/navigation'
-import College from '@/public/College.json';
+import College from '@/public/College.json'
 
-export default function Register() {
+export default function ClubFix({ params }) {
+  const clubid = params.id;
+
+  const GetClub = async (id) => {
+    const rows = await fetch('/api/clubs/'+id, {
+      method: "GET"
+    });
+    const data = await rows.json();
+    setClubName(data.clubName);
+    setOneLine(data.oneLine);
+    setUrl(data.pageURL ? data.pageURL : '');
+    setShort(data.short);
+    setCollegeSelected(data.classification);
+    setTags(data.tags.map((obj, index) => {
+      return obj.tagList.tagName
+    }));
+    console.log(data);
+  }
+
+  useEffect(() => {
+    GetClub(clubid);
+  }, []);
+
   const router = useRouter();
 
   const [image, setImage] = useState(null);
@@ -18,6 +40,8 @@ export default function Register() {
       setImageSrc(reader.result);
     }
   }
+
+  const [delToggle, setDelToggle] = useState(false);
 
   const [clubName, setClubName] = useState("");
   const [oneLine, setOneLine] = useState("");
@@ -61,9 +85,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (clubName == '') return alert('동아리 명을 입력해 주세요.');
     if (oneLine == '') return alert('한 줄 소개를 작성해 주세요.');
-    if (department == '') return alert('소속 항목을 선택해 주세요');
     if (short == '') return alert('짧은 소개를 작성해 주세요.');
 
     let imagename = null;
@@ -78,14 +100,12 @@ export default function Register() {
       imagename = await imgRes.json();
     }
 
-    const res = await fetch('/api/clubs', {
-      method: 'POST',
+    const res = await fetch(`/api/clubs/${clubid}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        clubName,
-        department,
         oneLine,
         short,
         tags,
@@ -97,6 +117,10 @@ export default function Register() {
     if (res.status == 201) {
       return router.push('/');
     }
+    else if (res.status == 204) {
+      alert('요청 오류. ID');
+      return router.push('/');
+    }
     else if (res.status == 400) {
       alert('요청 오류.');
       return router.push('/');
@@ -104,6 +128,48 @@ export default function Register() {
     else if (res.status == 401) {
       alert('로그인 후 다시 진행하여 주세요.');
       return router.push('/login');
+    }
+    else if (res.status == 403) {
+      alert('권한이 없습니다!');
+      return router.push('/login');
+    }
+  }
+  
+  const deleteHandler = async (e) => {
+    const rows = await fetch(`/api/clubs/${clubid}`, {
+      method: "GET"
+    });
+    const data = await rows.json();
+
+    if (data.clubName === document.getElementById('deleteName').value) {
+      const res = await fetch(`/api/clubs/${clubid}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+
+      switch (res.status) {
+        case 200:
+          return router.push('/');
+        case 204:
+          alert('요청 오류. ID');
+          return router.push('/')    
+        case 400:
+          alert('요청 오류');
+          return router.push('/');
+        case 401:
+          alert('로그인 후 다시 진행하여 주세요.');
+          return router.push('/login');  
+        case 403:
+          alert('권한이 없습니다!');
+          return router.push('/login');
+        default:
+          return alert('Error');
+      }
+    }
+    else {
+      alert('이름이 일치하지 않습니다.');
     }
   }
 
@@ -118,11 +184,8 @@ export default function Register() {
               className={Styles.InputBox}
               placeholder='동아리 이름'
               value={clubName}
-              onChange={(e)=>{
-                if (e.target.value.length <= 20)
-                  setClubName(e.target.value)
-              }} 
               id='clubname'
+              readOnly
             />
             <div className={Styles.FixedCount}>
               {`${clubName.length}/20`}
@@ -173,14 +236,15 @@ export default function Register() {
           <div className={Styles.Right}>
             <select
               className={Styles.MenuFont}
-              onChange={(e) => setCollegeSelected(e.target.value)} value={department}
+              onChange={(e) => setCollegeSelected(e.target.value)}
+              value={department}
             >
               <option value='' key={-1} disabled>동아리 소속 선택</option>
               {
                 Object.entries(College).map(([key, value]) => {
-                  if (key == 'all') return 
+                  if (key != department) return 
                   return (
-                    <option value={key} key={key}>{value}</option>
+                    <option value={key} key={key} disabled>{value}</option>
                   )
                 })
               }
@@ -216,7 +280,7 @@ export default function Register() {
               imageSrc.length ?
               <img className={Styles.ImageBox} src={imageSrc}/>
               :
-              <img className={Styles.ImageBox}/>
+              <div className={Styles.ImageBox}/>
             }
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton} htmlFor='input-file'>
@@ -284,9 +348,44 @@ export default function Register() {
           </div>
         </label>
 
-        <button className={Styles.UploadButton} onClick={handleSubmit}>
-          신청
+        <button className={Styles.ConfirmButton} onClick={handleSubmit}>
+          수정 완료
         </button>
+        
+        {
+          !delToggle ?
+          <button
+            className={Styles.CancelButton}
+            onClick={(e)=>{
+              setDelToggle(true);
+            }}
+          >
+            동아리 삭제
+          </button>
+          :
+          <div className={Styles.HorizonBox}>
+            <div className={Styles.Right}>
+              <input
+                id='deleteName'
+                className={Styles.InputBox}
+                placeholder='동아리 이름을 똑같이 입력해 주세요'
+              />
+              <button
+                className={Styles.UploadButton}
+                onClick={(e)=>{setDelToggle(false)}}
+              >
+                삭제 취소
+              </button>
+              <button
+                className={Styles.CancelButton}
+                onClick={deleteHandler}
+              >
+                삭제 확인
+              </button>
+            </div>
+          </div>
+        }
+        
 
       </div>
     </div>

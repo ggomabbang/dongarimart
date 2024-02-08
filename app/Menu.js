@@ -37,7 +37,7 @@ export default function loginBtn() {
         </Link>
       </div>
     )
-  } else {
+  } else if (status === "unauthenticated") {
     return (
       <div className={Styles.Menu}>
         <Link href={'/contact'}>
