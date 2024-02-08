@@ -154,7 +154,7 @@ export async function PATCH(request) {
     });
   }
 
-  const { oneLine, short, tags, image } = await request.json();
+  const { oneLine, short, tags, url, image } = await request.json();
 
   if (!oneLine) {
     return NextResponse.json({
@@ -173,45 +173,7 @@ export async function PATCH(request) {
     });
   }
 
-  if (image && !Array.isArray(image)) {
-    return NextResponse.json({
-      parameter: "image",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-
-  let images;
-  if (image) images = image;
-  else images = [];
-
-  const isValidImage = await Promise.all(
-    images.map(async (img) => {
-      const validImage = await client.Image.findUnique({
-        where: {
-          filename: img
-        }
-      });
-      if (!validImage) {
-        return "failed";
-      }
-      else {
-        return "success";
-      }
-    })
-  );
-
-  if (isValidImage.includes("failed")) {
-    return NextResponse.json({
-      parameter: "image",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-
-  const result = await client.ClubList.update({
+  const query = {
     where: {
       id,
     },
@@ -236,7 +198,34 @@ export async function PATCH(request) {
         }),
       },
     }
-  });
+  }
+
+  if (image) {
+    const validImage = await client.Image.findUnique({
+      where: {
+        filename: image
+      }
+    });
+    if (!validImage) {
+      return NextResponse.json({
+        parameter: "image",
+        message: "해당 parameter가 잘못된 값입니다."
+      }, {
+        status: 400,
+      });
+    }
+    query.data.image = {
+      connect: {
+        filename: image
+      }
+    };
+  }
+
+  if (url) {
+    query.data.pageURL = url;
+  }
+
+  await client.ClubList.update(query);
   return new Response(null, {
     status: 201,
   });
