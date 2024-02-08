@@ -144,22 +144,6 @@ export async function GET(request) {
     return NextResponse.json(result);
 }
 
-// export async function DELETE(request) {
-//     const { username, email } = await request.json();
-
-//     if (!username || !email) return NextResponse.json({ 'message': "missing required data"});
-
-//     connection1.query(`DELETE FROM users WHERE username='${username}' AND email='${email}'`,  (err, result) => {
-//         if (err) {
-//         console.error('Error deleting data:', err);
-//         return 99;
-//         }
-//         console.log('Deleted.');
-//     });
-
-//     return NextResponse.json({ "message": "deleted"})
-// }
-
 export async function POST(request) {
   const session = await getServerSession(authOptions);
 
@@ -312,9 +296,3 @@ export async function POST(request) {
     status: 201,
   });
 }
-
-// export async function PUT(request) {
-//     const { username, email } = await request.json();
-
-//     return NextResponse.json({'message': "working in progress"});
-// }
