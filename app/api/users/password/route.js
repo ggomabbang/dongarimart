@@ -1,6 +1,8 @@
 import { authOptions } from "@/app/lib/auth";
 import prisma from "@/prisma/prisma";
 import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+import * as nodeMailer from 'nodemailer';
 
 export async function PATCH(request) {
     try {
@@ -68,46 +70,83 @@ export async function PATCH(request) {
 }
 
 export async function DELETE(request) {
-    const session = await getServerSession(authOptions);
+    try {
+        const { token } = await request.json();
+        const email = await prisma.VerifyingEmail.findUnique({
+            where: {
+                token: token
+            }
+        });
 
-    if (!session) {
-        return new Response(null, {
-            status: 401,
+        if (!email) {
+            return NextResponse.json(null, {
+                status: 401
+            });
+        }
+
+        if (email.verifiedDone === true) {
+            return NextResponse.json(null, {
+                status: 401
+            });
+        }
+
+        if (moment().isAfter(email.tokenExpires)) {
+            return NextResponse.json(null, {
+                status: 401
+            });
+        }
+
+        const { randomBytes } = await import('node:crypto');
+        const newPassword = randomBytes(5).toString('hex');
+    
+        const bcrypt = require("bcryptjs");
+        const salt = await bcrypt.genSalt(10);
+        const newHash = await bcrypt.hash(newPassword, salt);
+        // 이메일 전송 객체 생성
+        const transporter = nodeMailer.createTransport({
+            service: 'gmail',
+            auth: { user: process.env.EMAIL_ADDRESS , pass: process.env.EMAIL_PASSWORD },
+        })
+        
+        const mailOptions = {
+            to: email,
+            subject: '동아리마트 비밀번호 초기화 메일',
+            html: `
+                <h1>비밀번호 초기화</h1>
+                <p>아래 비밀번호로 로그인 후 비밀번호를 변경해주십시오</p>
+                <p>${newPassword}</p>
+            `
+        };
+        
+        await transporter.sendMail(mailOptions);
+        
+        const newUser = await prisma.User.update({
+            where: {
+                id: session.userId,
+            },
+            data: {
+                password: newHash,
+            }
+        });
+
+        const verification = await prisma.VerifyingEmail.update({
+            where: {
+                email: email.email
+            },
+            data: {
+                verifiedDone: true
+            }
+        });
+        
+        return NextResponse.json(null);
+    }
+    catch (error) {
+        console.log(error);
+        return NextResponse.json(null, {
+            status: 401
         });
     }
 
-    const { randomBytes } = await import('node:crypto');
-    const newPassword = randomBytes(5).toString('hex');
 
-    const bcrypt = require("bcryptjs");
-    const salt = await bcrypt.genSalt(10);
-    const newHash = await bcrypt.hash(newPassword, salt);
-
-    const newUser = await prisma.User.update({
-        where: {
-            id: session.userId,
-        },
-        data: {
-            password: newHash,
-        }
-    });
-
-    // 이메일 전송 객체 생성
-    const transporter = nodeMailer.createTransport({
-        service: 'gmail',
-        auth: { user: process.env.EMAIL_ADDRESS , pass: process.env.EMAIL_PASSWORD },
-    })
-
-    const mailOptions = {
-        to: email,
-        subject: '동아리마트 비밀번호 초기화 메일',
-        html: "<h1>새 비밀번호입니다</h1>" + "<p>" + newPassword + "</p>"
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    return new Response(null, {
-        status: 200
-    });
 
 }
