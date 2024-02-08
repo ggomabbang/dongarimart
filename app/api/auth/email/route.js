@@ -6,7 +6,6 @@ import moment from "moment";
 
 export async function POST(request) {
     try {
-
         const { email } = await request.json();
     
         // 파라미터 확인
@@ -21,7 +20,7 @@ export async function POST(request) {
         // 이메일 형식 확인
         const emailRE = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@pusan.ac.kr");
         let resultRE = emailRE.exec(email);
-        if (resultRE === null) {
+        if (!resultRE) {
             return new Response(null, {
                 status: 204
             });
@@ -32,32 +31,31 @@ export async function POST(request) {
             });
         }
     
-        // 이미 인증된 이메일 확인
+        // 가입된 이메일인지 확인
         const user = await prisma.User.findUnique({
             where: {
                 email: email,
             },
             select: {
                 id: true,
+                username: true,
                 emailConfirm: true,
             },
         });
-    
-        if (user !== null) {
-            // 이미 인증 되었으면 종료
-            if (user.emailConfirm === true) {
-                return new Response(null, {
-                    status: 204
-                });
-            }
-        }
-        else {
-            // 회원 목록에 없으면 종료
+
+        if (!user) {
             return new Response(null, {
                 status: 204
             });
         }
-    
+        
+        // 인증된 메일인지 확인
+        if (user.emailConfirm === true) {
+            return new Response(null, {
+                status: 204
+            });
+        }
+        
         // 인증 토큰 생성
         const { randomBytes } = await import('node:crypto');
         const token = randomBytes(125).toString('hex');
@@ -80,7 +78,6 @@ export async function POST(request) {
             
             // 만료 안되었으면 종료
             if (moment().isBefore(dateExpire)) {
-                console.log("End");
                 return new Response(null, {
                     status: 204
                 });
@@ -124,8 +121,16 @@ export async function POST(request) {
     
         const mailOptions = {
             to: email,
-            subject: 'Wave 가입 인증 메일',
-            html: '<h1>인증링크를 클릭하세요</h1>' + "<a href=\"http://localhost:3000/auth/email/" + token + "\">이메일 인증 링크 </a>"
+            subject: '동아리마트 가입 인증 메일',
+            html: `
+            <h1>동아리마트 가입 인증 메일</h1>
+            <div>
+                <p>${user.username}님 환영합니다</p>
+                <p>아래 링크를 클릭해 이메일 인증을 완료해주세요</p>
+                <a href="http://localhost:3000/auth/email/${token}">이메일 인증 링크</a>
+                <p>이메일 인증이 정상적으로 되지 않는다면 아래 연락처로 연락바랍니다</p>
+            </div>
+            `
         };
     
         await transporter.sendMail(mailOptions);
