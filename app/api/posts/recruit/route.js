@@ -4,7 +4,7 @@ import { authOptions } from "@/app/lib/auth";
 import client from "../../../../prisma/prisma";
 import { Prisma } from '@prisma/client'
 
-export async function GET() {
+export async function GET(request) {
   const session = await getServerSession(authOptions);
 
   console.log(session);
@@ -16,7 +16,18 @@ export async function GET() {
     });
   }
 
-  const { clubid } = await request.json();
+  const param = request.nextUrl.searchParams;
+  let clubid = param.get("clubid");
+  clubid = parseInt(clubid);
+
+  if (!clubid || isNaN(clubid)) {
+    return NextResponse.json({
+      parameter: "clubid",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
 
   const leader = await client.JoinedClub.findUnique({
     where: {

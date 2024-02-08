@@ -113,7 +113,7 @@ export async function PATCH(request) {
     });
   }
 
-  const { title, content } = await request.json();
+  const { title, content, image } = await request.json();
 
   if (!title) {
     return NextResponse.json({
@@ -132,13 +132,58 @@ export async function PATCH(request) {
     });
   }
 
+  if (image && !Array.isArray(image)) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  let images;
+  if (image) images = image;
+  else images = [];
+
+  const isValidImage = await Promise.all(
+    images.map(async (img) => {
+      const validImage = await client.Image.findUnique({
+        where: {
+          filename: img
+        }
+      });
+      if (!validImage) {
+        return "failed";
+      }
+      else {
+        return "success";
+      }
+    })
+  );
+
+  if (isValidImage.includes("failed")) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
   const result = await client.Post.update({
     where: {
       id,
     },
     data: {
       title,
-      content
+      content,
+      image: {
+        connect: images.map((img) => {
+          return {
+            filename: img
+          };
+        }),
+      },
     }
   });
 

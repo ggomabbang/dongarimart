@@ -59,6 +59,15 @@ export async function POST(request) {
     });
   }
 
+  if (image && !Array.isArray(image)) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
   let images;
   if (image) images = image;
   else images = [];

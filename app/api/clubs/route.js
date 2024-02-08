@@ -83,13 +83,18 @@ export async function GET(request) {
 
     let query = {
       where: { },
-      include: {
+      select: {
+        id: true,
+        clubName: true,
+        classification: true,
+        oneLine: true,
+        isRecruiting: true,
         tags: {
           select: {
-            tagList: true
-          },
+            tagList: true,
+          }
         },
-      },
+      }
     }
 
     if (isRecruiting == 1) {

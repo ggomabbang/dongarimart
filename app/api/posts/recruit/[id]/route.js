@@ -4,7 +4,7 @@ import { authOptions } from "@/app/lib/auth";
 import client from "../../../../../prisma/prisma";
 import { Prisma } from '@prisma/client'
 
-export async function GET() {
+export async function GET(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
   if(isNaN(parseInt(id))) {
@@ -27,13 +27,29 @@ export async function GET() {
     });
   }
 
-  const { clubid } = await request.json();
+  const myPost = await client.Post.findUnique({
+    where: {
+      id,
+      isRecruit: true
+    },
+    select: {
+      userId: true,
+      clubId: true,
+      view: true
+    }
+  });
+
+  if (!myPost) {
+    return new Response(null, {
+      status: 204,
+    });
+  }
 
   const leader = await client.JoinedClub.findUnique({
     where: {
       userId_clubId: {
         userId: session.userId,
-        clubId: clubid
+        clubId: myPost.clubId
       }
     },
     select: {
@@ -49,7 +65,7 @@ export async function GET() {
     });
   }
 
-  const view = post.view;
+  const view = myPost.view;
 
   await client.Post.update({
     where: {
@@ -63,7 +79,7 @@ export async function GET() {
 
   const user = await client.User.findUnique({
     where: {
-      id: post.userId
+      id: myPost.userId
     }
   });
   const username = user.username;
