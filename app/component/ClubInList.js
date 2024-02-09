@@ -67,7 +67,7 @@ export default function DongariInList({club, i}) {
         <div className={Styles.Right}>
           <h1 className={Styles.SubTitle}>{club.oneLine}</h1>
           <button className={Styles.SeeButton} id={'seebtn'+i} onClick={folder}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="2em" viewBox="0 0 12 33" fill="none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.5em" viewBox="0 0 12 33" fill="none">
               <path d="M17 1.2L2 16.2L17 31.2" stroke="black" strokeWidth="0.5em"/>
             </svg>
           </button>
@@ -80,18 +80,36 @@ export default function DongariInList({club, i}) {
       >
         <img id={"img"+i} className={Styles.ClubImage}/>
         <div className={Styles.Info}>
-          <h4 id={"info"+i} className={Styles.InfoText}>{club.short}</h4>
+          <div className={Styles.ShortBlock}>
+            <h4 className={Styles.BlueButton}>짧은 소개</h4>
+            <div className={Styles.InfoText}>
+              {
+                club.short.split('\n').map((line, index) => {
+                  return (
+                    <span key={`Short${index}`}>
+                      {line}
+                      <br />
+                    </span>
+                  )
+                })
+              }
+            </div>
+          </div>
+          {
+            recruit.recruitStart ?
+            <div className={Styles.MiddleLine}/> : null
+          }
           {
             recruit.recruitStart ?
             <div className={Styles.ShortBlock}>
-              <h4 id={"info2"+i} className={Styles.BlueButton}>모집기간</h4>
+              <h4 id={"info2"+i} className={Styles.BlueButton}>모집 기간</h4>
               <p>{getDate(recruit.recruitStart)} ~ {getDate(recruit.recruitEnd)}</p>
             </div> : null
           }
           {
             recruit.recruitStart ?
             <div className={Styles.ShortBlock}>
-              <h4 id={"info3"+i} className={Styles.BlueButton}>세부인원</h4>
+              <h4 id={"info3"+i} className={Styles.BlueButton}>세부 인원</h4>
               <div>
                 {
                   JSON.parse(recruit.recruitTarget).map((target, index) => {
@@ -105,19 +123,17 @@ export default function DongariInList({club, i}) {
               </div>
             </div> : null
           }
-          
-          
         </div>
       </div>
-
-      <Link href={'/club/'+club.id}>
+      
+      <Link href={'/club/'+club.id} className={Styles.DetailWrap}>
         <button 
           id={"dtbtn" + i} 
           className={Styles.DetailButton}
         >
           자세히보기
         </button>
-      </Link>
+      </Link>  
 
     </div>
   )

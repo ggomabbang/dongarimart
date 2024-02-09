@@ -22,7 +22,8 @@ export default function RootLayout({ children }) {
           <AuthSession>
             <div className={Styles.Navbar}>
               <Link href={'/'} className={Styles.Title}>
-                <img src='/WAVE.png'/>
+                <img src='/Main_Logo.png'/>
+                <div>부산대점</div>
               </Link>
               <Menu/>
             </div>

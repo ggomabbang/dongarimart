@@ -16,7 +16,8 @@ export default function Home() {
     <div className={Styles.Panel}>
       <form className={Styles.LoginContent}>
         <div className={Styles.Logo}>
-          <img src='/WAVE.png'/>
+          <img src='/Main_Logo.png'/>
+          <div>부산대점</div>
         </div>
         <div className={Styles.LoginInput}>
           <input 

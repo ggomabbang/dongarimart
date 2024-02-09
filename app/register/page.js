@@ -17,6 +17,7 @@ export default function Register() {
     reader.onload = () => {
       setImageSrc(reader.result);
     }
+    e.target.value = '';
   }
 
   const [clubName, setClubName] = useState("");
@@ -209,27 +210,26 @@ export default function Register() {
           </div>
         </label>
 
-        <label className={Styles.HorizonBox}>
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>배너</p>
           <div className={Styles.Right}>
             {
               imageSrc.length ?
               <img className={Styles.ImageBox} src={imageSrc}/>
               :
-              <img className={Styles.ImageBox}/>
+              <div className={Styles.ImageBox}/>
             }
             <div className={Styles.Buttons}>
-              <label className={Styles.UploadButton} htmlFor='input-file'>
+              <label className={Styles.UploadButton}>
                 업로드
+                <input 
+                  id="input-file"
+                  type="file"
+                  accept='image/png, image/jpeg'
+                  style={{display: "none"}}
+                  onChange={imageHandler}
+                />
               </label>
-              <input 
-                id="input-file"
-                type="file"
-                accept='image/png, image/jpeg'
-                style={{display: "none"}}
-                onChange={imageHandler}
-              >
-              </input>
               <button 
                 className={Styles.CancelButton}
                 onClick={(e) => {
@@ -241,7 +241,7 @@ export default function Register() {
               </button>
             </div>
           </div>
-        </label>
+        </div>
         
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>태그</p>
