@@ -55,10 +55,6 @@ export default function Home() {
           }}
         />
       </form>
-      <div className={Styles.MiddleLine}/>
-      <div className={Styles.ADpanel}>
-          AD
-      </div>
     </div>
   )
 }

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 25px;
+  gap: 15px;
   align-self: stretch;
 }
 
@@ -16,7 +16,7 @@
 .Title {
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 3em;
+  font-size: 2em;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
@@ -25,28 +25,29 @@
 
 .MoreButton {
   display: flex;
-  padding: 0.5em 1em;
+  padding: 0.3em 1em;
   align-items: flex-start;
   gap: 10px;
 
-  border-radius: 1em;
+  border-radius: 0.9em;
   background: #FFF;
   box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
 
   color: #000;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 1.3em;
+  font-size: 1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
 }
 
 .Articles {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
   align-self: stretch;
 }

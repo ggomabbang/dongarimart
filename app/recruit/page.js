@@ -90,7 +90,7 @@ export default function Recruit() {
     to_change.splice(id, 1);
     setRecruitTarget([...to_change]);
   }
-
+  
   const countAdder = (e) => {
     const to_change = recruitTarget;
     const id = parseInt(e.target.parentElement.parentElement.id);
@@ -132,8 +132,15 @@ export default function Recruit() {
 
     if (clubID === '') return alert("동아리를 선택해 주세요");
     if (toBody.title === '') return alert("제목이 필요합니다.");
-    if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요");
-    if (toBody.content === '') return alert("본문을 작성해 주세요");
+    if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요.");
+    let targetOK = true;
+    toBody.people.forEach((target, index) => {
+      if (target.name.length == 0) {
+        targetOK = false;
+      }
+    })
+    if (!targetOK) return alert("이름이 없는 역할이 있습니다.")
+    if (toBody.content === '') return alert("본문을 작성해 주세요.");
 
     if (images.length) {
       const formData = new FormData();
@@ -282,7 +289,7 @@ export default function Recruit() {
           </div>
         </label>
 
-        <label className={Styles.HorizonBox}>
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 인원</p>
           <div className={Styles.RightEditable}>
             {
@@ -322,7 +329,7 @@ export default function Recruit() {
               역할 추가 +
             </button>
           </div>
-        </label>
+        </div>
 
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 글</p>

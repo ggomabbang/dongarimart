@@ -1,6 +1,6 @@
 .Content {
   display: flex;
-  width: 1280px;
+  width: 900px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -12,12 +12,12 @@
   padding: 40px;
   flex-direction: column;
   align-items: flex-end;
-  gap: 50px;
+  gap: 15px;
   align-self: stretch;
 
   border-radius: 30px;
   background: #FFF;
-  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 15px 4px rgba(0, 0, 0, 0.25);
 }
 
 .HorizonBox {
@@ -28,7 +28,7 @@
 
 .Left {
   display: flex;
-  width: 250px;
+  width: 10em;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -36,11 +36,11 @@
   color: #000;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 18px;
+  font-size: 1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 6px;
+  letter-spacing: 0.3em;
 }
 
 .Right {
@@ -52,22 +52,22 @@
 
 .Right input {
   display: flex;
-  padding: 15px 25px;
+  padding: 10px 15px;
   align-items: center;
   gap: 10px;
   flex: 1 0 0;
 
-  border-radius: 20px;
-  border: 1px solid #000;
+  border: 0;
+  border-bottom: 1px solid #000;
   background: #FFF;
 
   color: rgba(0, 0, 0, 1);
   font-family: Noto Sans KR;
-  font-size: 20px;
+  font-size: 1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 10px;
+  letter-spacing: 0.3em;
 }
 
 .Right ul {
@@ -79,11 +79,11 @@
   list-style-type: disc; 
   color: #00BB1E;
   font-family: Noto Sans KR;
-  font-size: 20px;
+  font-size: 0.8em;
   font-style: normal;
-  font-weight: 350;
+  font-weight: 400;
   line-height: normal;
-  letter-spacing: 10px;
+  letter-spacing: 0.2em;
 }
 
 #email_uncheck {
@@ -91,29 +91,29 @@
   list-style-type: disc; 
   color: #F10909;
   font-family: Noto Sans KR;
-  font-size: 20px;
+  font-size: 0.8em;
   font-style: normal;
-  font-weight: 350;
+  font-weight: 400;
   line-height: normal;
-  letter-spacing: 10px;
+  letter-spacing: 0.2em;
 }
 
 .BlueButton {
   display: flex;
-  padding: 12px 40px;
+  padding: 5px 15px;
   justify-content: center;
   align-items: center;
   gap: 10px;
 
-  border-radius: 30px;
+  border-radius: 20px;
   background: #2D5DEB;
 
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 18px;
+  font-size: 1em;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: normal;
 }
 
@@ -122,25 +122,24 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 15px;
   align-self: stretch;
 }
 
 .Top {
   display: flex;
   align-items: center;
-  gap: 1018px;
   align-self: stretch;
 }
 
 .Title {
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 3em;
+  font-size: 2em;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 24.32px;
+  letter-spacing: 0.4em;
 }
 
 .ButtonSpace {
@@ -154,7 +153,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
   align-self: stretch;
 }
 
@@ -170,17 +169,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   align-self: stretch;
-  width: 80px;
+  padding: 1em;
 
-  border-radius: 30px;
+  border-radius: 1.5em;
   background: #2D5DEB;
 
   color: #FFF;
   text-align: center;
   font-family: "Noto Sans KR";
-  font-size: 22px;
+  font-size: 1em;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

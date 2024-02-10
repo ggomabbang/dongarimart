@@ -121,7 +121,7 @@
 .TargetBox {
     display: flex;
     padding: 10px 20px;
-    width: 40%;
+    width: 21em;
     align-items: center;
     justify-content: stretch;
     gap: 10px;
@@ -147,17 +147,17 @@
     justify-content: space-between;
     gap: 10px;
 
-    border-radius: 20px;
-    border: 1px solid #000;
+    border-radius: 0.3em;
+    border: 0.1em solid #000;
     background: #FFF;
 
     color: rgba(0, 0, 0, 1);
     font-family: Noto Sans KR;
-    font-size: 20px;
+    font-size: 1em;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    letter-spacing: 10px;
+    letter-spacing: 0.3em;
 }
 
 .LargeInputBox {

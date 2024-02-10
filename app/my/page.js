@@ -162,7 +162,7 @@ export default function My() {
               }
             >
               {
-                clubFix ? '취소' : '관리하기'
+                clubFix ? '취소' : '동아리 관리하기'
               }
             </button>
             :
