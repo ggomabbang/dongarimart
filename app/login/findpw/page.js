@@ -3,7 +3,7 @@
 import Styles from './findpw.module.css';
 import { useState, useEffect } from 'react';
 
-export default function SignUp() {
+export default function findPW() {
   const [emailCheck, setEmail] = useState(true);
   const [verifyCheck, setVerify] = useState(true);
 

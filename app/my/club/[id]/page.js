@@ -5,7 +5,7 @@ import Styles from './register.module.css'
 import { useRouter } from 'next/navigation'
 import College from '@/public/College.json'
 
-export default function ClubFix({ params }) {
+export default function clubFix({ params }) {
   const clubid = params.id;
 
   const GetClub = async (id) => {

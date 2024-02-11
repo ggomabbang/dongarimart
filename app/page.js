@@ -7,7 +7,7 @@ import Notice from './notice/notice'
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 
-export default function Home() {
+export default function home() {
   const { status } = useSession();
   const [ clubs, setClubs ] = useState([]);
 
@@ -21,7 +21,6 @@ export default function Home() {
     });
     const json = await res.json();
     setClubs(json);
-    console.log(json);
   }
 
   useEffect(() => {

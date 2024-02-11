@@ -1,6 +1,6 @@
 import Notice from './notice';
 
-export default function NoticePage() {
+export default function noticePage() {
   return (
     <div 
       className='Container' 

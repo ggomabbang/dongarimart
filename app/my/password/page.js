@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function Password() {
+export default function password() {
   const router = useRouter();
   const nowPw = useRef(null);
   const [pwLogic, setPwLogic] = useState({

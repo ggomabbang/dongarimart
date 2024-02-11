@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function My() {
+export default function my() {
   const router = useRouter();
   const [User, setUser] = useState({
     email: '로딩 중', 
@@ -65,6 +65,10 @@ export default function My() {
 
   return (
     <div className={Styles.Content}>
+      <div className={Styles.Top}>
+        <h1 className={Styles.Title}>내 정보</h1>
+      </div>
+
       <div className={Styles.InputPanel}>
 
         <div className={Styles.HorizonBox}>
@@ -139,6 +143,15 @@ export default function My() {
                     href={`/my/club/${club.id}`}
                   >
                     관리
+                  </Link>
+                  <Link 
+                    className={Styles.RecruitFix}
+                    style={clubFix ? null :
+                      {display: 'none'}
+                    }
+                    href={`/my/recruit/${club.id}`}
+                  >
+                    모집글<br/>수정
                   </Link>
                   <DongariInList
                     club={club}

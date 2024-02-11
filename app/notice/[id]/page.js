@@ -8,17 +8,21 @@ export default function oneArticle() {
 
   return (
     <div className={Styles.Container}>
-      <div className={Styles.Top}>
-        <Link href={'/notice'}>
-          <p className={Styles.GoBack}>&lt;뒤로가기</p>
-        </Link>
-        <h1 className={Styles.Title}>{title}</h1>
-        <h4 className={Styles.Date}>{date}</h4>
-        <div className={Styles.line}/>
+      <h1 className={Styles.PageTitle}>공지사항 📢</h1>
+      <div className={Styles.Panel}>
+        <div className={Styles.Top}>
+          <Link href={'/notice'}>
+            <p className={Styles.GoBack}>&lt; 뒤로가기</p>
+          </Link>
+          <h1 className={Styles.Title}>{title}</h1>
+          <h4 className={Styles.Date}>{date}</h4>
+          <div className={Styles.line}/>
+        </div>
+        <div className={Styles.Bottom}>
+          <p className={Styles.Contents}>{contents}</p>
+        </div>
       </div>
-      <div className={Styles.Bottom}>
-        <p className={Styles.Contents}>{contents}</p>
-      </div>
+      
     </div>
   )
 }

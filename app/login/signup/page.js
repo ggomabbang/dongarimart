@@ -4,7 +4,7 @@ import Styles from './SignUp.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SignUp() {
+export default function signUp() {
   const router = useRouter();
   const [nameCheck, setNameCheck] = useState(false);
   const [nameUnduplicated, setNameUnduplicated] = useState(false);
@@ -157,7 +157,7 @@ export default function SignUp() {
                   newStyle[2] = false;
                 }
 
-                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
+                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw) && !/[^\w`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
                   newStyle[3] = true;
                 } else {
                   newStyle[3] = false;
@@ -277,6 +277,15 @@ export default function SignUp() {
               <li style={{display: emailUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
               <li style={{display: !emailUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
             </ul>
+          </div>
+        </div>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>이용정보</p>
+          <div className={Styles.Right}>
+            - 입력하신 정보는 서비스 제공 목적으로만 사용됩니다.<br/>
+            - 입력하신 정보는 회원 탈퇴시까지 유지 됩니다.<br/>
+            - 가입 후 비밀번호 변경이 가능합니다.
           </div>
         </div>
         

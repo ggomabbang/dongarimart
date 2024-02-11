@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import College from '@/public/College.json'
 
-export default function DongariInList({club, i}) {
+export default function dongariInList({club, i}) {
   const [foldStyle, setFold] = useState('none');
   const [foldGap, setGap] = useState('0px');
 

@@ -5,7 +5,7 @@ import Styles from './register.module.css';
 import { useRouter } from 'next/navigation'
 import College from '@/public/College.json';
 
-export default function Register() {
+export default function register() {
   const router = useRouter();
 
   const [image, setImage] = useState(null);
@@ -110,6 +110,7 @@ export default function Register() {
 
   return(
     <div className={Styles.Panel}>
+      <h1 className={Styles.PageTitle}>동아리 등록</h1>
       <div className={Styles.Input}>
         
         <label className={Styles.HorizonBox}>

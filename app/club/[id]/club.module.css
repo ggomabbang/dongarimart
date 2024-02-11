@@ -2,11 +2,18 @@
   display: flex;
   width: 900px;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+}
 
-  border-radius: 30px;
-  background: #FFF;
-  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+.PageTitle {
+  font-family: Noto Sans KR;
+  font-size: 2em;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.2em
 }
 
 .Inside {
@@ -14,7 +21,12 @@
   padding: 40px;
   flex-direction: column;
   align-items: flex-end;
+  align-self: stretch;
   gap: 40px;
+
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
 }
 
 .Top {

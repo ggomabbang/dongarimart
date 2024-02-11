@@ -14,13 +14,12 @@
 }
 
 .Title {
-  color: #000;
   font-family: Noto Sans KR;
   font-size: 2em;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 24.32px;
+  letter-spacing: 0.2em;
 }
 
 .MoreButton {

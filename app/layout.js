@@ -14,7 +14,7 @@ export const metadata = {
   description: "우리들의 첫 물결",
 };
 
-export default function RootLayout({ children }) {
+export default function rootLayout({ children }) {
 
   return (
     <html lang="en">

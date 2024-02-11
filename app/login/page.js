@@ -5,13 +5,12 @@ import Link from "next/link"
 import { useRef } from 'react';
 import { signIn, useSession } from "next-auth/react";
 
-export default function Home() {
+export default function home() {
   const emailRef = useRef(null);
 
   const passwordRef = useRef(null);
 
   const { data: session } = useSession();
-  console.log(session);
   return (
     <div className={Styles.Panel}>
       <form className={Styles.LoginContent}>

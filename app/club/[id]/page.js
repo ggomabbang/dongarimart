@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Colleage from '@/public/College.json'
 
-export default function Club({ params }) {
+export default function club({ params }) {
   const clubid = params.id;
   const [Club, setClub] = useState({
     id: 0,
@@ -54,6 +54,7 @@ export default function Club({ params }) {
 
   return (
     <div className={Styles.Container}>
+      <h1 className={Styles.PageTitle}>동아리</h1>
       <div className={Styles.Inside}>
         <div className={Styles.Top}>
           <h4 className={Styles.Title}>{Club.clubName}</h4>

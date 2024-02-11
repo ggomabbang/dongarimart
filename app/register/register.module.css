@@ -3,8 +3,17 @@
   width: 900px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 15px;
+}
+
+.PageTitle {
+  font-family: Noto Sans KR;
+  font-size: 2em;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.2em
 }
 
 .Input {

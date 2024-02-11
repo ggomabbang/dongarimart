@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Styles from './recruit.module.css';
 import { useRouter } from 'next/navigation';
 
-export default function recruit() {
+export default function recruit({params}) {
   const router = useRouter();
 
   const [imageSelect, setImageSelect] = useState(0);
@@ -43,13 +43,22 @@ export default function recruit() {
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
 
-  const GetMyClubs = async () => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/clubs/my', {
-      method: "GET"
+  const GetClub = async () => {
+    const rows = await fetch(`/api/clubs/${params.id}`, {
+      method : "GET",
     });
     const jsonData = await rows.json();
-    setClubs(jsonData);
+    if (jsonData) {
+
+    }
+  }
+
+  const GetRecruit = async () => {
+    // const rows = await fetch('/api/clubs/my', {
+    //   method: "GET"
+    // });
+    // const jsonData = await rows.json();
+    // setClubs(jsonData);
   }
 
   const [title, setTitle] = useState('');
@@ -190,12 +199,13 @@ export default function recruit() {
   }
 
   useEffect(()=>{
-    GetMyClubs();
+    GetClub();
+    GetRecruit();
   }, []);
 
   return (
     <div className={Styles.Panel}>
-      <h1 className={Styles.PageTitle}>동아리 모집 공고</h1>
+      <h1 className={Styles.PageTitle}>동아리 모집 공고 수정</h1>
       <div className={Styles.Input}>
 
         <label className={Styles.HorizonBox}>
@@ -400,6 +410,10 @@ export default function recruit() {
 
         <button className={Styles.UploadButton} onClick={submitHandler}>
           완료
+        </button>
+
+        <button className={Styles.CancelButton} onClick={''}>
+          공고 삭제하기
         </button>
 
       </div>

@@ -5,7 +5,7 @@ import DongariInList from '../component/ClubInList';
 import { useEffect, useState } from 'react';
 import College from '../../public/College.json';
 
-export default function Find() {
+export default function find() {
   const [Groups, setGroups] = useState([]);
 
   const [CollegeSelected, setCollegeSelected] = useState("all");
@@ -46,6 +46,7 @@ export default function Find() {
 
   return (
     <div className={Styles.Vertical_Div}>
+      <h1 className={Styles.PageTitle}>동아리 찾아보기</h1>
       <div className={Styles.Horizontal_Div}>
         <input className={Styles.SearchBar} placeholder='검색해보세요 !'/>
         <div className={Styles.Selector}>
