@@ -99,7 +99,7 @@ export async function PATCH(request) {
     },
   });
 
-  if (!post) {
+  if (!post || post.isRecruit) {
     return new Response(null, {
       status: 204,
     });
@@ -152,7 +152,7 @@ export async function PATCH(request) {
           filename: img
         }
       });
-      if (!validImage) {
+      if (!validImage || validImage.postId || validImage.clubId) {
         return "failed";
       }
       else {
@@ -221,7 +221,7 @@ export async function DELETE(request) {
     },
   });
 
-  if (!myPost) {
+  if (!myPost || myPost.isRecruit) {
     return new Response(null, {
       status: 204,
     });

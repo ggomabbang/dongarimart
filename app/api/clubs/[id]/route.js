@@ -154,7 +154,7 @@ export async function PATCH(request) {
     });
   }
 
-  const { oneLine, short, tags, url, image } = await request.json();
+  let { oneLine, short, tags, url, image } = await request.json();
 
   if (!oneLine) {
     return NextResponse.json({
@@ -171,6 +171,9 @@ export async function PATCH(request) {
     }, {
       status: 400,
     });
+  }
+  if (!tags) {
+    tags = [];
   }
 
   const query = {
@@ -206,7 +209,7 @@ export async function PATCH(request) {
         filename: image
       }
     });
-    if (!validImage) {
+    if (!validImage || validImage.postId || validImage.clubId) {
       return NextResponse.json({
         parameter: "image",
         message: "해당 parameter가 잘못된 값입니다."
