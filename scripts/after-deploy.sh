@@ -7,8 +7,7 @@ export NVM_DIR="$HOME/.nvm"
 REPOSITORY=/home/ec2-user/build
 
 cd $REPOSITORY
-pwd
 
 yarn
-yarn migrate
-pm2 start yarn --name "wave" -- start
+npx prisma migrate deploy
+pm2 start "yarn run start" --name "next"
