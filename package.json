@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "migrate": "npx prisma migrate deploy",
+    "generate": "npx prisma generate",
     "prismaLocal": "dotenv -e .env.local prisma migrate dev "
   },
   "dependencies": {

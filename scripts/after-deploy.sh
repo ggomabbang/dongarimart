@@ -8,6 +8,7 @@ REPOSITORY=/home/ec2-user/build
 
 cd $REPOSITORY
 
-yarn
-yarn migrate
-pm2 start "yarn run start" --name "next"
+npm i
+npm run migrate
+npm run generate
+pm2 start "npm run start" --name "next"

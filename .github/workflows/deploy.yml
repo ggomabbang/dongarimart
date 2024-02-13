@@ -40,10 +40,10 @@ jobs:
           cat .env
 
       - name: Install Dependencies
-        run: yarn install
+        run: npm install
 
       - name: Build next app
-        run: yarn build
+        run: npm build
 
       - name: Make zip file
         run: zip --symlinks -qq -r ./$GITHUB_SHA.zip .
