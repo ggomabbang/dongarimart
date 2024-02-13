@@ -7,6 +7,7 @@ export NVM_DIR="$HOME/.nvm"
 REPOSITORY=/home/ec2-user/build
 
 cd $REPOSITORY
+pwd
 
 yarn
 yarn migrate

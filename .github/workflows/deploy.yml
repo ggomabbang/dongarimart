@@ -35,8 +35,8 @@ jobs:
           echo NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}>>.env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }}>>.env
           echo EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}>>.env
-          echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}.env
-          echo ADMIN_ID=${{ secrets.ADMIN_ID }}.env
+          echo EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}>>.env
+          echo ADMIN_ID=${{ secrets.ADMIN_ID }}>>.env
           cat .env
 
       - name: Install Dependencies
