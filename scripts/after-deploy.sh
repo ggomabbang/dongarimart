@@ -9,5 +9,5 @@ REPOSITORY=/home/ec2-user/build
 cd $REPOSITORY
 
 yarn
-npx prisma migrate deploy
+yarn migrate
 pm2 start "yarn run start" --name "next"
