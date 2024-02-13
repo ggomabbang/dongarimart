@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 417.31 286.91">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f4f4f4;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #2d5deb;
+      }
+    </style>
+  </defs>
+  <g id="_심볼" data-name="심볼">
+    <g id="Roof">
+      <g id="Roof_Bottom" data-name="Roof Bottom">
+        <rect class="cls-2" x="167.05" y="229.92" width="83.42" height="56.99" rx="8.87" ry="8.87"/>
+        <rect class="cls-1" x="250.47" y="229.92" width="83.42" height="56.99" rx="8.87" ry="8.87"/>
+        <rect class="cls-1" x="83.63" y="229.92" width="83.42" height="56.99" rx="8.87" ry="8.87"/>
+        <rect class="cls-2" x=".21" y="229.92" width="83.42" height="56.99" rx="8.87" ry="8.87"/>
+        <rect class="cls-2" x="333.89" y="229.92" width="83.42" height="56.99" rx="8.87" ry="8.87"/>
+      </g>
+      <g id="Roof_Middle" data-name="Roof Middle">
+        <polygon class="cls-2" points="104.43 0 34.6 0 34.6 41.35 0 206.14 .21 241.06 83.63 241.06 84 206.14 104.43 41.35 104.43 0"/>
+        <polygon class="cls-1" points="174 0 104.43 0 104.43 41.35 84 206.14 83.63 241.06 167.05 241.06 167 206.14 174.26 41.35 174 0"/>
+        <polygon class="cls-2" points="244 0 174 0 174.26 41.35 167.05 206.14 167.05 241.06 250.47 241.06 250.47 206.14 244.09 41.35 244 0"/>
+        <polygon class="cls-1" points="314 0 244 0 244.09 41.35 250.47 206.14 250.47 241.06 333.89 241.06 333.89 206.14 313.92 41.35 314 0"/>
+        <polygon class="cls-2" points="384 0 314 0 313.92 28.28 334 206.14 333.89 241.06 417.31 241.06 417 206.14 383.75 41.35 384 0"/>
+      </g>
+    </g>
+  </g>
+</svg>
