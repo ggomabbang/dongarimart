@@ -79,7 +79,7 @@ export async function POST(request) {
           filename: img
         }
       });
-      if (!validImage) {
+      if (!validImage || validImage.postId || validImage.clubId) {
         return "failed";
       }
       else {
