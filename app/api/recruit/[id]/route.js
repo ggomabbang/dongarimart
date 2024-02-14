@@ -51,6 +51,7 @@ export async function PUT(request) {
     select: {
       userId: true,
       clubId: true,
+      isRecruit: true,
     }
   });
 
@@ -236,6 +237,7 @@ export async function DELETE(request) {
     select: {
       userId: true,
       clubId: true,
+      isRecruit: true,
     }
   });
 
