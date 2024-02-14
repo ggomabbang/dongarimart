@@ -31,8 +31,7 @@ export default function signUp() {
     const password = document.getElementById('password').value;
     const email = document.getElementById('email').value;
 
-    const url = "http://localhost:3000/api/users";
-    const res = await fetch(url, {
+    const res = await fetch('/api/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,8 +43,7 @@ export default function signUp() {
       })
     });
     if (res.status == 201) {
-      const emailURL = 'http://localhost:3000/api/auth/email';
-      const emailRes = await fetch(emailURL, {
+      const emailRes = await fetch('/api/auth/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,10 +96,9 @@ export default function signUp() {
               style={nameCheck ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const username = document.getElementById('ID_box').value;
-                const url = "http://localhost:3000/api/users";
                 const params = new URLSearchParams();
                 params.append('username', username);
-                const res = await fetch(url + '?' + params.toString(), {
+                const res = await fetch('/api/users?' + params.toString(), {
                   method: 'GET'
                 });
                 if (res.status == 200) {
@@ -246,10 +243,9 @@ export default function signUp() {
               style={emailCheck ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const email = document.getElementById('email').value;
-                const url = "http://localhost:3000/api/users";
                 const params = new URLSearchParams();
                 params.append('email', email);
-                const res = await fetch(url + '?' + params.toString(), {
+                const res = await fetch('/api/users?' + params.toString(), {
                   method: 'GET'
                 });
                 if (res.status == 200) {

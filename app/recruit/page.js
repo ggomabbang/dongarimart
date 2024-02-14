@@ -44,8 +44,7 @@ export default function recruit() {
   const [selectClub, setSelectClub] = useState('');
 
   const GetMyClubs = async () => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/clubs/my', {
+    const rows = await fetch('/api/clubs/my', {
       method: "GET"
     });
     const jsonData = await rows.json();
@@ -158,9 +157,7 @@ export default function recruit() {
       toBody.image = imagenames;
     }
     
-    const URL = 'http://localhost:3000';
-
-    const res = await fetch(URL + `/api/recruit?clubid=${selectClub}`, {
+    const res = await fetch(`/api/recruit?clubid=${selectClub}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

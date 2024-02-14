@@ -18,8 +18,7 @@ export default function my() {
   const [clubFix, setClubFix] = useState(false);
 
   const GetMyinfo = async () => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/users/my', {
+    const rows = await fetch('/api/users/my', {
       method: "GET"
     });
     const jsonData = await rows.json();
@@ -27,8 +26,7 @@ export default function my() {
   }
 
   const GetMyClubs = async () => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/clubs/my', {
+    const rows = await fetch('/api/clubs/my', {
       method: "GET"
     });
     const jsonData = await rows.json();
@@ -36,8 +34,7 @@ export default function my() {
   }
 
   const emailHandler = async (e) => {
-    const emailURL = 'http://localhost:3000/api/auth/email';
-    const emailRes = await fetch(emailURL, {
+    const emailRes = await fetch("/api/auth/email", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

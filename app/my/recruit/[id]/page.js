@@ -167,9 +167,7 @@ export default function recruit({params}) {
       toBody.image = imagenames;
     }
     
-    const URL = 'http://localhost:3000';
-
-    const res = await fetch(URL + `/api/recruit?clubid=${selectClub}`, {
+    const res = await fetch(`/api/recruit?clubid=${selectClub}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

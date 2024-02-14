@@ -21,8 +21,7 @@ export default function club({ params }) {
   const [imageSrc, setImageSrc] = useState(null);
 
   const GetClub = async (id) => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/clubs/'+id, {
+    const rows = await fetch('/api/clubs/'+id, {
       method: "GET"
     });
     const jsonData = await rows.json();

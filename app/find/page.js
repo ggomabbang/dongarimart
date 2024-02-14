@@ -26,14 +26,13 @@ export default function find() {
   }
 
   const GetClubs = async () => {
-    const getURL = new URL('http://localhost:3000/api/clubs');
     const urlParams = new URLSearchParams('');
     urlParams.append("sortBy", SortSelected);
     if (CollegeSelected !== "all") {
       urlParams.append("college", CollegeSelected);
     }
     // console.log(urlParams.toString());
-    const rows = await fetch(getURL + '?' + urlParams.toString(), {
+    const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });
     const jsonData = await rows.json();
