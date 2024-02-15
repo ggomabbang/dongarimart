@@ -75,7 +75,6 @@ export async function PATCH(request) {
 
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
@@ -186,7 +185,6 @@ export async function DELETE(request) {
 
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."

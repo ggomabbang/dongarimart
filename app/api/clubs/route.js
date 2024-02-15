@@ -147,7 +147,6 @@ export async function GET(request) {
 export async function POST(request) {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
@@ -283,7 +282,6 @@ export async function POST(request) {
     await client.ClubList.create(query);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
-      console.log(e);
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
