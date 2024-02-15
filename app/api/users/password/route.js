@@ -3,6 +3,7 @@ import prisma from "@/prisma/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import * as nodeMailer from 'nodemailer';
+import moment from "moment";
 
 export async function PATCH(request) {
     try {
@@ -38,7 +39,7 @@ export async function PATCH(request) {
         });
     
         const bcrypt = require("bcryptjs");
-        const checkPassword = await compare(password, oldUser.password);
+        const checkPassword = await bcrypt.compare(password, oldUser.password);
         if (!checkPassword) {
             return new Response(null, {
                 status: 401,
@@ -62,9 +63,9 @@ export async function PATCH(request) {
         });
     }
     catch (error) {
-        console.log(error);
-        return new Response(null, {
-            status: 400
+        console.error(error);
+        return NextResponse(null, {
+            status: 500
         });
     }
 }
@@ -79,12 +80,6 @@ export async function DELETE(request) {
         });
 
         if (!email) {
-            return NextResponse.json(null, {
-                status: 401
-            });
-        }
-
-        if (email.verifiedDone === true) {
             return NextResponse.json(null, {
                 status: 401
             });
@@ -109,7 +104,7 @@ export async function DELETE(request) {
         })
         
         const mailOptions = {
-            to: email,
+            to: email.email,
             subject: '동아리마트 비밀번호 초기화 메일',
             html: `
                 <h1>비밀번호 초기화</h1>
@@ -122,7 +117,7 @@ export async function DELETE(request) {
         
         const newUser = await prisma.User.update({
             where: {
-                id: session.userId,
+                email: email.email,
             },
             data: {
                 password: newHash,
@@ -141,12 +136,9 @@ export async function DELETE(request) {
         return NextResponse.json(null);
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json(null, {
-            status: 401
+            status: 500
         });
     }
-
-
-
 }

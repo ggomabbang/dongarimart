@@ -97,9 +97,9 @@ export async function POST(request) {
         });
     }
     catch (error) {
-        console.log(error); 
+        console.error(error); 
         return new Response(null, {
-            status: 204
+            status: 500
         });
     }
 
