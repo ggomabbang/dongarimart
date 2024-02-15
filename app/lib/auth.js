@@ -117,7 +117,7 @@ async function refreshAccessToken(token) {
         };
     }
     catch (error) {
-        console.log("token refresh error");
+        console.error("token refresh error");
         return {
             ...token,
             error: "RefreshAccessTokenError"

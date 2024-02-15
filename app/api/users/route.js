@@ -5,7 +5,6 @@ import { authOptions } from "@/app/lib/auth";
 
 export async function POST(request) {
     try {
-
         const { username, password, email } = await request.json();
         
         // 파라미터 확인
@@ -116,17 +115,15 @@ export async function POST(request) {
         });
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
         return NextResponse.json(null, {
-            status: 403
+            status: 500
         });
     }
-
 }
 
 export async function GET(request) {
     try {
-
         const username = request.nextUrl.searchParams.get("username");
         const email = request.nextUrl.searchParams.get("email");
     
@@ -201,72 +198,74 @@ export async function GET(request) {
         }
     }
     catch (error) {
-        console.log(error);
-        return NextResponse.json({
-            message: "올바르지 않은 parameter입니다."
-        }, {
-            status: 400
+        console.error(error);
+        return NextResponse.json(null, {
+            status: 500
         });
     }
 }
 
 export async function DELETE(request) {
-    const session = await getServerSession(authOptions);
-    const { password } = await request.json();
-
-    if (!session) {
-        console.log("no login");
-        return new Response(null, {
-            status: 401
-        });
-    } 
-
-    if (password === null || password === undefined || password === "") {
-        console.log("no password");
-        return new Response(null, {
-            status: 400,
-        });
-    }
-
-    const user = await prisma.User.findUnique({
-        where: {
-            id: session.userId,
-        }, 
-        select: {
-            email: true,
-            password: true,
-        }
-    });
-
-    if (!user) {
-        console.log("no user");
-        return new Response(null, {
-            status: 401,
-        });
-    }
-
-    const bcrypt = require("bcryptjs");
-    const checkPassword = await bcrypt.compare(password, user.password);
-    if (!checkPassword) {
-        console.log("wrong password");
-        return NextResponse.json(null, {
-            status: 400
-        });
-    }
+    try {
+        const session = await getServerSession(authOptions);
+        const { password } = await request.json();
     
-    const deleteUser = await prisma.User.delete({
-        where: {
-            id: session.userId
+        if (!session) {
+            return new Response(null, {
+                status: 401
+            });
+        } 
+    
+        if (password === null || password === undefined || password === "") {
+            return new Response(null, {
+                status: 400,
+            });
         }
-    });
-
-    const deleteEmail = await prisma.VerifyingEmail.delete({
-        where: {
-            email: user.email
+    
+        const user = await prisma.User.findUnique({
+            where: {
+                id: session.userId,
+            }, 
+            select: {
+                email: true,
+                password: true,
+            }
+        });
+    
+        if (!user) {
+            return new Response(null, {
+                status: 401,
+            });
         }
-    });
-
-    return NextResponse.json(null, {
-        status: 200
-    });
+    
+        const bcrypt = require("bcryptjs");
+        const checkPassword = await bcrypt.compare(password, user.password);
+        if (!checkPassword) {
+            return NextResponse.json(null, {
+                status: 400
+            });
+        }
+        
+        const deleteUser = await prisma.User.delete({
+            where: {
+                id: session.userId
+            }
+        });
+    
+        const deleteEmail = await prisma.VerifyingEmail.delete({
+            where: {
+                email: user.email
+            }
+        });
+    
+        return NextResponse.json(null, {
+            status: 200
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return NextResponse.json(null, {
+            status: 500
+        });
+    }
 }

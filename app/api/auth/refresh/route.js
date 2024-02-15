@@ -8,14 +8,12 @@ export async function POST(request) {
     
         // 입력 파라미터 확인 
         if (body.userId === null || body.userId === undefined || body.userId === "") {
-            console.log("wrong user id");
             return new Response(null, {
                 status: 401,
             });
         }
     
         if (body.refreshToken === null || body.refreshToken === undefined || body.refreshToken === "") {
-            console.log("wrong refresh token");
             return new Response(null, {
                 status: 401,
             });
@@ -33,16 +31,14 @@ export async function POST(request) {
         });
 
         // 값 검증
-        if (tokenRefresh.refreshToken !== body.refreshToken) {
-            console.log("wrong refresh token");
+        if (tokenRefresh.token !== body.refreshToken) {
             return new Response(null, {
                 status: 401,
             });
         }
         
         // 유효기간 검증
-        if (moment().isAfter(tokenRefresh.refreshExpiresAt)) {
-            console.log("expired refresh token");
+        if (moment().isAfter(tokenRefresh.tokenExpires)) {
             return new Response(null, {
                 status: 401,
             });
@@ -68,9 +64,9 @@ export async function POST(request) {
         });
     }
     catch (error) {
-        console.log(error);
-        return new Response(null, {
-            status: 401,
+        console.error(error);
+        return NextResponse(null, {
+            status: 500,
         })
     }
 }
