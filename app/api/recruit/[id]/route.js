@@ -21,7 +21,7 @@ const toStringByFormatting = (source, delimiter = '-') => {
   return [year, month, day].join(delimiter);
 }
 
-export async function PUT(request) {
+export async function PATCH(request) {
   const id = parseInt(request.url.slice(request.url.lastIndexOf('/') + 1));
 
   const session = await getServerSession(authOptions);
@@ -83,26 +83,6 @@ export async function PUT(request) {
 
   const { start, end, url, people, title, content, image } = await request.json();
 
-  const params = { start, end, title, content };
-  for(const param in params) {
-    if (!params[param]) {
-      return NextResponse.json({
-        parameter: param,
-        message: "올바르지 않은 parameter입니다."
-      }, {
-        status: 400,
-      });
-    }
-  }
-  if (new Date(end) < new Date(toStringByFormatting(new Date()))) {
-    return NextResponse.json({
-      parameter: "end",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-
   let images;
   if (image) images = image;
   else images = [];
@@ -136,32 +116,78 @@ export async function PUT(request) {
     where: {
       id,
     },
-    data: {
-      title,
-      content,
-      isRecruit: true,
-      recruit: {
-        update: {
-          where: {
-            postId: id,
-          },
-          data: {
-            recruitStart: new Date(start),
-            recruitEnd: new Date(end),
-            recruitURL: url ? url : null,
-            recruitTarget: people ? JSON.stringify(people) : null,
-          }
-        }
-      },
-      image: {
-        connect: images.map((img) => {
-          return {
-            filename: img
-          };
-        }),
-      },
-    },
+    data: { },
   };
+
+  if (start || end || people || url) {
+    if (start && !end) {
+      return NextResponse.json({
+        parameter: "end",
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+
+    if (!start && end) {
+      return NextResponse.json({
+        parameter: "start",
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+
+    query.data.recruit = {
+      update: {
+        where: {
+          postId: id,
+        },
+        data: { }
+      }
+    };
+    if (start) {
+      if (new Date(start) <= new Date(toStringByFormatting(new Date()))) {
+        query.data.isRecruit = true
+      }
+      query.data.recruit.update.data.recruitStart = new Date(start);
+    }
+    if (end) {
+      if (new Date(end) < new Date(toStringByFormatting(new Date()))) {
+        return NextResponse.json({
+          parameter: "end",
+          message: "올바르지 않은 parameter입니다."
+        }, {
+          status: 400,
+        });
+      }
+      query.data.recruit.update.data.recruitEnd = new Date(end);
+    }
+    if (url) {
+      query.data.recruit.update.data.recruitURL = url;
+    }
+    if (people) {
+      query.data.recruit.update.data.recruitTarget = JSON.stringify(people)
+    }
+  }
+
+  if (title) {
+    query.data.title = title;
+  }
+
+  if (content) {
+    query.data.content = content;
+  }
+
+  if (image) {
+    query.data.image = {
+      connect: image.map((img) => {
+        return {
+          filename: img
+        };
+      })
+    };
+  }
 
   try {
     await client.Post.update(query);
@@ -176,31 +202,33 @@ export async function PUT(request) {
     }
   }
 
-  await client.ClubList.update({
-    where: {
-      id: myPost.clubId,
-    },
-    data: {
-      isRecruiting: 
-        new Date(toStringByFormatting(new Date())) < new Date(start) ?
-        false : true,
-      schedule: {
-        upsert: {
-          where: {
-            clubId: myPost.clubId,
-          },
-          update: {
-            recruitStart: new Date(start),
-            recruitEnd: new Date(end),
-          },
-          create: {
-            recruitStart: new Date(start),
-            recruitEnd: new Date(end),
+  if (start || end) {
+    const clubQuery = {
+      where: {
+        id: myPost.clubId,
+      },
+      data: {
+        schedule: {
+          upsert: {
+            where: {
+              clubId: myPost.clubId,
+            },
+            update: { },
+            create: { }
           }
         }
       }
-    }
-  });
+    };
+
+    clubQuery.data.isRecruiting = new Date(toStringByFormatting(new Date())) < new Date(start) ?
+    false : true;
+    clubQuery.data.schedule.upsert.update.recruitStart = new Date(start);
+    clubQuery.data.schedule.upsert.create.recruitStart = new Date(start);
+    clubQuery.data.schedule.upsert.update.recruitEnd = new Date(end);
+    clubQuery.data.schedule.upsert.create.recruitEnd = new Date(end);
+
+    await client.ClubList.update(clubQuery);
+  }
 
   return new Response(null, {
     status: 201,
