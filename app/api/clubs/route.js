@@ -83,13 +83,18 @@ export async function GET(request) {
 
     let query = {
       where: { },
-      include: {
+      select: {
+        id: true,
+        clubName: true,
+        classification: true,
+        oneLine: true,
+        isRecruiting: true,
         tags: {
           select: {
-            tagList: true
-          },
+            tagList: true,
+          }
         },
-      },
+      }
     }
 
     if (isRecruiting == 1) {
@@ -139,26 +144,9 @@ export async function GET(request) {
     return NextResponse.json(result);
 }
 
-// export async function DELETE(request) {
-//     const { username, email } = await request.json();
-
-//     if (!username || !email) return NextResponse.json({ 'message': "missing required data"});
-
-//     connection1.query(`DELETE FROM users WHERE username='${username}' AND email='${email}'`,  (err, result) => {
-//         if (err) {
-//         console.error('Error deleting data:', err);
-//         return 99;
-//         }
-//         console.log('Deleted.');
-//     });
-
-//     return NextResponse.json({ "message": "deleted"})
-// }
-
 export async function POST(request) {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
@@ -275,7 +263,7 @@ export async function POST(request) {
         filename: image
       }
     });
-    if (image) {
+    if (!validImage) {
       return NextResponse.json({
         parameter: "image",
         message: "해당 parameter가 잘못된 값입니다."
@@ -294,7 +282,6 @@ export async function POST(request) {
     await client.ClubList.create(query);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
-      console.log(e);
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
@@ -307,9 +294,3 @@ export async function POST(request) {
     status: 201,
   });
 }
-
-// export async function PUT(request) {
-//     const { username, email } = await request.json();
-
-//     return NextResponse.json({'message': "working in progress"});
-// }

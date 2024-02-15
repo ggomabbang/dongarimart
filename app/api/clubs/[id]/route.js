@@ -104,7 +104,6 @@ export async function PATCH(request) {
 
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
@@ -154,51 +153,69 @@ export async function PATCH(request) {
     });
   }
 
-  const { oneLine, short, tags } = await request.json();
+  let { oneLine, short, tags, url, image } = await request.json();
 
-  if (!oneLine) {
-    return NextResponse.json({
-      parameter: "oneLine",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-  if (!short) {
-    return NextResponse.json({
-      parameter: "short",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-
-  const result = await client.ClubList.update({
+  const query = {
     where: {
       id,
     },
-    data: {
-      oneLine,
-      short,
-      tags: {
-        deleteMany: {},
-        create: tags.map((tag) => {
-          return {
-            tagList: {
-              connectOrCreate: {
-                where: { 
-                  tagName: tag
-                },
-                create: { 
-                  tagName: tag,
-                },
+    data: { }
+  }
+
+  if (oneLine) {
+    query.data.oneLine = oneLine;
+  }
+
+  if (short) {
+    query.data.short = short;
+  }
+
+  if (tags) {
+    query.data.tags = {
+      deleteMany: {},
+      create: tags.map((tag) => {
+        return {
+          tagList: {
+            connectOrCreate: {
+              where: { 
+                tagName: tag
               },
-            }
-          };
-        }),
-      },
+              create: { 
+                tagName: tag,
+              },
+            },
+          }
+        };
+      }),
+    };
+  }
+
+  if (image) {
+    const validImage = await client.Image.findUnique({
+      where: {
+        filename: image
+      }
+    });
+    if (!validImage || validImage.postId || validImage.clubId) {
+      return NextResponse.json({
+        parameter: "image",
+        message: "해당 parameter가 잘못된 값입니다."
+      }, {
+        status: 400,
+      });
     }
-  });
+    query.data.image = {
+      connect: {
+        filename: image
+      }
+    };
+  }
+
+  if (url) {
+    query.data.pageURL = url;
+  }
+
+  await client.ClubList.update(query);
   return new Response(null, {
     status: 201,
   });
@@ -209,7 +226,6 @@ export async function DELETE(request) {
 
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
