@@ -147,7 +147,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 1018px;
   align-self: stretch;
 }
 
@@ -157,4 +156,32 @@
   align-items: center;
   gap: 25px;
   align-self: stretch;
+}
+
+.ClubRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+.ClubFix {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  width: 80px;
+
+  border-radius: 30px;
+  background: #2D5DEB;
+
+  color: #FFF;
+  text-align: center;
+  font-family: "Noto Sans KR";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }

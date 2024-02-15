@@ -1,18 +1,21 @@
 'use client'
 
-import DongariInList from '../find/DongariInList';
+import DongariInList from '@/app/component/ClubInList.js';
 import Styles from './my.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function My() {
   const router = useRouter();
   const [User, setUser] = useState({
     email: '로딩 중', 
     username: '로딩 중', 
-    emailVerified: null
+    emailConfirm: null
   });
   const [Groups, setGroups] = useState([]);
+
+  const [clubFix, setClubFix] = useState(false);
 
   const GetMyinfo = async () => {
     const URL = 'http://localhost:3000';
@@ -93,13 +96,13 @@ export default function My() {
           <div className={Styles.Right}>
             <ul>
               {
-                User.verifiedEmail ? 
+                User.emailConfirm ? 
                   <li id={Styles.email_check}>인증된 이메일 ✅</li> :
                   <li id={Styles.email_uncheck}>인증되지 않은 이메일 ❌</li>
               }
             </ul>
             {
-              User.verifiedEmail ?
+              User.emailConfirm ?
                 null :
                 <button className={Styles.BlueButton} onClick={emailHandler}>이메일 인증하기</button>
             }
@@ -109,7 +112,11 @@ export default function My() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>비밀번호</p>
           <div className={Styles.Right}>
-            <button className={Styles.BlueButton}>비밀번호 변경하기</button>
+            <Link href={'/my/password'}>
+              <button className={Styles.BlueButton}>
+                비밀번호 변경하기
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -123,28 +130,61 @@ export default function My() {
           {
             Groups.map((club,index)=>{
               return(
-                <DongariInList 
-                  club={club}
-                  i={index} 
-                  key={club.id}
-                />
+                <div className={Styles.ClubRow} key={club.id}>
+                  <Link 
+                    className={Styles.ClubFix}
+                    style={clubFix ? null :
+                      {display: 'none'}
+                    }
+                    href={`/my/club/${club.id}`}
+                  >
+                    관리
+                  </Link>
+                  <DongariInList
+                    club={club}
+                    i={index}
+                  />
+                </div>
               );
             })
           }
         </div>
         <div className={Styles.ButtonSpace}>
-          <button className={Styles.BlueButton}>관리하기</button>
+          {
+            Groups.length ?
+            <button
+              className={Styles.BlueButton}
+              onClick={(e) => {
+                setClubFix(!clubFix);
+              }}
+              style={clubFix ? 
+                {backgroundColor: 'gray'} : null
+              }
+            >
+              {
+                clubFix ? '취소' : '관리하기'
+              }
+            </button>
+            :
+            <button
+              className={Styles.BlueButton}
+              style={{backgroundColor: 'gray'}}
+            >
+              현재 관리 중인 동아리가 없습니다.
+            </button>
+          }
+          
         </div>
       </div>
-
-      <div className={Styles.DongariPanel}>
+      
+      {/* <div className={Styles.DongariPanel}>
         <div className={Styles.Top}>
           <h1 className={Styles.Title}>소속된 동아리 📌</h1>
         </div>
         <div className={Styles.ListBox}>
 
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

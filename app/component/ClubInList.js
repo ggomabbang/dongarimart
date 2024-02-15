@@ -1,13 +1,13 @@
 'use client'
 
-import Styles from './DongariInList.module.css';
-import { useState } from 'react';
+import Styles from './ClubInList.module.css';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import College from '@/public/College.json'
 
 export default function DongariInList({club, i}) {
   const [foldStyle, setFold] = useState('none');
   const [foldGap, setGap] = useState('0px');
-  const recruitStyle = club.isRecruiting ? 'flex' : 'none';
 
   const folder = () => {
     // console.log(foldStyle)
@@ -25,6 +25,29 @@ export default function DongariInList({club, i}) {
     }
   };
 
+  function getDate(date) {
+    const today = new Date(date);
+  
+    const year = today.getFullYear(); // 2023
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // 06
+    const day = today.getDate().toString().padStart(2, '0'); // 18
+  
+    const dateString = year + '-' + month + '-' + day; // 2023-06-18
+  
+    return dateString;
+  }
+
+  const [recruit, setRecruit] = useState({});
+
+  useEffect(() => {
+    const fetchClub = async () => {
+      const res = await fetch(`/api/clubs/${club.id}`);
+      const data = await res.json();
+      setRecruit(data.post.recruit);
+    }
+    if (club.isRecruiting) fetchClub();
+  }, [foldStyle])
+
   return (
     <div className={Styles.Div_Fold} style={{gap: foldGap}}id={"div"+i}>
       <div className={Styles.Top}>
@@ -38,7 +61,7 @@ export default function DongariInList({club, i}) {
                 )
               })
             }
-            <h4 className={Styles.Tag}>{club.classification}</h4>
+            <h4 className={Styles.Tag}>{College[club.classification]}</h4>
           </div>
         </div>
         <div className={Styles.Right}>
@@ -58,14 +81,31 @@ export default function DongariInList({club, i}) {
         <img id={"img"+i} className={Styles.ClubImage}/>
         <div className={Styles.Info}>
           <h4 id={"info"+i} className={Styles.InfoText}>{club.short}</h4>
-          <div className={Styles.ShortBlock} style={{display: recruitStyle}}>
-            <h4 id={"info2"+i} className={Styles.BlueButton}>모집기간</h4>
-            <p className={Styles.InfoText2}>{club.recruitPeriod}</p>
-          </div>
-          <div className={Styles.ShortBlock} style={{display: recruitStyle}}>
-            <h4 id={"info3"+i} className={Styles.BlueButton}>세부인원</h4>
-            <p className={Styles.InfoText2}>{club.recruitTarget}</p>
-          </div>
+          {
+            recruit.recruitStart ?
+            <div className={Styles.ShortBlock}>
+              <h4 id={"info2"+i} className={Styles.BlueButton}>모집기간</h4>
+              <p>{getDate(recruit.recruitStart)} ~ {getDate(recruit.recruitEnd)}</p>
+            </div> : null
+          }
+          {
+            recruit.recruitStart ?
+            <div className={Styles.ShortBlock}>
+              <h4 id={"info3"+i} className={Styles.BlueButton}>세부인원</h4>
+              <div>
+                {
+                  JSON.parse(recruit.recruitTarget).map((target, index) => {
+                    return (
+                      <p key={index}>
+                        {`${target.name} - ${target.count > 0 ? target.count + '명' : '인원 제한 없음'}`}
+                      </p>
+                    )
+                  })
+                }
+              </div>
+            </div> : null
+          }
+          
           
         </div>
       </div>
