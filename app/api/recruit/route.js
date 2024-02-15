@@ -28,7 +28,6 @@ export async function POST(request) {
 
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
@@ -100,6 +99,15 @@ export async function POST(request) {
     });
   }
 
+  if (image && !Array.isArray(image)) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
   let images;
   if (image) images = image;
   else images = [];
@@ -111,7 +119,7 @@ export async function POST(request) {
           filename: img
         }
       });
-      if (!validImage) {
+      if (!validImage || validImage.postId || validImage.clubId) {
         return "failed";
       }
       else {
@@ -164,10 +172,8 @@ export async function POST(request) {
 
   try {
     const result = await client.Post.create(query);
-    console.log(!result);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
-      console.log(e);
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
