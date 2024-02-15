@@ -1,18 +1,28 @@
-export async function POST(request) {
-  const user_token = cookies().get('next-auth.session-token');
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+import client from "../../../../prisma/prisma";
+import { Prisma } from '@prisma/client'
 
-  const userid = user_token? await client.Session.findUnique({
+export async function GET(request) {
+  const result = await client.Post.findMany({
     where: {
-      sessionToken: user_token.value,
+      "isNotice": true
     },
     select: {
-      userId: true,
-      expires: true
-    },
-  }) : null;
+      "id": true,
+      "title": true,
+      "updatedAt": true
+    }
+  });
 
-  console.log(userid);
-  if (!user_token || !userid || !userid.userId) {
+  return NextResponse.json(result);
+}
+
+export async function POST(request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
     }, {
@@ -20,27 +30,15 @@ export async function POST(request) {
     });
   }
 
-  const club = await client.clubList.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  if (!club) {
-    return new Response(null, {
-      status: 204,
+  if (session.userRole !== 'admin') {
+    return NextResponse.json({
+      message: "등록 권한이 없는 클라이언트입니다."
+    }, {
+      status: 403,
     });
   }
 
-  // if (!leader || !leader.isLeader) {
-  //   return NextResponse.json({
-  //     message: "등록 권한이 없는 클라이언트입니다."
-  //   }, {
-  //     status: 403,
-  //   });
-  // }
-
-  const { title, content } = await request.json();
+  const { title, content, image } = await request.json();
 
   if (!title) {
     return NextResponse.json({
@@ -60,6 +58,44 @@ export async function POST(request) {
     });
   }
 
+  if (image && !Array.isArray(image)) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
+  let images;
+  if (image) images = image;
+  else images = [];
+
+  const isValidImage = await Promise.all(
+    images.map(async (img) => {
+      const validImage = await client.Image.findUnique({
+        where: {
+          filename: img
+        }
+      });
+      if (!validImage || validImage.postId || validImage.clubId) {
+        return "failed";
+      }
+      else {
+        return "success";
+      }
+    })
+  );
+
+  if (isValidImage.includes("failed")) {
+    return NextResponse.json({
+      parameter: "image",
+      message: "올바르지 않은 parameter입니다."
+    }, {
+      status: 400,
+    });
+  }
+
   const query = {
     data: {
       title,
@@ -67,18 +103,23 @@ export async function POST(request) {
       isNotice: true,
       user: {
         connect: {
-          id: userid.userId,
+          id: session.userId,
         }
-      }
+      },
+      image: {
+        connect: images.map((img) => {
+          return {
+            filename: img
+          };
+        }),
+      },
     },
   };
 
   try {
     const result = await client.Post.create(query);
-    console.log(!result);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientValidationError) {
-      console.log(e);
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {

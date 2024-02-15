@@ -7,7 +7,6 @@ import "dotenv/config";
 export async function GET() {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session) {
     return NextResponse.json({
       message: "유효하지 않은 토큰입니다."
@@ -28,6 +27,7 @@ export async function GET() {
       id: true,
       clubName: true,
       classification: true,
+      isRecruiting: true,
       oneLine: true,
       short: true,
       pageURL: true,
@@ -54,8 +54,6 @@ export async function GET() {
     delete club.members;
     body.push(club);
   });
-
-  console.log('clublist:', body);
 
   return NextResponse.json(body);
 }
