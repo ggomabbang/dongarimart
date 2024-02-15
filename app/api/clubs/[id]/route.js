@@ -156,51 +156,39 @@ export async function PATCH(request) {
 
   let { oneLine, short, tags, url, image } = await request.json();
 
-  if (!oneLine) {
-    return NextResponse.json({
-      parameter: "oneLine",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-  if (!short) {
-    return NextResponse.json({
-      parameter: "short",
-      message: "올바르지 않은 parameter입니다."
-    }, {
-      status: 400,
-    });
-  }
-  if (!tags) {
-    tags = [];
-  }
-
   const query = {
     where: {
       id,
     },
-    data: {
-      oneLine,
-      short,
-      tags: {
-        deleteMany: {},
-        create: tags.map((tag) => {
-          return {
-            tagList: {
-              connectOrCreate: {
-                where: { 
-                  tagName: tag
-                },
-                create: { 
-                  tagName: tag,
-                },
+    data: { }
+  }
+
+  if (oneLine) {
+    query.data.oneLine = oneLine;
+  }
+
+  if (short) {
+    query.data.short = short;
+  }
+
+  if (tags) {
+    query.data.tags = {
+      deleteMany: {},
+      create: tags.map((tag) => {
+        return {
+          tagList: {
+            connectOrCreate: {
+              where: { 
+                tagName: tag
               },
-            }
-          };
-        }),
-      },
-    }
+              create: { 
+                tagName: tag,
+              },
+            },
+          }
+        };
+      }),
+    };
   }
 
   if (image) {
