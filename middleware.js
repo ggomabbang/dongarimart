@@ -22,6 +22,12 @@ export async function middleware(request) {
             return NextResponse.redirect(new URL("/login", request.url));
         }
     }
+
+    if (url.startsWith('/admin')) {
+        if (token?.userRole !== "admin") {
+            return NextResponse.redirect(new URL("/", request.url));
+        }
+    }
 }
 
 export const config = {
