@@ -1,3 +1,4 @@
+import emailSender from "@/app/lib/emailSender";
 import prisma from "@/prisma/prisma";
 import moment from "moment";
 import { NextResponse } from "next/server";
@@ -74,23 +75,28 @@ export async function POST(request) {
                 verifiedDone: false
             }
         });
+
+        const ejs = require("ejs");
+        let emailTemplate;
+        ejs.renderFile(
+            "app/lib/emailTemplate/resetPassword.ejs",
+            { name: user.username, token: token },
+            function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                emailTemplate = data;
+            }
+        );
         
-        const transporter = nodeMailer.createTransport({
-            service: 'gmail',
-            auth: { user: process.env.EMAIL_ADDRESS , pass: process.env.EMAIL_PASSWORD },
-        });
-    
         const mailOptions = {
+            from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: '동아리마트 초기화 비밀번호 메일',
-            html: `
-                <h1>비밀번호 초기화를 위한 인증 메일입니다</h1>
-                <p>아래 링크를 클릭해 이메일 인증이 완료되면 새 비밀번호가 이메일로 전송됩니다</p>
-                <a href="http://localhost:3000/login/findpw/${token}">이메일 인증 링크</a>
-            `
+            html: emailTemplate
         };
     
-        await transporter.sendMail(mailOptions);
+        emailSender.sendMail(mailOptions);
 
         return new Response(null, {
             status: 204

@@ -3,6 +3,7 @@ import prisma from "@/prisma/prisma";
 import { env } from '@/next.config';
 import * as nodeMailer from 'nodemailer';
 import moment from "moment";
+import emailSender from "@/app/lib/emailSender";
 
 export async function POST(request) {
     try {
@@ -112,29 +113,30 @@ export async function POST(request) {
                 },
             });
         }
+
+        const ejs = require("ejs");
+        let emailTemplate;
+        ejs.renderFile(
+            "app/lib/emailTemplate/signUp.ejs",
+            { name: user.username, token: token },
+            function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                emailTemplate = data;
+            }
+        );
         
-        // 이메일 전송 객체 생성
-        const transporter = nodeMailer.createTransport({
-            service: 'gmail',
-            auth: { user: process.env.EMAIL_ADDRESS , pass: process.env.EMAIL_PASSWORD },
-        })
-    
         const mailOptions = {
+            from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: '동아리마트 가입 인증 메일',
-            html: `
-            <h1>동아리마트 가입 인증 메일</h1>
-            <div>
-                <p>${user.username}님 환영합니다</p>
-                <p>아래 링크를 클릭해 이메일 인증을 완료해주세요</p>
-                <a href="http://localhost:3000/auth/email/${token}">이메일 인증 링크</a>
-                <p>이메일 인증이 정상적으로 되지 않는다면 아래 연락처로 연락바랍니다</p>
-            </div>
-            `
+            html: emailTemplate
         };
     
-        await transporter.sendMail(mailOptions);
-    
+
+        emailSender.sendMail(mailOptions);
+
         return new Response(null, {
             status: 204
         });

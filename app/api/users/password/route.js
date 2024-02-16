@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import * as nodeMailer from 'nodemailer';
 import moment from "moment";
+import emailSender from "@/app/lib/emailSender";
 
 export async function PATCH(request) {
     try {
@@ -97,23 +98,28 @@ export async function DELETE(request) {
         const bcrypt = require("bcryptjs");
         const salt = await bcrypt.genSalt(10);
         const newHash = await bcrypt.hash(newPassword, salt);
-        // 이메일 전송 객체 생성
-        const transporter = nodeMailer.createTransport({
-            service: 'gmail',
-            auth: { user: process.env.EMAIL_ADDRESS , pass: process.env.EMAIL_PASSWORD },
-        })
         
+        const ejs = require("ejs");
+        let emailTemplate;
+        ejs.renderFile(
+            "app/lib/emailTemplate/newPassword.ejs",
+            { name: user.username, password: newPassword },
+            function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                emailTemplate = data;
+            }
+        );
+
         const mailOptions = {
+            from: process.env.EMAIL_ADDRESS,
             to: email.email,
             subject: '동아리마트 비밀번호 초기화 메일',
-            html: `
-                <h1>비밀번호 초기화</h1>
-                <p>아래 비밀번호로 로그인 후 비밀번호를 변경해주십시오</p>
-                <p>${newPassword}</p>
-            `
+            html: emailTemplate
         };
         
-        await transporter.sendMail(mailOptions);
+        emailSender.sendMail(mailOptions);
         
         const newUser = await prisma.User.update({
             where: {
