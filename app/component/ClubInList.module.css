@@ -183,14 +183,6 @@
   text-indent: 0.3em;
 }
 
-.BlueButton:hover {
-  animation: pop 0.3s linear 1;
-}
-
-@keyframes pop{
-  50% {transform: scale(1.1);}
-}
-
 .DetailButton {
   padding: 5px 20px;
 

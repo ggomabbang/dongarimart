@@ -83,6 +83,12 @@
   align-self: stretch;
 }
 
+.Bottom img {
+  display: flex;
+  align-self: stretch;
+  object-fit: contain;
+}
+
 .Contents {
   color: #000;
   font-family: Noto Sans KR;

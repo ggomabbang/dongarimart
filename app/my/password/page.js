@@ -86,7 +86,7 @@ export default function password() {
                   newStyle[2] = false;
                 }
 
-                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
+                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw) && !/[^\w`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
                   newStyle[3] = true;
                 } else {
                   newStyle[3] = false;

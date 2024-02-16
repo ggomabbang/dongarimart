@@ -194,6 +194,25 @@ export default function my() {
 
         </div>
       </div> */}
+
+      <div className={Styles.Top}>
+        <h1 className={Styles.Title}>🚨 Danger Zone 🚨</h1>
+      </div>
+
+      <div className={Styles.InputPanel}>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>계정 탈퇴</p>
+          <div className={Styles.Right}>
+            <Link href={'/my/cancel'}>
+              <button className={Styles.BlueButton} style={{backgroundColor: 'red'}}>
+                계정 탈퇴하기
+              </button>
+            </Link>
+          </div>
+        </div>
+
+      </div>
     </div>
   )
 }

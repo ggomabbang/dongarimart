@@ -47,7 +47,7 @@ export default function find() {
     <div className={Styles.Vertical_Div}>
       <h1 className={Styles.PageTitle}>동아리 찾아보기</h1>
       <div className={Styles.Horizontal_Div}>
-        <input className={Styles.SearchBar} placeholder='검색해보세요 !'/>
+        {/* <input className={Styles.SearchBar} placeholder='검색해보세요 !'/> */}
         <div className={Styles.Selector}>
           <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={CollegeSelected}>
             {

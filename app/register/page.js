@@ -118,7 +118,7 @@ export default function register() {
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
-              placeholder='동아리 이름'
+              placeholder='동아리 이름(필수)'
               value={clubName}
               onChange={(e)=>{
                 if (e.target.value.length <= 20)
@@ -137,7 +137,7 @@ export default function register() {
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
-              placeholder='한 줄 소개'
+              placeholder='한 줄 소개(필수)'
               value={oneLine}
               onChange={(e)=>{
                 if (e.target.value.length <= 100)
@@ -156,7 +156,7 @@ export default function register() {
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
-              placeholder='https://wave.com'
+              placeholder='인스타그램 등 동아리 소개 페이지 링크'
               value={url}
               onChange={(e)=>{
                 if (e.target.value.length <= 255)
@@ -196,7 +196,7 @@ export default function register() {
             <div className={Styles.InputWithCount}>
               <textarea 
                 className={Styles.LargeInputBox}
-                placeholder='짧은 동아리 소개 문구'
+                placeholder='동아리 소개 문구(필수)'
                 value={short}
                 onChange={(e)=>{
                   if (e.target.value.length <= 500)
@@ -286,7 +286,7 @@ export default function register() {
         </label>
 
         <button className={Styles.UploadButton} onClick={handleSubmit}>
-          신청
+          등록
         </button>
 
       </div>
