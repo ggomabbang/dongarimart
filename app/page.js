@@ -63,38 +63,43 @@ export default function home() {
         <div className={Styles.Top}>
           {
             status === 'authenticated' ?
-            <h1 className={Styles.Title}>더 많은 기능 살펴보기</h1> :
-            <h1 className={Styles.Title}>로그인으로 더 많은 기능 이용하기</h1>
+            <h1 className={Styles.Title}>더 많은 기능 살펴보기</h1> : null
+          }
+          {
+            status === 'unauthenticated' ?
+            <h1 className={Styles.Title}>로그인으로 더 많은 기능 이용하기</h1> : null
           }
         </div>
         
           {
             status === 'authenticated' ?
-            <div className={Styles.FindBlock}>
-              <Link href={'/register'} className={Styles.FxElement}>
-                <button>
-                  동아리 등록
-                </button>
-              </Link>
-              <Link href={'/recruit'} className={Styles.FxElement}>
-                <button>
-                  인원 모집
-                </button>
-              </Link>
-            </div>
-            :
-            <div className={Styles.FindBlock}>
-              <Link href={'/login/signup'} className={Styles.FxElement}>
-                <button>
-                  회원가입
-                </button>
-              </Link>
-              <Link href={'/login'} className={Styles.FxElement}>
-                <button>
-                  로그인
-                </button>
-              </Link>
-            </div>
+              <div className={Styles.FindBlock}>
+                <Link href={'/register'} className={Styles.FxElement}>
+                  <button>
+                    동아리 등록
+                  </button>
+                </Link>
+                <Link href={'/recruit'} className={Styles.FxElement}>
+                  <button>
+                    인원 모집
+                  </button>
+                </Link>
+              </div> : null
+          }
+          {
+            status === 'unauthenticated' ?
+              <div className={Styles.FindBlock}>
+                <Link href={'/login/signup'} className={Styles.FxElement}>
+                  <button>
+                    회원가입
+                  </button>
+                </Link>
+                <Link href={'/login'} className={Styles.FxElement}>
+                  <button>
+                    로그인
+                  </button>
+                </Link>
+              </div> : null
           }
       </div>
         

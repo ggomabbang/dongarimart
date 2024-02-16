@@ -54,7 +54,7 @@ export default function signUp() {
       });
       if (emailRes.status == 204) {
         const id = email.split('@')[0];
-        return router.push(`/login/emailcheck/${id}`);
+        return router.push(`/infomessage/emailcheck/${id}`);
       } else if (emailRes.status == 400) {
         alert('MY 페이지에서 이메일 확인을 다시 진행해주세요');
         return router.push('/');

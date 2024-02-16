@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from './SignUp.module.css';
+import Styles from '../SignUp.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 

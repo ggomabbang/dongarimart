@@ -44,8 +44,7 @@ export default function my() {
       })
     });
     if (emailRes.status == 204) {
-      alert(`${User.email}로 전송된 메일을 통해 이메일 인증을 진행해주세요.`)
-      return router.push('/');
+      return router.push(`/infomessage/emailcheck/${User.email.split('@')[0]}`);
     } else if (emailRes.status == 400) {
       alert('MY 페이지에서 이메일 확인을 다시 진행해주세요');
       return router.push('/');
