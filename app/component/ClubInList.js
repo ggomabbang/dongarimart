@@ -10,7 +10,6 @@ export default function dongariInList({club, i}) {
   const [foldGap, setGap] = useState('0px');
 
   const folder = () => {
-    // console.log(foldStyle)
     if (foldStyle == 'none') {
       setFold('flex');
       setGap('25px');
@@ -38,14 +37,23 @@ export default function dongariInList({club, i}) {
   }
 
   const [recruit, setRecruit] = useState({});
+  const [clubPlus, setClubPlus] = useState({
+    short: '',
+    image: null
+  });
 
   useEffect(() => {
     const fetchClub = async () => {
       const res = await fetch(`/api/clubs/${club.id}`);
       const data = await res.json();
-      setRecruit(data.post.recruit);
+      if (data.post) setRecruit(data.post.recruit);
+      const newClub = {
+        short: data.short,
+        image: data.image
+      }
+      setClubPlus(newClub);
     }
-    if (club.isRecruiting) fetchClub();
+    fetchClub();
   }, [foldStyle])
 
   return (
@@ -78,13 +86,19 @@ export default function dongariInList({club, i}) {
         className={Styles.Bottom}
         style={{display: foldStyle}}
       >
-        <img id={"img"+i} className={Styles.ClubImage}/>
+        {
+          clubPlus.image ?
+          <img className={Styles.ClubImage} src={`/api/image?filename=${clubPlus.image.filename}`}/>
+          :
+          <div className={Styles.ClubImage} />
+        }
+        
         <div className={Styles.Info}>
           <div className={Styles.ShortBlock}>
             <h4 className={Styles.BlueButton}>짧은 소개</h4>
             <div className={Styles.InfoText}>
               {
-                club.short.split('\n').map((line, index) => {
+                clubPlus.short.split('\n').map((line, index) => {
                   return (
                     <span key={`Short${index}`}>
                       {line}

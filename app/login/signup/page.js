@@ -75,6 +75,10 @@ export default function signUp() {
   }
   return (
     <div className={Styles.Panel}>
+      <div className={Styles.Top}>
+        <h1 className={Styles.Title}>회원가입</h1>
+      </div>
+
       <div className={Styles.Input}>
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>닉네임</p>

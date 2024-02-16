@@ -10,7 +10,7 @@ export default function oneArticle({ params }) {
   const [ article, setArticle ] = useState({
     title: '로딩 중',
     content: '...',
-    updateAt: '...',
+    updatedAt: '...',
     image: [],
   });
 
@@ -25,7 +25,6 @@ export default function oneArticle({ params }) {
   }
 
   useEffect(() => {
-    console.log(article)
     getArticle();
   }, []);
 
@@ -38,11 +37,22 @@ export default function oneArticle({ params }) {
             <p className={Styles.GoBack}>&lt; 뒤로가기</p>
           </Link>
           <h1 className={Styles.Title}>{article.title}</h1>
-          <h4 className={Styles.Date}>{article.updateAt}</h4>
+          <h4 className={Styles.Date}>{article.updatedAt.slice(0, 10)}</h4>
           <div className={Styles.line}/>
         </div>
         <div className={Styles.Bottom}>
-          <p className={Styles.Contents}>{article.content}</p>
+          <div className={Styles.Contents}>
+            {
+              article.content.split('\n').map((line, index) => {
+                return (
+                  <span key={`content${index}`}>
+                    {line}
+                    <br />
+                  </span>
+                )
+              })
+            }
+          </div>
           {
             article.image.map((img, index) => {
               return (

@@ -41,7 +41,11 @@ export default function home() {
             clubs.map((club, index) => {
               return (
                 <div className={Styles.FindElement} key={`club${index}`}>
-                  <div className={Styles.ClubImage}/>
+                  {
+                    club.image ?
+                    <img className={Styles.ClubImage} src={`/api/image?filename=${club.image.filename}`}/> :
+                    <div className={Styles.ClubImage}/>
+                  }
                   <div className={Styles.ClubMini}>
                     <h3>{club.clubName}</h3>
                     <p>{club.oneLine}</p>

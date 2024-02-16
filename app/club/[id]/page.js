@@ -60,9 +60,12 @@ export default function club({ params }) {
           <h3 className={Styles.SubTitle}>{Club.oneLine}</h3>
         </div>
         <div className={Styles.Middle}>
-          <div className={Styles.ImageBox}>
-            IMAGE<img />
-          </div>
+          {
+            Club.image ?
+            <img className={Styles.ImageBox} src={`/api/image?filename=${Club.image.filename}`}/> :
+            <div className={Styles.ImageBox}/>
+          }
+          
           <div className={Styles.MiddleRight}>
             <div className={Styles.ShortText}>
               {

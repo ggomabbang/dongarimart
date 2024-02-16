@@ -8,7 +8,6 @@ export default function recruit({params}) {
   const router = useRouter();
 
   const [imageSelect, setImageSelect] = useState(0);
-
   const [images, setImages] = useState([]);
   const [imageSrcs, setImageSrcs] = useState([null, null, null, null]);
   const imageHandler = (e) => {
@@ -40,8 +39,22 @@ export default function recruit({params}) {
     }
   };
 
+  const [currentImgSel, setCurrentImgSel] = useState(0);
+  const [currentSrc, setCurrentSrc] = useState([]);
+
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
+
+  const postOrigin = {
+    title: '',
+    content: '',
+    recruit: {
+      recruitStart: '',
+      recruitEnd: '',
+      recruitTarget: '',
+      recruitURL: ''
+    }
+  }
 
   const GetClub = async () => {
     const rows = await fetch(`/api/clubs/${params.id}`, {
@@ -49,16 +62,27 @@ export default function recruit({params}) {
     });
     const jsonData = await rows.json();
     if (jsonData) {
-
+      setClubs([jsonData]);
+      setSelectClub(params.id);
+      if (jsonData.post) {
+        const post = jsonData.post;
+        setTitle(post.title);
+        postOrigin.title = post.title;
+        setRecruitStart(post.recruit.recruitStart.slice(0, 10));
+        postOrigin.recruit.recruitStart = post.recruit.recruitStart.slice(0, 10);
+        setRecruitEnd(post.recruit.recruitEnd.slice(0, 10));
+        postOrigin.recruit.recruitEnd = post.recruit.recruitEnd.slice(0, 10);
+        setRecruitTarget(JSON.parse(post.recruit.recruitTarget));
+        postOrigin.recruit.recruitTarget = post.recruit.recruitTarget;
+        if (post.recruit.recruitURL) {
+          setURL(post.recruit.recruitURL);
+          postOrigin.recruit.recruitURL = post.recruit.recruitURL;
+        }
+        setContent(post.content);
+        postOrigin.content = post.content;
+        setCurrentSrc(post.image.map((img) => `/api/image?filename=${img.filename}`));
+      }
     }
-  }
-
-  const GetRecruit = async () => {
-    // const rows = await fetch('/api/clubs/my', {
-    //   method: "GET"
-    // });
-    // const jsonData = await rows.json();
-    // setClubs(jsonData);
   }
 
   const [title, setTitle] = useState('');
@@ -130,14 +154,7 @@ export default function recruit({params}) {
 
   const submitHandler = async (e) => {
     const clubID = selectClub;
-    const toBody = {
-      title,
-      start: recruitStart,
-      end: recruitEnd,
-      url: recruitURL.length ? recruitURL : null,
-      people: recruitTarget,
-      content
-    };
+    const toBody = {};
 
     if (clubID === '') return alert("동아리를 선택해 주세요");
     if (toBody.title === '') return alert("제목이 필요합니다.");
@@ -166,9 +183,20 @@ export default function recruit({params}) {
       for (let i = 0; i < images.length; i++) imagenames.push(imagename[i]);
       toBody.image = imagenames;
     }
+
+    if (postOrigin.recruit.recruitStart !== recruitStart || postOrigin.recruit.recruitEnd !== recruitEnd) {
+      toBody.start = recruitStart;
+      toBody.end = recruitEnd;
+    }
+
+    postOrigin.recruit.recruitURL !== recruitURL ? toBody.recruitURL = recruitURL : null;
+    const targetString = JSON.stringify(recruitTarget)
+    postOrigin.recruit.recruitTarget !== targetString ? toBody.people = targetString : null;
+    postOrigin.title !== title ? toBody.title = title : null;
+    postOrigin.content !== content ? toBody.content = content : null;
     
     const res = await fetch(`/api/recruit?clubid=${selectClub}`, {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -198,7 +226,6 @@ export default function recruit({params}) {
 
   useEffect(()=>{
     GetClub();
-    GetRecruit();
   }, []);
 
   return (
@@ -354,7 +381,35 @@ export default function recruit({params}) {
         </label>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}>이미지</p>
+          <p className={Styles.Left}>현재 이미지</p>
+          <div className={Styles.ImageRoom}>
+            <img className={Styles.ImageBox} src={currentSrc[currentImgSel]}/>
+            <div>{currentImgSel+1}</div>
+          </div>
+          <div className={Styles.Side}>
+            <div className={Styles.Images}>
+              {
+                currentSrc.map((imgSrc, index) => {
+                  return (
+                    <div className={Styles.ImageRoom} key={`cimg${index}`}>
+                      {
+                        <img 
+                          className={Styles.ImageSmallBox}
+                          src={imgSrc}
+                          onClick={(e) => setCurrentImgSel(index)}
+                        />
+                      }
+                      <div>{index+1}</div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+        </div>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>새 이미지</p>
           <div className={Styles.ImageRoom}>
             <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
             <div>{imageSelect+1}</div>
@@ -410,7 +465,7 @@ export default function recruit({params}) {
           완료
         </button>
 
-        <button className={Styles.CancelButton} onClick={''}>
+        <button className={Styles.CancelButton}>
           공고 삭제하기
         </button>
 
