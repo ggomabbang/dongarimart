@@ -234,10 +234,12 @@ export async function PATCH(request) {
     clubQuery.data.schedule.upsert.create.recruitEnd = new Date(end);
 
     try {
-      await client.ClubList.update(query);
+      await client.ClubList.update(clubQuery);
     } catch (e) {
       console.error(e);
       return NextResponse.json({
+        message: "오류."
+      }, {
         status: 500,
       });
     }
