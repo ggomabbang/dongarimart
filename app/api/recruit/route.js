@@ -173,6 +173,7 @@ export async function POST(request) {
   try {
     const result = await client.Post.create(query);
   } catch (e) {
+    console.error(e);
     if (e instanceof Prisma.PrismaClientValidationError) {
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
@@ -180,33 +181,45 @@ export async function POST(request) {
         status: 400,
       });
     }
+    else {
+      return NextResponse.json({
+        status: 500,
+      });
+    }
   }
 
-  await client.ClubList.update({
-    where: {
-      id: clubId,
-    },
-    data: {
-      isRecruiting: 
-        new Date(toStringByFormatting(new Date())) < new Date(start) ?
-        false : true,
-      schedule: {
-        upsert: {
-          where: {
-            clubId,
-          },
-          update: {
-            recruitStart: new Date(start),
-            recruitEnd: new Date(end),
-          },
-          create: {
-            recruitStart: new Date(start),
-            recruitEnd: new Date(end),
+  try {
+    await client.ClubList.update({
+      where: {
+        id: clubId,
+      },
+      data: {
+        isRecruiting: 
+          new Date(toStringByFormatting(new Date())) < new Date(start) ?
+          false : true,
+        schedule: {
+          upsert: {
+            where: {
+              clubId,
+            },
+            update: {
+              recruitStart: new Date(start),
+              recruitEnd: new Date(end),
+            },
+            create: {
+              recruitStart: new Date(start),
+              recruitEnd: new Date(end),
+            }
           }
         }
       }
-    }
-  });
+    });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 
   return new Response(null, {
     status: 201,

@@ -191,11 +191,17 @@ export async function PATCH(request) {
   try {
     await client.Post.update(query);
   } catch (e) {
+    console.error(e);
     if (e instanceof Prisma.PrismaClientValidationError) {
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
         status: 400,
+      });
+    }
+    else {
+      return NextResponse.json({
+        status: 500,
       });
     }
   }
@@ -225,7 +231,14 @@ export async function PATCH(request) {
     clubQuery.data.schedule.upsert.update.recruitEnd = new Date(end);
     clubQuery.data.schedule.upsert.create.recruitEnd = new Date(end);
 
-    await client.ClubList.update(clubQuery);
+    try {
+      await client.ClubList.update(query);
+    } catch (e) {
+      console.error(e);
+      return NextResponse.json({
+        status: 500,
+      });
+    }
   }
 
   return new Response(null, {
@@ -292,26 +305,33 @@ export async function DELETE(request) {
     });
   }
 
-  const result = await client.Post.delete({
-    where: {
-      id,
-    }
-  });
+  try {
+    const result = await client.Post.delete({
+      where: {
+        id,
+      }
+    });
 
-  await client.RecruitSchedule.delete({
-    where: {
-      clubId: myPost.clubId
-    }
-  })
+    await client.RecruitSchedule.delete({
+      where: {
+        clubId: myPost.clubId
+      }
+    })
 
-  await client.clubList.update({
-    where: {
-      id: myPost.clubId
-    },
-    data: {
-      isRecruiting: false
-    }
-  })
+    await client.clubList.update({
+      where: {
+        id: myPost.clubId
+      },
+      data: {
+        isRecruiting: false
+      }
+    })
 
-  return NextResponse.json(result);
+    return NextResponse.json(result);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 }

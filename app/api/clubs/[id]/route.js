@@ -38,65 +38,72 @@ export async function GET(request) {
     }
   });
 
-  const result = await client.clubList.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      id: true,
-      clubName: true,
-      classification: true,
-      oneLine: true,
-      short: true,
-      isRecruiting: true,
-      pageURL: true,
-      image: {
-        select:{
-          filename: true,
-        }
+  try {
+    const result = await client.clubList.findUnique({
+      where: {
+        id,
       },
-      view: true,
-      createdAt: true,
-      updatedAt: true,
-      post: {
-        where: {
-          isRecruit: true,
+      select: {
+        id: true,
+        clubName: true,
+        classification: true,
+        oneLine: true,
+        short: true,
+        isRecruiting: true,
+        pageURL: true,
+        image: {
+          select:{
+            filename: true,
+          }
         },
-        orderBy: {
-          updatedAt: 'desc',
-        },
-        take: 1,
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          image: {
-            select: {
-              filename: true,
-            }
+        view: true,
+        createdAt: true,
+        updatedAt: true,
+        post: {
+          where: {
+            isRecruit: true,
           },
-          recruit: {
-            select: {
-              recruitStart: true,
-              recruitEnd: true,
-              recruitTarget: true,
-              recruitURL: true
+          orderBy: {
+            updatedAt: 'desc',
+          },
+          take: 1,
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            image: {
+              select: {
+                filename: true,
+              }
+            },
+            recruit: {
+              select: {
+                recruitStart: true,
+                recruitEnd: true,
+                recruitTarget: true,
+                recruitURL: true
+              }
             }
           }
-        }
-      },
-      tags: {
-        select: {
-          tagList: true,
+        },
+        tags: {
+          select: {
+            tagList: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  let body = result;
-  body.post = result.post[0];
-  
-  return NextResponse.json(body);
+    let body = result;
+    body.post = result.post[0];
+    
+    return NextResponse.json(body);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 }
 
 export async function PATCH(request) {
@@ -215,7 +222,23 @@ export async function PATCH(request) {
     query.data.pageURL = url;
   }
 
-  await client.ClubList.update(query);
+  try {
+    await client.ClubList.update(query);
+  } catch (e) {
+    console.error(e);
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+    else {
+      return NextResponse.json({
+        status: 500,
+      });
+    }
+  }
   return new Response(null, {
     status: 201,
   });
