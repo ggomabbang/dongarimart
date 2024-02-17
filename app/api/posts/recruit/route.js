@@ -65,6 +65,8 @@ export async function GET(request) {
   } catch (e) {
     console.error(e);
     return NextResponse.json({
+      message: "오류."
+    }, {
       status: 500,
     });
   }
