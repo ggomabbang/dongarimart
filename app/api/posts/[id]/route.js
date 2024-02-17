@@ -186,6 +186,8 @@ export async function PATCH(request) {
     }
     else {
       return NextResponse.json({
+        message: "오류."
+      }, {
         status: 500,
       });
     }
@@ -249,6 +251,8 @@ export async function DELETE(request) {
   } catch (e) {
     console.error(e);
     return NextResponse.json({
+      message: "오류."
+    }, {
       status: 500,
     });
   }

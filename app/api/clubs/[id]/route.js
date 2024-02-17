@@ -38,69 +38,76 @@ export async function GET(request) {
     }
   });
 
-  try {
-    const result = await client.clubList.findUnique({
-      where: {
-        id,
+  const query = {
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      clubName: true,
+      classification: true,
+      oneLine: true,
+      short: true,
+      isRecruiting: true,
+      pageURL: true,
+      image: {
+        select:{
+          filename: true,
+        }
       },
-      select: {
-        id: true,
-        clubName: true,
-        classification: true,
-        oneLine: true,
-        short: true,
-        isRecruiting: true,
-        pageURL: true,
-        image: {
-          select:{
-            filename: true,
-          }
+      view: true,
+      createdAt: true,
+      updatedAt: true,
+      tags: {
+        select: {
+          tagList: true,
         },
-        view: true,
-        createdAt: true,
-        updatedAt: true,
-        post: {
-          where: {
-            isRecruit: true,
+      },
+    },
+  };
+
+  try {
+    const result = await client.clubList.findUnique(query);
+    let body = result;
+
+    if (result.isRecruiting) {
+      const recruitPost = await client.Post.findMany({
+        where: {
+          clubId: id,
+          isRecruit: true,
+        },
+        orderBy: {
+          updatedAt: 'desc',
+        },
+        take: 1,
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          image: {
+            select: {
+              filename: true,
+            }
           },
-          orderBy: {
-            updatedAt: 'desc',
-          },
-          take: 1,
-          select: {
-            id: true,
-            title: true,
-            content: true,
-            image: {
-              select: {
-                filename: true,
-              }
-            },
-            recruit: {
-              select: {
-                recruitStart: true,
-                recruitEnd: true,
-                recruitTarget: true,
-                recruitURL: true
-              }
+          recruit: {
+            select: {
+              recruitStart: true,
+              recruitEnd: true,
+              recruitTarget: true,
+              recruitURL: true
             }
           }
-        },
-        tags: {
-          select: {
-            tagList: true,
-          },
-        },
-      },
-    });
-
-    let body = result;
-    body.post = result.post[0];
+        }
+      });
+      body.post = recruitPost[0];
+    }
     
     return NextResponse.json(body);
   } catch (e) {
     console.error(e);
     return NextResponse.json({
+      message: "오류."
+    }, {
       status: 500,
     });
   }
@@ -235,6 +242,8 @@ export async function PATCH(request) {
     }
     else {
       return NextResponse.json({
+        message: "오류."
+      }, {
         status: 500,
       });
     }
