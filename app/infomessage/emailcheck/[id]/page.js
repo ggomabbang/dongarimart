@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from '../info.module.css';
+import Styles from '../Info.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
