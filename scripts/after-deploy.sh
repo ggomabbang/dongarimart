@@ -11,4 +11,6 @@ cd $REPOSITORY
 npm i
 npm run migrate
 npm run generate
-pm2 start "npm run start" --name "next"
+pm2 kill
+pm2 start "npm run start" --name "dongarimart"
+pm2 start "npm run cronjob" --name "recruitSchedule"
