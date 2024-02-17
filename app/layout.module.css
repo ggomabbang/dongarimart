@@ -14,8 +14,21 @@
 }
 
 .Title {
+    display: flex;
     padding: 2rem;
     height: 2em;
+    gap: 1em;
+    text-align: center;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.Title > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Title img {
@@ -42,9 +55,9 @@
     position: relative;
     color: #2D5DEB;
     font-family: Noto Sans KR;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-style: normal;
-    font-weight: 300;
+    font-weight: 400;
     line-height: normal;
     letter-spacing: 0.1em;
     background-color: transparent;

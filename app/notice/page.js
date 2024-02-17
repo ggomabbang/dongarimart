@@ -1,13 +1,11 @@
 import Notice from './notice';
 
-export default function NoticePage() {
+export default function noticePage() {
   return (
     <div 
       className='Container' 
       style={{
-        marginTop: '50px',
-        marginBottom: '50px',
-        width: '80%'
+        width: '900px'
       }}
     >
       <Notice more={'none'}/>

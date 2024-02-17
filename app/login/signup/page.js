@@ -4,7 +4,7 @@ import Styles from './SignUp.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SignUp() {
+export default function signUp() {
   const router = useRouter();
   const [nameCheck, setNameCheck] = useState(false);
   const [nameUnduplicated, setNameUnduplicated] = useState(false);
@@ -31,8 +31,7 @@ export default function SignUp() {
     const password = document.getElementById('password').value;
     const email = document.getElementById('email').value;
 
-    const url = "http://localhost:3000/api/users";
-    const res = await fetch(url, {
+    const res = await fetch('/api/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,8 +43,7 @@ export default function SignUp() {
       })
     });
     if (res.status == 201) {
-      const emailURL = 'http://localhost:3000/api/auth/email';
-      const emailRes = await fetch(emailURL, {
+      const emailRes = await fetch('/api/auth/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +54,7 @@ export default function SignUp() {
       });
       if (emailRes.status == 204) {
         const id = email.split('@')[0];
-        return router.push(`/login/emailcheck/${id}`);
+        return router.push(`/infomessage/emailcheck/${id}`);
       } else if (emailRes.status == 400) {
         alert('MY 페이지에서 이메일 확인을 다시 진행해주세요');
         return router.push('/');
@@ -77,6 +75,10 @@ export default function SignUp() {
   }
   return (
     <div className={Styles.Panel}>
+      <div className={Styles.Top}>
+        <h1 className={Styles.Title}>회원가입</h1>
+      </div>
+
       <div className={Styles.Input}>
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>닉네임</p>
@@ -98,10 +100,9 @@ export default function SignUp() {
               style={nameCheck ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const username = document.getElementById('ID_box').value;
-                const url = "http://localhost:3000/api/users";
                 const params = new URLSearchParams();
                 params.append('username', username);
-                const res = await fetch(url + '?' + params.toString(), {
+                const res = await fetch('/api/users?' + params.toString(), {
                   method: 'GET'
                 });
                 if (res.status == 200) {
@@ -157,7 +158,7 @@ export default function SignUp() {
                   newStyle[2] = false;
                 }
 
-                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
+                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw) && !/[^\w`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
                   newStyle[3] = true;
                 } else {
                   newStyle[3] = false;
@@ -246,10 +247,9 @@ export default function SignUp() {
               style={emailCheck ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const email = document.getElementById('email').value;
-                const url = "http://localhost:3000/api/users";
                 const params = new URLSearchParams();
                 params.append('email', email);
-                const res = await fetch(url + '?' + params.toString(), {
+                const res = await fetch('/api/users?' + params.toString(), {
                   method: 'GET'
                 });
                 if (res.status == 200) {
@@ -277,6 +277,15 @@ export default function SignUp() {
               <li style={{display: emailUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
               <li style={{display: !emailUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
             </ul>
+          </div>
+        </div>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>이용정보</p>
+          <div className={Styles.Right}>
+            - 입력하신 정보는 서비스 제공 목적으로만 사용됩니다.<br/>
+            - 입력하신 정보는 회원 탈퇴시까지 유지 됩니다.<br/>
+            - 가입 후 비밀번호 변경이 가능합니다.
           </div>
         </div>
         

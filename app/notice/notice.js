@@ -1,26 +1,26 @@
-import Article from './article';
-import Styles from './notice.module.css';
-import Link from "next/link";
+'use client'
+
+import Article from './article'
+import Styles from './notice.module.css'
+import Link from "next/link"
+import { useState, useEffect } from "react"
 
 export default function notice({more}) {
-    let Data = [
-        {
-            'title': '6409에 폭발물 설치한 20대 A씨, 올해의 시민상 ..',
-            'date': '23/09/05',
-        },
-        {
-            'title': '23년 3분기 악성 이용자 제제내역',
-            'date': '23/08/22',
-        },
-        {
-            'title': '올해 최고의 동아리를 뽑아봤습니다!',
-            'date': '23/06/15',
-        },
-        {
-            'title': '6409에 폭발물 설치한 20대 A씨, 올해의 시민상..',
-            'date': '23/09/05',
-        },
-    ];
+    const [ articles, setArticles ] = useState([]);
+
+    const getArticles = async () => {
+        const res = await fetch('/api/posts/notice', {
+            method: 'GET',
+        });
+        if (res.status == 200) {
+            const json = await res.json();
+            setArticles(json);
+        }
+    }
+
+    useEffect(() => {
+        getArticles();
+    }, [])
 
     return (
         <div className={Styles.NoticeBox}>
@@ -32,15 +32,18 @@ export default function notice({more}) {
             </div>
             <div className={Styles.Articles}>
                 {
-                    Data.map((article, index) => {
+                    articles.length ?
+                    articles.map((article, index) => {
                         return (
-                            <Article 
+                            <Article
+                                id={article.id}
                                 title={article.title} 
-                                date={article.date} 
+                                date={article.updatedAt.slice(0,10)} 
                                 key={index}
                             />
                         );
-                    })
+                    }) :
+                    <div className={Styles.Null}>글이 존재하지 않습니다.</div>
                 }
             </div>
         </div>

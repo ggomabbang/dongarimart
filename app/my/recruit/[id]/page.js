@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react';
 import Styles from './recruit.module.css';
 import { useRouter } from 'next/navigation';
 
-export default function recruit() {
+export default function recruit({params}) {
   const router = useRouter();
 
   const [imageSelect, setImageSelect] = useState(0);
-
   const [images, setImages] = useState([]);
   const [imageSrcs, setImageSrcs] = useState([null, null, null, null]);
   const imageHandler = (e) => {
@@ -40,15 +39,53 @@ export default function recruit() {
     }
   };
 
+  const [currentImgSel, setCurrentImgSel] = useState(0);
+  const [currentSrc, setCurrentSrc] = useState([]);
+
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
 
-  const GetMyClubs = async () => {
-    const rows = await fetch('/api/clubs/my', {
-      method: "GET"
+  const [postOrigin, setPostOrigin] = useState({
+    id: 0,
+    title: '',
+    content: '',
+    recruit: {
+      recruitStart: '',
+      recruitEnd: '',
+      recruitTarget: '',
+      recruitURL: ''
+    }
+  });
+
+  const GetClub = async () => {
+    const rows = await fetch(`/api/clubs/${params.id}`, {
+      method : "GET",
     });
     const jsonData = await rows.json();
-    setClubs(jsonData);
+    if (jsonData) {
+      setClubs([jsonData]);
+      setSelectClub(params.id);
+      if (jsonData.post) {
+        const post = jsonData.post;
+        postOrigin.id = post.id;
+        setTitle(post.title);
+        postOrigin.title = post.title;
+        setRecruitStart(post.recruit.recruitStart.slice(0, 10));
+        postOrigin.recruit.recruitStart = post.recruit.recruitStart.slice(0, 10);
+        setRecruitEnd(post.recruit.recruitEnd.slice(0, 10));
+        postOrigin.recruit.recruitEnd = post.recruit.recruitEnd.slice(0, 10);
+        setRecruitTarget(JSON.parse(post.recruit.recruitTarget));
+        postOrigin.recruit.recruitTarget = post.recruit.recruitTarget;
+        if (post.recruit.recruitURL) {
+          setURL(post.recruit.recruitURL);
+          postOrigin.recruit.recruitURL = post.recruit.recruitURL;
+        }
+        setContent(post.content);
+        postOrigin.content = post.content;
+        setCurrentSrc(post.image.map((img) => `/api/image?filename=${img.filename}`));
+        console.log(postOrigin);
+      }
+    }
   }
 
   const [title, setTitle] = useState('');
@@ -120,20 +157,13 @@ export default function recruit() {
 
   const submitHandler = async (e) => {
     const clubID = selectClub;
-    const toBody = {
-      title,
-      start: recruitStart,
-      end: recruitEnd,
-      url: recruitURL.length ? recruitURL : null,
-      people: recruitTarget,
-      content
-    };
+    const toBody = {};
 
     if (clubID === '') return alert("동아리를 선택해 주세요");
     if (toBody.title === '') return alert("제목이 필요합니다.");
     if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요.");
     let targetOK = true;
-    toBody.people.forEach((target, index) => {
+    recruitTarget.forEach((target, index) => {
       if (target.name.length == 0) {
         targetOK = false;
       }
@@ -156,9 +186,21 @@ export default function recruit() {
       for (let i = 0; i < images.length; i++) imagenames.push(imagename[i]);
       toBody.image = imagenames;
     }
+
+    if (postOrigin.recruit.recruitStart !== recruitStart || postOrigin.recruit.recruitEnd !== recruitEnd) {
+      toBody.start = recruitStart;
+      toBody.end = recruitEnd;
+    }
+
+    postOrigin.recruit.recruitURL !== recruitURL ? toBody.recruitURL = recruitURL : null;
+    const targetString = JSON.stringify(recruitTarget)
+    postOrigin.recruit.recruitTarget !== targetString ? toBody.people = targetString : null;
+    postOrigin.title !== title ? toBody.title = title : null;
+    postOrigin.content !== content ? toBody.content = content : null;
     
-    const res = await fetch(`/api/recruit?clubid=${selectClub}`, {
-      method: 'POST',
+    console.log();
+    const res = await fetch(`/api/recruit/${postOrigin.id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -187,12 +229,12 @@ export default function recruit() {
   }
 
   useEffect(()=>{
-    GetMyClubs();
+    GetClub();
   }, []);
 
   return (
     <div className={Styles.Panel}>
-      <h1 className={Styles.PageTitle}>동아리 모집 공고</h1>
+      <h1 className={Styles.PageTitle}>동아리 모집 공고 수정</h1>
       <div className={Styles.Input}>
 
         <label className={Styles.HorizonBox}>
@@ -343,7 +385,35 @@ export default function recruit() {
         </label>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}>이미지</p>
+          <p className={Styles.Left}>현재 이미지</p>
+          <div className={Styles.ImageRoom}>
+            <img className={Styles.ImageBox} src={currentSrc[currentImgSel]}/>
+            <div>{currentImgSel+1}</div>
+          </div>
+          <div className={Styles.Side}>
+            <div className={Styles.Images}>
+              {
+                currentSrc.map((imgSrc, index) => {
+                  return (
+                    <div className={Styles.ImageRoom} key={`cimg${index}`}>
+                      {
+                        <img 
+                          className={Styles.ImageSmallBox}
+                          src={imgSrc}
+                          onClick={(e) => setCurrentImgSel(index)}
+                        />
+                      }
+                      <div>{index+1}</div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+        </div>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>새 이미지</p>
           <div className={Styles.ImageRoom}>
             <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
             <div>{imageSelect+1}</div>
@@ -397,6 +467,10 @@ export default function recruit() {
 
         <button className={Styles.UploadButton} onClick={submitHandler}>
           완료
+        </button>
+
+        <button className={Styles.CancelButton}>
+          공고 삭제하기
         </button>
 
       </div>

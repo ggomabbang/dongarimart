@@ -1,10 +1,10 @@
 'use client'
 
-import Styles from './SignUp.module.css';
+import Styles from '../../Info.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SignUp({params}) {
+export default function signUp({params}) {
   const router = useRouter();
 
   const submitHandler = async (e) => {

@@ -82,8 +82,6 @@ export async function GET(request) {
     });
   }
 
-  console.log(result);
-
   const headers = new Headers();
   headers.append('Content-Type', `image/${filename.split('.')[1]}`);
   

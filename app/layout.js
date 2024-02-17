@@ -14,7 +14,7 @@ export const metadata = {
   description: "우리들의 첫 물결",
 };
 
-export default function RootLayout({ children }) {
+export default function rootLayout({ children }) {
 
   return (
     <html lang="en">
@@ -22,7 +22,8 @@ export default function RootLayout({ children }) {
           <AuthSession>
             <div className={Styles.Navbar}>
               <Link href={'/'} className={Styles.Title}>
-                <img src='/WAVE.png'/>
+                <img src='/Main_Logo.png'/>
+                <div>부산대점</div>
               </Link>
               <Menu/>
             </div>

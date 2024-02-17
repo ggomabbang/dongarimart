@@ -1,33 +1,26 @@
 .ArticleBox {
     display: flex;
-    padding: 2em;
+    flex-direction: column;
+    padding: 1em 2em;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     align-self: stretch;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    border-radius: 2em;
+    border-radius: 1em;
     background: #FFF;
-    box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
-}
-
-@keyframes pop{
-    50% {transform: scale(1.03);}
-  }
-
-.ArticleBox:hover {
-  animation: pop 0.3s linear 1;
+    box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.13);
 }
 
 .ArticleTitle {
     color: #000;
     font-family: Noto Sans KR;
-    font-size: 1.7em;
+    font-size: 1em;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    letter-spacing: 15px;
+    letter-spacing: 0.2em;
 }
 
 .Date {
@@ -36,9 +29,9 @@
     color: #818181;
     text-align: right;
     font-family: Noto Sans KR;
-    font-size: 1.5em;
+    font-size: 0.8em;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    letter-spacing: 5px;
+    letter-spacing: 0.2em;
 }

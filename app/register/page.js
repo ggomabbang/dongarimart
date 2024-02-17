@@ -5,7 +5,7 @@ import Styles from './register.module.css';
 import { useRouter } from 'next/navigation'
 import College from '@/public/College.json';
 
-export default function Register() {
+export default function register() {
   const router = useRouter();
 
   const [image, setImage] = useState(null);
@@ -17,6 +17,7 @@ export default function Register() {
     reader.onload = () => {
       setImageSrc(reader.result);
     }
+    e.target.value = '';
   }
 
   const [clubName, setClubName] = useState("");
@@ -98,8 +99,13 @@ export default function Register() {
       return router.push('/');
     }
     else if (res.status == 400) {
-      alert('요청 오류.');
-      return router.push('/');
+      const json = await res.json();
+      if (json.message === '해당 parameter가 중복된 값입니다.'){
+        return alert('이름이 중복된 동아리가 존재합니다.');
+      } else {
+        alert('요청 오류.');
+        return router.push('/');
+      }
     }
     else if (res.status == 401) {
       alert('로그인 후 다시 진행하여 주세요.');
@@ -109,6 +115,7 @@ export default function Register() {
 
   return(
     <div className={Styles.Panel}>
+      <h1 className={Styles.PageTitle}>동아리 등록</h1>
       <div className={Styles.Input}>
         
         <label className={Styles.HorizonBox}>
@@ -116,7 +123,7 @@ export default function Register() {
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
-              placeholder='동아리 이름'
+              placeholder='동아리 이름(필수)'
               value={clubName}
               onChange={(e)=>{
                 if (e.target.value.length <= 20)
@@ -135,7 +142,7 @@ export default function Register() {
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
-              placeholder='한 줄 소개'
+              placeholder='한 줄 소개(필수)'
               value={oneLine}
               onChange={(e)=>{
                 if (e.target.value.length <= 100)
@@ -154,7 +161,7 @@ export default function Register() {
           <div className={Styles.Right}>
             <input 
               className={Styles.InputBox}
-              placeholder='https://wave.com'
+              placeholder='인스타그램 등 동아리 소개 페이지 링크'
               value={url}
               onChange={(e)=>{
                 if (e.target.value.length <= 255)
@@ -194,7 +201,7 @@ export default function Register() {
             <div className={Styles.InputWithCount}>
               <textarea 
                 className={Styles.LargeInputBox}
-                placeholder='짧은 동아리 소개 문구'
+                placeholder='동아리 소개 문구(필수)'
                 value={short}
                 onChange={(e)=>{
                   if (e.target.value.length <= 500)
@@ -209,27 +216,26 @@ export default function Register() {
           </div>
         </label>
 
-        <label className={Styles.HorizonBox}>
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>배너</p>
           <div className={Styles.Right}>
             {
               imageSrc.length ?
               <img className={Styles.ImageBox} src={imageSrc}/>
               :
-              <img className={Styles.ImageBox}/>
+              <div className={Styles.ImageBox}/>
             }
             <div className={Styles.Buttons}>
-              <label className={Styles.UploadButton} htmlFor='input-file'>
+              <label className={Styles.UploadButton}>
                 업로드
+                <input 
+                  id="input-file"
+                  type="file"
+                  accept='image/png, image/jpeg'
+                  style={{display: "none"}}
+                  onChange={imageHandler}
+                />
               </label>
-              <input 
-                id="input-file"
-                type="file"
-                accept='image/png, image/jpeg'
-                style={{display: "none"}}
-                onChange={imageHandler}
-              >
-              </input>
               <button 
                 className={Styles.CancelButton}
                 onClick={(e) => {
@@ -241,7 +247,7 @@ export default function Register() {
               </button>
             </div>
           </div>
-        </label>
+        </div>
         
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>태그</p>
@@ -285,7 +291,7 @@ export default function Register() {
         </label>
 
         <button className={Styles.UploadButton} onClick={handleSubmit}>
-          신청
+          등록
         </button>
 
       </div>

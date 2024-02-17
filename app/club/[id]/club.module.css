@@ -1,11 +1,27 @@
 .Container {
-  margin-top: 50px;
-  margin-bottom: 50px;
   display: flex;
-  width: 1280px;
+  width: 900px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.PageTitle {
+  font-family: Noto Sans KR;
+  font-size: 2em;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.2em
+}
+
+.Inside {
+  display: flex;
   padding: 40px;
   flex-direction: column;
   align-items: flex-end;
+  align-self: stretch;
   gap: 40px;
 
   border-radius: 30px;
@@ -20,59 +36,53 @@
   align-self: stretch;
 }
 
-.Top h1 {
+.Title{
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 48px;
+  font-size: 2em;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 16px;
+  letter-spacing: 10px;
+  text-align: left;
 }
 
-.Top h3 {
+.SubTitle{
   color: #000;
   text-align: right;
   font-family: Noto Sans KR;
-  font-size: 24px;
+  font-size: 1.1em;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: 10px;
+  letter-spacing: 0.3em;
 }
 
 .Middle {
   display: flex;
-  align-items: center;
-  gap: 100px;
+  align-items: flex-start;
+  gap: 2em;
   align-self: stretch;
 }
 
 .ImageBox {
   display: flex;
-  padding: 150px 200px;
+  width: 240px;
+  height: 180px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  object-fit: contain;
   gap: 10px;
   
   background: #D9D9D9;
-
-  color: #000;
-  text-align: right;
-  font-family: Noto Sans KR;
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 10px;
 }
 
 .MiddleRight {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+  gap: 1em;
   flex: 1 0 0;
 }
 
@@ -81,11 +91,11 @@
 
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 24px;
+  font-size: 1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 10px;
+  letter-spacing: 0.3em;
 }
 
 .InnerMiddle {
@@ -98,49 +108,63 @@
 .TagBox {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 5px;
 }
 
 .TagBox button {
   display: flex;
-  padding: 5px 10px;
-  justify-content: center;
+  padding: 3px 15px;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
 
   border-radius: 20px;
   background: #D9D9D9;
 
   color: #000;
-  text-align: center;
   font-family: Noto Sans KR;
-  font-size: 16px;
+  font-size: 0.8em;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  letter-spacing: 3px;
-  text-indent: 3px;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
 }
 
-.BlueButton {
-  display: flex;
-  padding: 7px 20px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+.URLButton {
+  padding: 5px 15px;
 
-  border-radius: 30px;
+  border-radius: 20px;
   background: #2D5DEB;
 
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 24px;
+  font-size: 1.1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 10px;
-  text-indent: 10px;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.BlueButton {
+  display: flex;
+  padding: 3px 15px;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 20px;
+  background: #2D5DEB;
+
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 1.1em;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
 }
 
 .RecruitBox {
@@ -161,7 +185,7 @@
 
 .RecruitInner button {
   display: flex;
-  padding: 5px 15px;
+  padding: 3px 15px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -172,31 +196,53 @@
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 18px;
+  font-size: 0.8em;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
-  letter-spacing: 6px;
-  text-indent: 6px;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
 }
 
 .RecruitInner p {
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 18px;
+  font-size: 0.9em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  letter-spacing: 4px;
+  letter-spacing: 0.3em;
 }
 
 .Contents {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   align-self: stretch;
+  gap: 3px;
+}
 
-  color: #000;
+.Contents h2 {
   font-family: Noto Sans KR;
-  font-size: 24px;
+  font-size: 1.3em;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.Contents span {
+  font-family: Noto Sans KR;
+  font-size: 1em;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+}
+
+.Contents img {
+  display: flex;
+  object-fit: contain;
 }

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function My() {
+export default function my() {
   const router = useRouter();
   const [User, setUser] = useState({
     email: '로딩 중', 
@@ -18,8 +18,7 @@ export default function My() {
   const [clubFix, setClubFix] = useState(false);
 
   const GetMyinfo = async () => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/users/my', {
+    const rows = await fetch('/api/users/my', {
       method: "GET"
     });
     const jsonData = await rows.json();
@@ -27,8 +26,7 @@ export default function My() {
   }
 
   const GetMyClubs = async () => {
-    const URL = 'http://localhost:3000';
-    const rows = await fetch(URL+'/api/clubs/my', {
+    const rows = await fetch('/api/clubs/my', {
       method: "GET"
     });
     const jsonData = await rows.json();
@@ -36,8 +34,7 @@ export default function My() {
   }
 
   const emailHandler = async (e) => {
-    const emailURL = 'http://localhost:3000/api/auth/email';
-    const emailRes = await fetch(emailURL, {
+    const emailRes = await fetch("/api/auth/email", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,8 +44,7 @@ export default function My() {
       })
     });
     if (emailRes.status == 204) {
-      alert(`${User.email}로 전송된 메일을 통해 이메일 인증을 진행해주세요.`)
-      return router.push('/');
+      return router.push(`/infomessage/emailcheck/${User.email.split('@')[0]}`);
     } else if (emailRes.status == 400) {
       alert('MY 페이지에서 이메일 확인을 다시 진행해주세요');
       return router.push('/');
@@ -65,6 +61,10 @@ export default function My() {
 
   return (
     <div className={Styles.Content}>
+      <div className={Styles.Top}>
+        <h1 className={Styles.Title}>내 정보</h1>
+      </div>
+
       <div className={Styles.InputPanel}>
 
         <div className={Styles.HorizonBox}>
@@ -140,6 +140,15 @@ export default function My() {
                   >
                     관리
                   </Link>
+                  <Link 
+                    className={Styles.RecruitFix}
+                    style={clubFix ? null :
+                      {display: 'none'}
+                    }
+                    href={`/my/recruit/${club.id}`}
+                  >
+                    모집글<br/>수정
+                  </Link>
                   <DongariInList
                     club={club}
                     i={index}
@@ -162,7 +171,7 @@ export default function My() {
               }
             >
               {
-                clubFix ? '취소' : '관리하기'
+                clubFix ? '취소' : '동아리 관리하기'
               }
             </button>
             :
@@ -185,6 +194,25 @@ export default function My() {
 
         </div>
       </div> */}
+
+      <div className={Styles.Top}>
+        <h1 className={Styles.Title}>🚨 Danger Zone 🚨</h1>
+      </div>
+
+      <div className={Styles.InputPanel}>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>계정 탈퇴</p>
+          <div className={Styles.Right}>
+            <Link href={'/my/cancel'}>
+              <button className={Styles.BlueButton} style={{backgroundColor: 'red'}}>
+                계정 탈퇴하기
+              </button>
+            </Link>
+          </div>
+        </div>
+
+      </div>
     </div>
   )
 }

@@ -20,6 +20,14 @@ export default function loginBtn() {
   if (status === "authenticated") {
     return (
       <div className={Styles.Menu}>
+        {
+          session.userRole === 'admin' ?
+          <Link href={'/admin'}>
+            <button className={Styles.NavBtn}>
+              관리자
+            </button>
+          </Link> : null
+        }
         <Link href={'/contact'}>
           <button className={Styles.NavBtn}>
             CONTACT

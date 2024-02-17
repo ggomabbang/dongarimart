@@ -5,18 +5,18 @@ import Link from "next/link"
 import { useRef } from 'react';
 import { signIn, useSession } from "next-auth/react";
 
-export default function Home() {
+export default function home() {
   const emailRef = useRef(null);
 
   const passwordRef = useRef(null);
 
   const { data: session } = useSession();
-  console.log(session);
   return (
     <div className={Styles.Panel}>
       <form className={Styles.LoginContent}>
         <div className={Styles.Logo}>
-          <img src='/WAVE.png'/>
+          <img src='/Main_Logo.png'/>
+          <div>부산대점</div>
         </div>
         <div className={Styles.LoginInput}>
           <input 
@@ -54,10 +54,6 @@ export default function Home() {
           }}
         />
       </form>
-      <div className={Styles.MiddleLine}/>
-      <div className={Styles.ADpanel}>
-          AD
-      </div>
     </div>
   )
 }

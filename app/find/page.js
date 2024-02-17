@@ -5,7 +5,7 @@ import DongariInList from '../component/ClubInList';
 import { useEffect, useState } from 'react';
 import College from '../../public/College.json';
 
-export default function Find() {
+export default function find() {
   const [Groups, setGroups] = useState([]);
 
   const [CollegeSelected, setCollegeSelected] = useState("all");
@@ -26,14 +26,13 @@ export default function Find() {
   }
 
   const GetClubs = async () => {
-    const getURL = new URL('http://localhost:3000/api/clubs');
     const urlParams = new URLSearchParams('');
     urlParams.append("sortBy", SortSelected);
     if (CollegeSelected !== "all") {
       urlParams.append("college", CollegeSelected);
     }
     // console.log(urlParams.toString());
-    const rows = await fetch(getURL + '?' + urlParams.toString(), {
+    const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });
     const jsonData = await rows.json();
@@ -46,8 +45,9 @@ export default function Find() {
 
   return (
     <div className={Styles.Vertical_Div}>
+      <h1 className={Styles.PageTitle}>동아리 찾아보기</h1>
       <div className={Styles.Horizontal_Div}>
-        <input className={Styles.SearchBar} placeholder='검색해보세요 !'/>
+        {/* <input className={Styles.SearchBar} placeholder='검색해보세요 !'/> */}
         <div className={Styles.Selector}>
           <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={CollegeSelected}>
             {

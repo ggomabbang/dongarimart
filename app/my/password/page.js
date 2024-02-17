@@ -1,11 +1,11 @@
 'use client'
 
-import Styles from './password.module.css';
-import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import Styles from './password.module.css'
+import { signOut } from "next-auth/react"
+import { useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function Password() {
+export default function password() {
   const router = useRouter();
   const nowPw = useRef(null);
   const [pwLogic, setPwLogic] = useState({
@@ -15,6 +15,34 @@ export default function Password() {
     4: false,
   })
   const [newPwCheck, setNewPwCheck] = useState(false);
+
+  const submitHandler = async (e) => {
+    if (nowPw.current.value.length < 1) return alert('현재 비밀번호를 입력해주세요.');
+    for (const check in pwLogic) {
+      if (!pwLogic[check]) return alert('새 비밀번호의 양식을 다시 확인해 주세요.');
+    }
+    if (!newPwCheck) return alert('새 비밀번호가 일치하지 않습니다.');
+    
+    const res = await fetch(`/api/users/password`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        password: nowPw.current.value,
+        newPassword: document.getElementById('password').value
+      })
+    });
+
+    if (res.status == 201) {
+      return signOut({ callbackUrl: '/infomessage/pwchange'});
+    } else if (res.status == 400) {
+      return alert('현재 비밀번호가 일치하지 않습니다.');
+    } else if (res.status == 401) {
+      alert('로그인 후 다시 진행해주세요');
+      return router.push('/login');
+    }
+  }
 
   return (
     <div className={Styles.Panel}>
@@ -58,7 +86,7 @@ export default function Password() {
                   newStyle[2] = false;
                 }
 
-                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
+                if (/[`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw) && !/[^\w`~!@#$%^&*|'";:₩\\?\-_+=]/g.test(pw)) {
                   newStyle[3] = true;
                 } else {
                   newStyle[3] = false;
@@ -120,7 +148,8 @@ export default function Password() {
           </div>
         </div>
         
-        <button className={Styles.BlueButton}>변경하기</button>
+        <button className={Styles.BlueButton} onClick={submitHandler}>변경하기</button>
+
       </div>
     </div>
   )
