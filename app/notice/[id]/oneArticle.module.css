@@ -84,8 +84,7 @@
 }
 
 .Bottom img {
-  display: flex;
-  align-self: stretch;
+  max-width: 100%;
   object-fit: contain;
 }
 

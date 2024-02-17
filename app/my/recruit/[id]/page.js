@@ -67,23 +67,34 @@ export default function recruit({params}) {
       setSelectClub(params.id);
       if (jsonData.post) {
         const post = jsonData.post;
-        postOrigin.id = post.id;
+        const newPostOrigin = {
+          id: 0,
+          title: '',
+          content: '',
+          recruit: {
+            recruitStart: '',
+            recruitEnd: '',
+            recruitTarget: '',
+            recruitURL: ''
+          }
+        };
+        newPostOrigin.id = post.id;
         setTitle(post.title);
-        postOrigin.title = post.title;
+        newPostOrigin.title = post.title;
         setRecruitStart(post.recruit.recruitStart.slice(0, 10));
-        postOrigin.recruit.recruitStart = post.recruit.recruitStart.slice(0, 10);
+        newPostOrigin.recruit.recruitStart = post.recruit.recruitStart.slice(0, 10);
         setRecruitEnd(post.recruit.recruitEnd.slice(0, 10));
-        postOrigin.recruit.recruitEnd = post.recruit.recruitEnd.slice(0, 10);
+        newPostOrigin.recruit.recruitEnd = post.recruit.recruitEnd.slice(0, 10);
         setRecruitTarget(JSON.parse(post.recruit.recruitTarget));
-        postOrigin.recruit.recruitTarget = post.recruit.recruitTarget;
+        newPostOrigin.recruit.recruitTarget = post.recruit.recruitTarget;
         if (post.recruit.recruitURL) {
           setURL(post.recruit.recruitURL);
-          postOrigin.recruit.recruitURL = post.recruit.recruitURL;
+          newPostOrigin.recruit.recruitURL = post.recruit.recruitURL;
         }
         setContent(post.content);
-        postOrigin.content = post.content;
+        newPostOrigin.content = post.content;
         setCurrentSrc(post.image.map((img) => `/api/image?filename=${img.filename}`));
-        console.log(postOrigin);
+        setPostOrigin(newPostOrigin);
       }
     }
   }
@@ -194,11 +205,10 @@ export default function recruit({params}) {
 
     postOrigin.recruit.recruitURL !== recruitURL ? toBody.recruitURL = recruitURL : null;
     const targetString = JSON.stringify(recruitTarget)
-    postOrigin.recruit.recruitTarget !== targetString ? toBody.people = targetString : null;
+    postOrigin.recruit.recruitTarget !== targetString ? toBody.people = recruitTarget : null;
     postOrigin.title !== title ? toBody.title = title : null;
     postOrigin.content !== content ? toBody.content = content : null;
-    
-    console.log();
+
     const res = await fetch(`/api/recruit/${postOrigin.id}`, {
       method: 'PATCH',
       headers: {

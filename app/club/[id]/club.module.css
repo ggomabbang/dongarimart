@@ -243,6 +243,6 @@
 }
 
 .Contents img {
-  display: flex;
-  object-fit: contain;
+  max-width: 100%;
+  object-fit: scale-down;
 }
