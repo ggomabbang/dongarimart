@@ -140,8 +140,15 @@ export async function GET(request) {
       query.where.classification = college;
     }
 
-    const result = await client.ClubList.findMany(query);
-    return NextResponse.json(result);
+    try {
+      const result = await client.ClubList.findMany(query);
+      return NextResponse.json(result);
+    } catch (e) {
+      console.error(e);
+      return NextResponse.json({
+        status: 500,
+      });
+    }
 }
 
 export async function POST(request) {
@@ -281,11 +288,17 @@ export async function POST(request) {
   try {
     await client.ClubList.create(query);
   } catch (e) {
+    console.error(e);
     if (e instanceof Prisma.PrismaClientValidationError) {
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
         status: 400,
+      });
+    }
+    else {
+      return NextResponse.json({
+        status: 500,
       });
     }
   }

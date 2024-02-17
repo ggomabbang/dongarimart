@@ -173,7 +173,23 @@ export async function PATCH(request) {
     };
   }
 
-  await client.Post.update(query);
+  try {
+    await client.Post.update(query);
+  } catch (e) {
+    console.error(e);
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+    else {
+      return NextResponse.json({
+        status: 500,
+      });
+    }
+  }
 
   return new Response(null, {
     status: 201,
@@ -222,11 +238,18 @@ export async function DELETE(request) {
     });
   }
 
-  const result = await client.Post.delete({
-    where: {
-      id,
-    }
-  });
+  try {
+    const result = await client.Post.delete({
+      where: {
+        id,
+      }
+    });
 
-  return NextResponse.json(result);
+    return NextResponse.json(result);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 }
