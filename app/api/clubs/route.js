@@ -164,6 +164,20 @@ export async function POST(request) {
     });
   }
 
+  const user = await client.User.findUnique({
+    where: {
+      id: session.userId
+    }
+  });
+
+  if (!user.emailConfirm) {
+    return NextResponse.json({
+      message: "인증되지 않은 계정입니다."
+    }, {
+      status: 403,
+    });
+  }
+
   const { clubName, department, oneLine, short, tags, url, image } = await request.json();
 
   if (!clubName) {
