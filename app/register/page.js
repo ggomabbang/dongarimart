@@ -99,8 +99,13 @@ export default function register() {
       return router.push('/');
     }
     else if (res.status == 400) {
-      alert('요청 오류.');
-      return router.push('/');
+      const json = await res.json();
+      if (json.message === '해당 parameter가 중복된 값입니다.'){
+        return alert('이름이 중복된 동아리가 존재합니다.');
+      } else {
+        alert('요청 오류.');
+        return router.push('/');
+      }
     }
     else if (res.status == 401) {
       alert('로그인 후 다시 진행하여 주세요.');
