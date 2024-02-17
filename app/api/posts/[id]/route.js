@@ -165,6 +165,7 @@ export async function PATCH(request) {
 
   if (image) {
     query.data.image = {
+      set: [],
       connect: image.map((img) => {
         return {
           filename: img

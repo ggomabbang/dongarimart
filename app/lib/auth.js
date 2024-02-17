@@ -46,12 +46,9 @@ export const authOptions = {
     },
     callbacks: {
         async jwt({token, user}) {
-            console.log("jwt");
             // 처음 로그인할 때 토큰 발급 
             if (user) {
                 const accessTokenExpires = moment().add(1, 'h');
-                console.log("Now : " + moment().format());
-                console.log("Access Token Expires : " + accessTokenExpires.format());
                 return {
                     userId: user.id,
                     userRole: user.role,
@@ -60,22 +57,15 @@ export const authOptions = {
                     refreshToken: user.refreshToken
                 }
             }
-            console.log("Now : " + moment().format());
-            console.log("Access Token Expires : " + moment(token.tokenExpires).format());
-            console.log("Access Token : " + token.accessToken);
-            console.log("Refresh Token : " + token.refreshToken);
             // 만료 시간이 지나지 않았으면 그대로 반환 
             if (moment().isBefore(token.tokenExpires)) {
-                console.log("return token");
                 return token;
             }
             // 만료 시간 지나면 refresh 
-            console.log("refresh token");
             return refreshAccessToken(token);
         },
 
         async session({session, token}) {
-            console.log("callback session");
             if (token) {
                 session.userId = token.userId;
                 session.userRole = token.userRole;
@@ -105,10 +95,6 @@ async function refreshAccessToken(token) {
         }
         
         const refreshAccessToken = await response.json();
-
-        console.log("new access token : " + refreshAccessToken.accessToken);
-        console.log("new refresh token : " + refreshAccessToken.refreshToken);
-    
         return {
             ...token,
             accessToken: refreshAccessToken.accessToken,

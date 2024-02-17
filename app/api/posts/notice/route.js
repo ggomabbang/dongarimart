@@ -16,6 +16,7 @@ export async function GET(request) {
         "updatedAt": true
       }
     });
+    return NextResponse.json(result);
   } catch (e) {
     console.error(e);
     return NextResponse.json({
@@ -24,8 +25,6 @@ export async function GET(request) {
       status: 500,
     });
   }
-
-  return NextResponse.json(result);
 }
 
 export async function POST(request) {
