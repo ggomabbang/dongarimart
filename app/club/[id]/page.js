@@ -132,7 +132,23 @@ export default function club({ params }) {
           Club.isRecruiting ?
             <div className={Styles.Contents}>
               <h2>{Club.post.title}</h2>
-              <p>{Club.post.content}</p>
+              {
+                Club.post.content.split('\n').map((line, index) => {
+                  return (
+                    <span key={`content${index}`}>
+                      {line}
+                      <br />
+                  </span>
+                  )
+                })
+              }
+              {
+                Club.post.image.map((img, index) => {
+                  return (
+                    <img src={`/api/image?filename=${img.filename}`} key={`img${index}`} />
+                  )
+                })
+              }
             </div>
             : null
         }

@@ -45,7 +45,8 @@ export default function recruit({params}) {
   const [clubs, setClubs] = useState([]);
   const [selectClub, setSelectClub] = useState('');
 
-  const postOrigin = {
+  const [postOrigin, setPostOrigin] = useState({
+    id: 0,
     title: '',
     content: '',
     recruit: {
@@ -54,7 +55,7 @@ export default function recruit({params}) {
       recruitTarget: '',
       recruitURL: ''
     }
-  }
+  });
 
   const GetClub = async () => {
     const rows = await fetch(`/api/clubs/${params.id}`, {
@@ -66,6 +67,7 @@ export default function recruit({params}) {
       setSelectClub(params.id);
       if (jsonData.post) {
         const post = jsonData.post;
+        postOrigin.id = post.id;
         setTitle(post.title);
         postOrigin.title = post.title;
         setRecruitStart(post.recruit.recruitStart.slice(0, 10));
@@ -81,6 +83,7 @@ export default function recruit({params}) {
         setContent(post.content);
         postOrigin.content = post.content;
         setCurrentSrc(post.image.map((img) => `/api/image?filename=${img.filename}`));
+        console.log(postOrigin);
       }
     }
   }
@@ -160,7 +163,7 @@ export default function recruit({params}) {
     if (toBody.title === '') return alert("제목이 필요합니다.");
     if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요.");
     let targetOK = true;
-    toBody.people.forEach((target, index) => {
+    recruitTarget.forEach((target, index) => {
       if (target.name.length == 0) {
         targetOK = false;
       }
@@ -195,7 +198,8 @@ export default function recruit({params}) {
     postOrigin.title !== title ? toBody.title = title : null;
     postOrigin.content !== content ? toBody.content = content : null;
     
-    const res = await fetch(`/api/recruit?clubid=${selectClub}`, {
+    console.log();
+    const res = await fetch(`/api/recruit/${postOrigin.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
