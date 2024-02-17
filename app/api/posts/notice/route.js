@@ -5,16 +5,23 @@ import client from "../../../../prisma/prisma";
 import { Prisma } from '@prisma/client'
 
 export async function GET(request) {
-  const result = await client.Post.findMany({
-    where: {
-      "isNotice": true
-    },
-    select: {
-      "id": true,
-      "title": true,
-      "updatedAt": true
-    }
-  });
+  try {
+    const result = await client.Post.findMany({
+      where: {
+        "isNotice": true
+      },
+      select: {
+        "id": true,
+        "title": true,
+        "updatedAt": true
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 
   return NextResponse.json(result);
 }
@@ -119,11 +126,17 @@ export async function POST(request) {
   try {
     const result = await client.Post.create(query);
   } catch (e) {
+    console.error(e);
     if (e instanceof Prisma.PrismaClientValidationError) {
       return NextResponse.json({
         message: "올바르지 않은 parameter입니다."
       }, {
         status: 400,
+      });
+    }
+    else {
+      return NextResponse.json({
+        status: 500,
       });
     }
   }

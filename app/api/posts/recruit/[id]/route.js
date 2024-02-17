@@ -83,35 +83,42 @@ export async function GET(request) {
   });
   const username = user.username;
 
-  const result = await client.Post.findUnique({
-    where: {
-      id,
-      isRecruit: true,
-    },
-    select: {
-      id: true,
-      title: true,
-      content: true,
-      view: true,
-      createdAt: true,
-      updatedAt: true,
-      image: {
-        select:{
-          filename: true,
-        }
+  try {
+    const result = await client.Post.findUnique({
+      where: {
+        id,
+        isRecruit: true,
       },
-      recruit: {
-        select:{
-          recruitStart: true,
-          recruitEnd: true,
-          recruitURL: true,
-          recruitTarget: true,
-        }
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        view: true,
+        createdAt: true,
+        updatedAt: true,
+        image: {
+          select:{
+            filename: true,
+          }
+        },
+        recruit: {
+          select:{
+            recruitStart: true,
+            recruitEnd: true,
+            recruitURL: true,
+            recruitTarget: true,
+          }
+        },
       },
-    },
-  });
+    });
 
-  result.username = username;
+    result.username = username;
 
-  return NextResponse.json(result);
+    return NextResponse.json(result);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 }

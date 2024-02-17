@@ -48,17 +48,24 @@ export async function GET(request) {
     });
   }
 
-  const result = await client.Post.findMany({
-    where: {
-      clubId: clubid
-    },
-    select: {
-      id: true,
-      title: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
+  try {
+    const result = await client.Post.findMany({
+      where: {
+        clubId: clubid
+      },
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
 
-  return NextResponse.json(result);
+    return NextResponse.json(result);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 }

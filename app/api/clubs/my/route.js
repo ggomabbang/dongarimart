@@ -15,45 +15,52 @@ export async function GET() {
     });
   }
 
-  const result = await client.ClubList.findMany({
-    where: {
-      members: {
-        some: {
-          userId: session.userId,
-        }
-      },
-    },
-    select: {
-      id: true,
-      clubName: true,
-      classification: true,
-      isRecruiting: true,
-      oneLine: true,
-      short: true,
-      pageURL: true,
-      tags: {
-        select: {
-          tagList: true,
+  try {
+    const result = await client.ClubList.findMany({
+      where: {
+        members: {
+          some: {
+            userId: session.userId,
+          }
         },
       },
-      members: {
-        where: {
-          userId: session.userId,
+      select: {
+        id: true,
+        clubName: true,
+        classification: true,
+        isRecruiting: true,
+        oneLine: true,
+        short: true,
+        pageURL: true,
+        tags: {
+          select: {
+            tagList: true,
+          },
         },
-        select: {
-          isLeader: true,
+        members: {
+          where: {
+            userId: session.userId,
+          },
+          select: {
+            isLeader: true,
+          }
         }
-      }
-    },
-  });
+      },
+    });
 
-  const body = [];
+    const body = [];
 
-  result.map((club) => {
-    club.isLeader = club.members[0].isLeader;
-    delete club.members;
-    body.push(club);
-  });
+    result.map((club) => {
+      club.isLeader = club.members[0].isLeader;
+      delete club.members;
+      body.push(club);
+    });
 
-  return NextResponse.json(body);
+    return NextResponse.json(body);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
 }
