@@ -29,9 +29,9 @@ export async function GET() {
     return NextResponse.json(userData);
   }
   catch (error) {
-    console.log(error);
-    return new Response(null, {
-      status: 401
+    console.error(error);
+    return NextResponse(null, {
+      status: 500
     });
   }
 }

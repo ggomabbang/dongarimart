@@ -8,12 +8,10 @@ export async function POST(request) {
         const body = await request.json();
         
         if (body.email === null || body.email === undefined || body.email === "") {
-            console.log("wrong email");
             return new Response(JSON.stringify(null));
         }
         
         if (body.password === null || body.password === undefined || body.password === "") {
-            console.log("wrong password");
             return new Response(JSON.stringify(null));
         }
         
@@ -30,7 +28,6 @@ export async function POST(request) {
         
         // 유저가 존재하는 지 확인 
         if (user === null) {
-            console.log("no user");
             return new Response(JSON.stringify(null));
         }
         
@@ -38,7 +35,6 @@ export async function POST(request) {
         const bcrypt = require('bcryptjs');
         const checkPassword = await bcrypt.compare(body.password, user.password);
         if (!checkPassword) {
-            console.log("wrong password");
             return new Response(JSON.stringify(null));
         }
 
@@ -46,8 +42,6 @@ export async function POST(request) {
         const accessToken = crypto.randomUUID();
         const refreshToken = crypto.randomUUID();
         const refreshExpires = moment().add(1, 'd');
-        console.log("Now : " + moment().format());
-        console.log("Refresh Token Expires : " + refreshExpires.format());
         let role = "";
         if (username === adminId) { 
             role = "admin";
@@ -73,7 +67,9 @@ export async function POST(request) {
         }));
     }
     catch (error) {
-        console.log(error);
-        return new Response(JSON.stringify(null));
+        console.eror(error);
+        return NextResponse(null, {
+            status: 500
+        });
     }
 }
