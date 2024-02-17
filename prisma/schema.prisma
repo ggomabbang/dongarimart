@@ -50,7 +50,7 @@ model ClubTag {
 
 model Post {
   id            Int         @id @db.UnsignedInt @default(autoincrement())  
-  userId        Int         @db.UnsignedInt
+  userId        Int?         @db.UnsignedInt
   clubId        Int?        @db.UnsignedInt
   title         String      @db.VarChar(100) @default("No title") 
   content       String      @db.Text
@@ -63,7 +63,7 @@ model Post {
   image         Image[]
   recruit       Recruit?
   club          ClubList?   @relation(fields: [clubId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user          User?       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 }
 
 model Image {
