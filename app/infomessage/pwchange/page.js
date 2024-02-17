@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from '../info.module.css';
+import Styles from '../Info.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function pwChange() {
