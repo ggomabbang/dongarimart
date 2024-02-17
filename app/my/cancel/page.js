@@ -8,13 +8,6 @@ import { useRouter } from 'next/navigation'
 export default function password() {
   const router = useRouter();
   const nowPw = useRef(null);
-  const [pwLogic, setPwLogic] = useState({
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-  })
-  const [newPwCheck, setNewPwCheck] = useState(false);
 
   const submitHandler = async (e) => {
     if (nowPw.current.value.length < 1) return alert('현재 비밀번호를 입력해주세요.');
@@ -29,8 +22,8 @@ export default function password() {
       })
     });
 
-    if (res.status == 201) {
-      return signOut({ callbackUrl: '/infomessage/pwchange'});
+    if (res.status == 200) {
+      return signOut({ callbackUrl: '/infomessage/cancel'});
     } else if (res.status == 400) {
       return alert('현재 비밀번호가 일치하지 않습니다.');
     } else if (res.status == 401) {
