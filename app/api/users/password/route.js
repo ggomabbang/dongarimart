@@ -65,7 +65,7 @@ export async function PATCH(request) {
     }
     catch (error) {
         console.error(error);
-        return NextResponse(null, {
+        return NextResponse.json(null, {
             status: 500
         });
     }
