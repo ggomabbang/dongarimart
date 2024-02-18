@@ -40,12 +40,16 @@ export async function GET(request) {
     }
   });
 
-  const user = await client.User.findUnique({
-    where: {
-      id: post.userId
-    }
-  });
-  const username = user.username;
+  let user = null;
+  let username = null;
+  if (post.userId) {
+    user = await client.User.findUnique({
+      where: {
+        id: post.userId
+      }
+    });
+    username = user.username;
+  }
 
   const result = await client.Post.findUnique({
     where: {

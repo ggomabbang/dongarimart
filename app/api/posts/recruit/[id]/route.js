@@ -44,17 +44,20 @@ export async function GET(request) {
     });
   }
 
-  const leader = await client.JoinedClub.findUnique({
-    where: {
-      userId_clubId: {
-        userId: session.userId,
-        clubId: myPost.clubId
+  let leader = null;
+  if (myPost.userId) {
+    leader = await client.JoinedClub.findUnique({
+      where: {
+        userId_clubId: {
+          userId: session.userId,
+          clubId: myPost.clubId
+        }
+      },
+      select: {
+        isLeader: true
       }
-    },
-    select: {
-      isLeader: true
-    }
-  });
+    });
+  }
 
   if (!leader || !leader.isLeader) {
     return NextResponse.json({
