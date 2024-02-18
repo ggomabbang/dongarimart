@@ -3,14 +3,26 @@
 import Styles from './Login.module.css'
 import Link from "next/link"
 import { useRef } from 'react';
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation'
 
 export default function home() {
-  const emailRef = useRef(null);
+  const searchParams = useSearchParams();
 
+  const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const { data: session } = useSession();
+  const [errText, setErrText] = useState(null);
+
+  useEffect(() => {
+    switch (searchParams.get('error')) {
+      case 'CredentialsSignin':
+        return setErrText('이메일 또는 비밀번호가 일치하지 않습니다.');
+      default:
+        return;
+    }
+  }, [])
   return (
     <div className={Styles.Panel}>
       <form className={Styles.LoginContent}>
@@ -30,6 +42,9 @@ export default function home() {
             placeholder='Password'
             type='password'
           />
+          {
+            errText ? <p className={Styles.ErrorText}>{errText}</p> : null
+          }
           <div className={Styles.Bottom}>
             <Link href={'/login/signup'}>가입하기</Link>
             <Link href={'/login/findpw'}>비밀번호 찾기</Link>

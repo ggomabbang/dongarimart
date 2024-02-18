@@ -47,6 +47,13 @@
   letter-spacing: 0.1em;
 }
 
+.ErrorText {
+  color: red;
+  font-family: Noto Sans KR;
+  font-size: 0.7em;
+  font-weight: 500;
+}
+
 .Bottom {
   display: flex;
   align-items: flex-start;

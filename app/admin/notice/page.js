@@ -123,7 +123,7 @@ export default function recruit() {
           <div className={Styles.Right}>
             <textarea 
               className={Styles.LargeInputBox}
-              placeholder='모집 공고 본문'
+              placeholder='공지 내용'
               id='content'
               value={content}
               onChange={(e) => setContent(e.target.value)}

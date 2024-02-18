@@ -71,6 +71,7 @@ export default function register() {
     if (image) {
       const formData = new FormData();
       if (image instanceof File && image.size > 0)
+        if (image.size > 5*1024*1024) return alert('5MB를 초과한 이미지가 있습니다.');
         formData.append("image", image);
       const imgRes = await fetch('/api/image', {
         method: 'POST',
@@ -175,6 +176,15 @@ export default function register() {
           </div>
         </label>
 
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}></p>
+          <div className={Styles.Right}>
+            <ul className={Styles.Caution}>
+              <li>https, http, ://, www 등을 미포함하여 URL 전체를 입력하지 않으면 바로가기 클릭 시 접속되지 않을 수 있습니다! </li>
+            </ul>
+          </div>
+        </div>
+
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>소속</p>
           <div className={Styles.Right}>
@@ -219,12 +229,19 @@ export default function register() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>배너</p>
           <div className={Styles.Right}>
-            {
-              imageSrc.length ?
-              <img className={Styles.ImageBox} src={imageSrc}/>
-              :
-              <div className={Styles.ImageBox}/>
-            }
+            <div className={Styles.ImageRoom}>
+              {
+                imageSrc.length ?
+                <img className={Styles.ImageBox} src={imageSrc}/>
+                :
+                <div className={Styles.ImageBox}/>
+              }
+              <ul>
+                <li>이미지 용량 제한: 5MB</li>
+                <li>이미지 권장 비율: 4:3</li>
+              </ul>
+            </div>
+            
             <div className={Styles.Buttons}>
               <label className={Styles.UploadButton}>
                 업로드

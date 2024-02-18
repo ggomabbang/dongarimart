@@ -31,7 +31,6 @@ export default function find() {
     if (CollegeSelected !== "all") {
       urlParams.append("college", CollegeSelected);
     }
-    // console.log(urlParams.toString());
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });
