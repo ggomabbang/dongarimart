@@ -10,8 +10,8 @@ import Menu from "./Menu";
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: "WAVE",
-  description: "우리들의 첫 물결",
+  title: "동아리마트",
+  description: "우리학교 동아리를 찾아보세요",
 };
 
 export default function rootLayout({ children }) {

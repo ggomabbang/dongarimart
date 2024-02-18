@@ -11,14 +11,14 @@ export default function find() {
   const [CollegeSelected, setCollegeSelected] = useState("all");
   const handleCollegeSelect = (e) => {
     setCollegeSelected(e.target.value);
-  }
+  };
 
   const sortingList = [
     { value: "registration", name: "등록 순"},
     { value: "name", name: "이름 순"},
     { value: "deadline", name: "모집 마감 순"},
     { value: "popularity", name: "인기 순"},
-  ]
+  ];
 
   const [SortSelected, setSortSelected] = useState("registration");
   const handleSortSelect = (e) => {
@@ -31,7 +31,6 @@ export default function find() {
     if (CollegeSelected !== "all") {
       urlParams.append("college", CollegeSelected);
     }
-    // console.log(urlParams.toString());
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });

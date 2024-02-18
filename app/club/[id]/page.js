@@ -18,8 +18,6 @@ export default function club({ params }) {
     image: null,
   });
 
-  const [imageSrc, setImageSrc] = useState(null);
-
   const GetClub = async (id) => {
     const rows = await fetch('/api/clubs/'+id, {
       method: "GET"
@@ -31,7 +29,6 @@ export default function club({ params }) {
       const img = fetch(`/api/image?filename=${jsonData.image}`, {
         method:"GET"
       });
-      console.log(img);
     }
   }
 
@@ -107,23 +104,27 @@ export default function club({ params }) {
               Club.isRecruiting ?
               <div className={Styles.RecruitBox}>
                 <div className={Styles.RecruitInner}>
-                  <button>모집기간</button>
+                  <button>모집 기간</button>
                   <p>{getDate(Club.post.recruit.recruitStart)} ~ {getDate(Club.post.recruit.recruitEnd)}</p>
                 </div>
-                <div className={Styles.RecruitInner}>
-                  <button>세부인원</button>
-                  <div>
-                    {
-                      JSON.parse(Club.post.recruit.recruitTarget).map((target, index) => {
-                        return (
-                          <p key={index}>
-                            {`${target.name} - ${target.count > 0 ? target.count + '명' : '인원 제한 없음'}`}
-                          </p>
-                        )
-                      })
-                    }
-                  </div>
-                </div>
+                {
+                  Club.post.recruit.recruitTarget > 2 ?
+                    <div className={Styles.RecruitInner}>
+                      <button>모집 인원</button>
+                      <div>
+                        {
+                          JSON.parse(Club.post.recruit.recruitTarget).map((target, index) => {
+                            return (
+                              <p key={index}>
+                                {`${target.name} - ${target.count > 0 ? target.count + '명' : '인원 제한 없음'}`}
+                              </p>
+                            )
+                          })
+                        }
+                      </div>
+                    </div> : null
+                }
+                
               </div> : null
             }
           </div>

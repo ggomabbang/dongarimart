@@ -40,18 +40,23 @@ export default function home() {
           {
             clubs.map((club, index) => {
               return (
-                <div className={Styles.FindElement} key={`club${index}`}>
-                  {
-                    club.image ?
-                    <img className={Styles.ClubImage} src={`/api/image?filename=${club.image.filename}`}/> :
-                    <div className={Styles.ClubImage}/>
-                  }
+                <Link href={`/club/${club.id}`} className={Styles.FindElement} key={`club${index}`}>
                   <div className={Styles.ClubMini}>
                     <h3>{club.clubName}</h3>
-                    <p>{club.oneLine}</p>
+                    <span>{club.oneLine}</span>
+                    <div className={Styles.ClubTags}>
+                      {
+                        club.tags.map((t, index) => {
+                          return (
+                            <h4 className={Styles.Tag} key={`t${index}`}>{t.tagList.tagName}</h4>
+                          )
+                        })
+                      }
+                    </div>
+                    
                     <h4 className={Styles.Tag}>{College[club.classification]}</h4>
                   </div>
-                </div>
+                </Link>
               )
 
             })

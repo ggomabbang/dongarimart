@@ -66,6 +66,16 @@
     flex: 1 0 0;
 }
 
+.Caution {
+    margin: 0;
+    padding: 0 0 0 2em;
+  
+    color: red;
+    font-family: Noto Sans KR;
+    font-size: 0.8em;
+    font-weight: 400;
+  }
+
 .InRight {
     display: flex;
     justify-content: space-between;
@@ -84,17 +94,25 @@
 .ImageRoom {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
-    flex: 1 0 0;
+    width: fit-content;
+}
 
-    color: rgba(0, 0, 0, 1);
+.ImageRoom p {
+    align-self: center;
+
     font-family: Noto Sans KR;
-    font-size: 12px;
-    font-style: normal;
+    font-size: 1em;
     font-weight: 500;
-    line-height: normal;
-    letter-spacing: 10px;
+}
+
+.ImageRoom ul {
+    margin: 0.5em 0;
+    padding: 0 0 0 2em;
+
+    font-family: Noto Sans KR;
+    font-size: 0.8em;
+    font-weight: 400;
 }
 
 .Side {

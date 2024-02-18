@@ -7,12 +7,9 @@ import { useEffect } from "react";
 
 export default function loginBtn() {
   const { data: session, status } = useSession();
-  console.log(session);
-  console.log(status);
 
   useEffect(() => {
     if (session?.error === "RefreshAccessTokenError") {
-      console.log('signout');
       signOut();
     }
   }, [session?.error]);

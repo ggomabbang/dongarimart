@@ -140,15 +140,18 @@ export default function my() {
                   >
                     관리
                   </Link>
-                  <Link 
-                    className={Styles.RecruitFix}
-                    style={clubFix ? null :
-                      {display: 'none'}
-                    }
-                    href={`/my/recruit/${club.id}`}
-                  >
-                    모집글<br/>수정
-                  </Link>
+                  {
+                    club.isRecruiting ?
+                    <Link
+                      className={Styles.RecruitFix}
+                      style={clubFix ? null :
+                        {display: 'none'}
+                      }
+                      href={`/my/recruit/${club.id}`}
+                    >
+                      모집글<br/>수정
+                    </Link> : null
+                  }
                   <DongariInList
                     club={club}
                     i={index}

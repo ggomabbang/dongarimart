@@ -50,6 +50,16 @@
   flex: 1 0 0;
 }
 
+.Caution {
+  margin: 0;
+  padding: 0 0 0 2em;
+
+  color: red;
+  font-family: Noto Sans KR;
+  font-size: 0.8em;
+  font-weight: 400;
+}
+
 .InputWithCount {
   display: flex;
   flex-direction: column;
@@ -112,6 +122,21 @@
   line-height: normal;
   letter-spacing: 0.2em;
 }
+
+.ImageRoom {
+  display: flex;
+  flex-direction: column;
+}
+
+.ImageRoom ul {
+  margin: 0.5em 0;
+  padding: 0 0 0 2em;
+
+  font-family: Noto Sans KR;
+  font-size: 0.8em;
+  font-weight: 400;
+}
+
 
 .ImageBox {
   display: flex;

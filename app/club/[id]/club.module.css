@@ -43,7 +43,7 @@
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  letter-spacing: 10px;
+  letter-spacing: 0.2em;
   text-align: left;
 }
 
@@ -55,7 +55,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.1em;
 }
 
 .Middle {
@@ -243,6 +243,6 @@
 }
 
 .Contents img {
-  display: flex;
-  object-fit: contain;
+  max-width: 100%;
+  object-fit: scale-down;
 }

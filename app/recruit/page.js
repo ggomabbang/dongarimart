@@ -38,6 +38,7 @@ export default function recruit() {
       }
       setImages(newImages);
     }
+    e.target.value = '';
   };
 
   const [clubs, setClubs] = useState([]);
@@ -143,10 +144,13 @@ export default function recruit() {
 
     if (images.length) {
       const formData = new FormData();
+      let ok = true;
       images.forEach((img) => {
         if (img instanceof File && img.size > 0)
+          if (img.size > 5*1024*1024) ok = false;
           formData.append("image", img);
       });
+      if (!ok) return alert('5MB를 초과한 이미지가 있습니다.');
       const imgRes = await fetch('/api/image', {
         method: 'POST',
         body: formData,
@@ -222,7 +226,7 @@ export default function recruit() {
           <div className={Styles.Right}>
             <input
               className={Styles.InputBox}
-              placeholder='제목'
+              placeholder='제목(필수)'
               id='title'
               value={title}
               onChange={(e) => {
@@ -288,6 +292,15 @@ export default function recruit() {
         </label>
 
         <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}></p>
+          <div className={Styles.Right}>
+            <ul className={Styles.Caution}>
+              <li>https, http, ://, www 등을 미포함하여 URL 전체를 입력하지 않으면 바로가기 클릭 시 접속되지 않을 수 있습니다! </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 인원</p>
           <div className={Styles.RightEditable}>
             {
@@ -334,7 +347,7 @@ export default function recruit() {
           <div className={Styles.Right}>
             <textarea 
               className={Styles.LargeInputBox}
-              placeholder='모집 공고 본문'
+              placeholder='모집 공고 본문(필수), 구체적인 지원 방법과 모집 일정 등을 작성해주세요'
               id='content'
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -344,55 +357,73 @@ export default function recruit() {
 
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이미지</p>
-          <div className={Styles.ImageRoom}>
-            <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
-            <div>{imageSelect+1}</div>
-          </div>
-          <div className={Styles.Side}>
-            <div className={Styles.Buttons}>
-              <label className={Styles.UploadButton} htmlFor='input-file'>
-                업로드
-                <input 
-                  id="input-file"
-                  type="file"
-                  accept='image/png, image/jpeg'
-                  multiple
-                  style={{display: "none"}}
-                  onChange={imageHandler}
-                />
-              </label>
-              <button
-                className={Styles.CancelButton}
-                onClick={(e) => {
-                  setImageSelect(0);
-                  setImages([]);
-                  setImageSrcs([null,null,null,null]);
-                }}
-              >
-                취소
-              </button>
-            </div>
-            <div className={Styles.Images}>
+          <div className={Styles.Right}>
+            <div className={Styles.ImageRoom}>
               {
-                imageSrcs.map((imgSrc, index) => {
-                  return (
-                    <div className={Styles.ImageRoom} key={`img${index}`}>
-                      {
-                        index <= images.length ?
-                        <img 
-                          className={Styles.ImageSmallBox}
-                          src={imgSrc}
-                          onClick={(e) => setImageSelect(index)}
-                        /> :
-                        <img className={Styles.ImageSmallBox} />
-                      }
-                      <div>{index+1}</div>
-                    </div>
-                  )
-                })
+                imageSrcs[imageSelect] ?
+                <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/> :
+                <div className={Styles.ImageBox} />
               }
+              <p>{imageSelect+1}</p>
+              <ul>
+                <li>번호를 누른 후 사진 1장을 업로드하면 이미지를<br/>변경할 수 있습니다.</li>
+                <li>취소를 누르면 모든 이미지가 초기화 됩니다.</li>
+                <li>한 장당 이미지 용량 제한: 5MB</li>
+                <li>이미지 권장 비율: 3:4</li>
+              </ul>
+            </div>
+            <div className={Styles.Side}>
+              <div className={Styles.Buttons}>
+                <label className={Styles.UploadButton} htmlFor='input-file'>
+                  업로드
+                  <input 
+                    id="input-file"
+                    type="file"
+                    accept='image/png, image/jpeg'
+                    multiple
+                    style={{display: "none"}}
+                    onChange={imageHandler}
+                  />
+                </label>
+                <button
+                  className={Styles.CancelButton}
+                  onClick={(e) => {
+                    setImageSelect(0);
+                    setImages([]);
+                    setImageSrcs([null,null,null,null]);
+                  }}
+                >
+                  취소
+                </button>
+              </div>
+              <div className={Styles.Images}>
+                {
+                  imageSrcs.map((imgSrc, index) => {
+                    return (
+                      <div className={Styles.ImageRoom} key={`img${index}`}>
+                        {
+                          index <= images.length ?
+                            index == images.length ?
+                            <div
+                              className={Styles.ImageSmallBox}
+                              onClick={(e) => setImageSelect(index)}
+                            /> :
+                            <img 
+                              className={Styles.ImageSmallBox}
+                              src={imgSrc}
+                              onClick={(e) => setImageSelect(index)}
+                            /> :
+                          <div className={Styles.ImageSmallBox} />
+                        }
+                        <p>{index+1}</p>
+                      </div>
+                    )
+                  })
+                }
+              </div>
             </div>
           </div>
+          
         </div>
 
         <button className={Styles.UploadButton} onClick={submitHandler}>
