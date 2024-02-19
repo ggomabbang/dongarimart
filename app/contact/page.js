@@ -11,7 +11,8 @@ export default function contact() {
           <li>불건전, 서비스 악용 등의 사용자 신고</li>
           <li>서비스 불편, 개선 사항</li>
           <li>문의 사항</li>
-          <li>동아리 편집 소유권 이전 둥</li>
+          <li>동아리 이름 변경</li>
+          <li>동아리 편집 소유권 이전 등</li>
         </ul>
       </div>
     </div>

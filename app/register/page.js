@@ -138,6 +138,16 @@ export default function register() {
           </div>
         </label>
 
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}></p>
+          <div className={Styles.Right}>
+            <ul className={Styles.Caution}>
+              <li>한번 지정한 동아리 이름은 변경할 수 없습니다.</li>
+              <li>차후 변경이 필요한 경우, 삭제 후 다시 등록하거나 CONTACT 페이지를 참조해주세요</li>
+            </ul>
+          </div>
+        </div>
+
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>한 줄 소개</p>
           <div className={Styles.Right}>
@@ -306,6 +316,13 @@ export default function register() {
             </div>
           </div>
         </label>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>주의 사항</p>
+          <div className={Styles.Right}>
+            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+          </div>
+        </div>
 
         <button className={Styles.UploadButton} onClick={handleSubmit}>
           등록

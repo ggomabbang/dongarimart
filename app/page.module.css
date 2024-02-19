@@ -101,21 +101,26 @@
   padding: 0.8em;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 0.5em;
+  gap: 4px;
 }
 
 .FindElement h3 {
+  width: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
   margin: 0;
 
   font-family: Noto Sans KR;
-  font-size: 1em;
+  font-size: 0.95em;
   font-style: normal;
   font-weight: 700;
-  letter-spacing: 0.2em;
 }
 
 .FindElement span {
-  height: 5.5em;
+  width: 9.5em;
+  height: 4.5em;
 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -128,10 +133,14 @@
 
 .ClubTags {
   display: flex;
-  gap: 5px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .Tag {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding: 3px 10px;
 
   border-radius: 20px;

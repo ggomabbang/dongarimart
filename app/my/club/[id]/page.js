@@ -178,6 +178,7 @@ export default function clubFix({ params }) {
 
   return(
     <div className={Styles.Panel}>
+      <h1 className={Styles.PageTitle}>동아리 수정</h1>
       <div className={Styles.Input}>
         
         <label className={Styles.HorizonBox}>
@@ -380,6 +381,13 @@ export default function clubFix({ params }) {
             </div>
           </div>
         </label>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>주의 사항</p>
+          <div className={Styles.Right}>
+            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+          </div>
+        </div>
 
         <button className={Styles.ConfirmButton} onClick={handleSubmit}>
           수정 완료
