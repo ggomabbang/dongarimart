@@ -423,7 +423,13 @@ export default function recruit() {
               </div>
             </div>
           </div>
-          
+        </div>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>주의 사항</p>
+          <div className={Styles.Right}>
+            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+          </div>
         </div>
 
         <button className={Styles.UploadButton} onClick={submitHandler}>

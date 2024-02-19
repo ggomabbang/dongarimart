@@ -121,6 +121,14 @@ export default function signUp() {
             </button>
           </div>
         </div>
+
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>주의 사항</p>
+          <div className={Styles.Right}>
+            - 도배, 욕설 등의 부적절한 닉네임은 관리자에 의해 강제 삭제될 수 있습니다.
+          </div>
+        </div>
+
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>

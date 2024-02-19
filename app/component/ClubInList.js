@@ -69,16 +69,18 @@ export default function dongariInList({club, i}) {
                 )
               })
             }
-            <h4 className={Styles.Tag}>{College[club.classification]}</h4>
+            <h4 className={Styles.Classification}>{College[club.classification]}</h4>
           </div>
         </div>
         <div className={Styles.Right}>
-          <h1 className={Styles.SubTitle}>{club.oneLine}</h1>
-          <button className={Styles.SeeButton} id={'seebtn'+i} onClick={folder}>
-            <svg width="1em" height="1.5em" viewBox="0 0 12 33" fill="none">
-              <path d="M17 1.2L2 16.2L17 31.2" stroke="black" strokeWidth="0.5em"/>
-            </svg>
-          </button>
+          <div className={Styles.RightBox}>
+            <h1 className={Styles.SubTitle}>{club.oneLine}</h1>
+            <button className={Styles.SeeButton} id={'seebtn'+i} onClick={folder}>
+              <svg width="1em" height="1.5em" viewBox="0 0 12 33" fill="none">
+                <path d="M17 1.2L2 16.2L17 31.2" stroke="black" strokeWidth="0.5em"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
