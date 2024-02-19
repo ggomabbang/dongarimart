@@ -103,7 +103,7 @@ export async function DELETE(request) {
         let emailTemplate;
         ejs.renderFile(
             "app/lib/emailTemplate/newPassword.ejs",
-            { name: user.username, password: newPassword },
+            { name: user.username, password: newPassword, url: process.env.NEXTAUTH_URL },
             function(err, data) {
                 if (err) {
                     throw err;

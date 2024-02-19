@@ -118,7 +118,7 @@ export async function POST(request) {
         let emailTemplate;
         ejs.renderFile(
             "app/lib/emailTemplate/signUp.ejs",
-            { name: user.username, token: token },
+            { name: user.username, token: token, url: process.env.NEXTAUTH_URL },
             function(err, data) {
                 if (err) {
                     throw err;
