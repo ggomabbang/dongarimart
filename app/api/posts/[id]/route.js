@@ -129,11 +129,14 @@ export async function PATCH(request) {
 
   const isValidImage = await Promise.all(
     image.map(async (img) => {
-      const validImage = await client.Image.findUnique({
-        where: {
-          filename: img
-        }
-      });
+      let validImage = null;
+      if (img) {
+        validImage = await client.Image.findUnique({
+          where: {
+            filename: img
+          }
+        });
+      }
       if (!validImage || validImage.postId || validImage.clubId) {
         return "failed";
       }
