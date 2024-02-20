@@ -22,13 +22,15 @@ export default function club({ params }) {
     const rows = await fetch('/api/clubs/'+id, {
       method: "GET"
     });
-    const jsonData = await rows.json();
-    setClub(jsonData);
+    if (rows.status == 200) {
+      const jsonData = await rows.json();
+      setClub(jsonData);
 
-    if (jsonData.image) {
-      const img = fetch(`/api/image?filename=${jsonData.image}`, {
-        method:"GET"
-      });
+      if (jsonData.image) {
+        const img = fetch(`/api/image?filename=${jsonData.image}`, {
+          method:"GET"
+        });
+      }
     }
   }
 

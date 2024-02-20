@@ -12,16 +12,21 @@ export default function clubFix({ params }) {
     const rows = await fetch('/api/clubs/'+id, {
       method: "GET"
     });
-    const data = await rows.json();
-    setClubName(data.clubName);
-    setOneLine(data.oneLine);
-    setUrl(data.pageURL ? data.pageURL : '');
-    setShort(data.short);
-    setCollegeSelected(data.classification);
-    setImgUrl(data.image ? data.image.filename : '');
-    setTags(data.tags.map((obj, index) => {
-      return obj.tagList.tagName
-    }));
+    if (rows.status == 200) {
+      const data = await rows.json();
+      setClubName(data.clubName);
+      setOneLine(data.oneLine);
+      setUrl(data.pageURL ? data.pageURL : '');
+      setShort(data.short);
+      setCollegeSelected(data.classification);
+      setImgUrl(data.image ? data.image.filename : '');
+      setTags(data.tags.map((obj, index) => {
+        return obj.tagList.tagName
+      }));
+    } else {
+      alert('동아리가 존재하지 않습니다. 다시 시도해 주십시오.')
+      return router.push('/my');
+    }
   }
 
   useEffect(() => {

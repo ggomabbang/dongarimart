@@ -63,7 +63,7 @@ export default function recruit({params}) {
       method : "GET",
     });
     const jsonData = await rows.json();
-    if (jsonData) {
+    if (rows.status == 200) {
       setClubs([jsonData]);
       setSelectClub(params.id);
       if (jsonData.post) {
