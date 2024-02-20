@@ -21,6 +21,15 @@ export default function admin() {
         </div>
 
         <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>동아리 권한</p>
+          <div className={Styles.Right}>
+            <button className={Styles.BlueButton} style={{backgroundColor:'orange'}} onClick={(e) => router.push('admin/clubleader')}>
+              동아리 소유권(편집권) 이전하기
+            </button>
+          </div>
+        </div>
+
+        <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>동아리 삭제</p>
           <div className={Styles.Right}>
             <button className={Styles.BlueButton} style={{backgroundColor:'red'}} onClick={(e) => router.push('admin/clubcancel')}>
