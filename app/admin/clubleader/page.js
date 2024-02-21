@@ -59,7 +59,7 @@ export default function clubLeader() {
               className={Styles.InputBox}
               placeholder='이전할 동아리 ID'
               value={ID}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setID(e.target.value)}
             />
           </div>
         </label>
