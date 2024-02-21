@@ -18,9 +18,9 @@ export default function userCancel() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      body: JSON.stringify({
         username: name
-      }
+      })
     });
 
     if (res.status == 200) {

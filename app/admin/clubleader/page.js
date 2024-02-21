@@ -13,15 +13,17 @@ export default function clubLeader() {
   const submitHandler = async (e) => {
     if (ID === '') return alert("ID가 필요합니다.");
     if (name === '') return alert("닉네임이 필요합니다.");
+
+    console.log(ID, name);
     
     const res = await fetch(`/api/admin/clubs/`+ID, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      body: JSON.stringify({
         username: name
-      }
+      })
     });
 
     if (res.status == 200) {
