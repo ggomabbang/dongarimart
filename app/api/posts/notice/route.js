@@ -8,12 +8,16 @@ export async function GET(request) {
   try {
     const result = await client.Post.findMany({
       where: {
-        "isNotice": true
+        isNotice: true
+      },
+      orderBy: {
+        createdAt: 'desc'
       },
       select: {
-        "id": true,
-        "title": true,
-        "updatedAt": true
+        id: true,
+        title: true,
+        updatedAt: true,
+        createdAt: true
       }
     });
     return NextResponse.json(result);
