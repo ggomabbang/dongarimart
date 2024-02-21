@@ -16,7 +16,8 @@ export async function GET(request) {
       select: {
         id: true,
         title: true,
-        updatedAt: true
+        updatedAt: true,
+        createdAt: true
       }
     });
     return NextResponse.json(result);
