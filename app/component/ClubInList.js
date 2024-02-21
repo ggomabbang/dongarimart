@@ -45,13 +45,15 @@ export default function dongariInList({club, i}) {
   useEffect(() => {
     const fetchClub = async () => {
       const res = await fetch(`/api/clubs/${club.id}`);
-      const data = await res.json();
-      if (data.post) setRecruit(data.post.recruit);
-      const newClub = {
-        short: data.short,
-        image: data.image
+      if (res.status == 200) {
+        const data = await res.json();
+        if (data.post) setRecruit(data.post.recruit);
+        const newClub = {
+          short: data.short,
+          image: data.image
+        }
+        setClubPlus(newClub);
       }
-      setClubPlus(newClub);
     }
     fetchClub();
   }, [foldStyle])
@@ -60,7 +62,13 @@ export default function dongariInList({club, i}) {
     <div className={Styles.Div_Fold} style={{gap: foldGap}}id={"div"+i}>
       <div className={Styles.Top}>
         <div className={Styles.Left}>
-          <h4 className={Styles.Title}>{club.clubName}</h4>
+          {
+            club.isRecruiting ?
+            <h4 className={Styles.NowOn}>• 모집 중</h4> : null
+          }
+          <h4 className={Styles.Title}>
+            {club.clubName}
+          </h4>
           <div className={Styles.TagBox}>
             {
               club.tags.map((tagObj) => {
