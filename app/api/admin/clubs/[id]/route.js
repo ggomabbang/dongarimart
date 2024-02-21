@@ -55,6 +55,13 @@ export async function PATCH(request) {
       status: 400,
     });
   }
+
+  const curLeader = await client.JoinedClub.findMany({
+    where: {
+      clubId: id,
+      isLeader: true
+    }
+  });
   
   let user = null;
 
@@ -118,14 +125,29 @@ export async function PATCH(request) {
       }
     });
 
-    await client.JoinedClub.delete({
-      where: {
-        userId_clubId: {
-          userId: session.userId,
-          clubId: id
+    if (curLeader[0].userId == session.userId) {
+      await client.JoinedClub.delete({
+        where: {
+          userId_clubId: {
+            userId: session.userId,
+            clubId: id
+          }
         }
-      }
-    });
+      });
+    }
+    else {
+      await client.JoinedClub.update({
+        where: {
+          userId_clubId: {
+            userId: curLeader[0].userId,
+            clubId: id
+          }
+        },
+        data: {
+          isLeader: false
+        }
+      });
+    }
   } catch (e) {
     console.error(e);
     if (e instanceof Prisma.PrismaClientValidationError) {
