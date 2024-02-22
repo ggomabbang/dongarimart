@@ -10,17 +10,15 @@
 
     border-radius: 1em;
     background: #FFF;
-    box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.13);
+    box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
 }
 
 .ArticleTitle {
     color: #000;
     font-family: Noto Sans KR;
     font-size: 1em;
-    font-style: normal;
     font-weight: 500;
-    line-height: normal;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
 }
 
 .Date {
@@ -30,8 +28,21 @@
     text-align: right;
     font-family: Noto Sans KR;
     font-size: 0.8em;
-    font-style: normal;
     font-weight: 600;
-    line-height: normal;
     letter-spacing: 0.2em;
 }
+
+@media screen and (max-width: 940px) {
+    .ArticleBox {
+        padding: .8em 1.3em;
+    }
+
+    .ArticleTitle {
+        font-size: .9em;
+        letter-spacing: 0;
+    }
+
+    .Date {
+        font-size: 0.6em;
+    }
+  }

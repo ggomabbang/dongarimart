@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 body {
-  padding-top: 6rem;
-  padding-bottom: 2rem;
+  background: #f3f3f3;
   display: flex;
-  justify-content: center;
-  margin: auto;
-  background: #F5F5F5;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  gap: 1em;
 }
 
 button {
@@ -43,4 +43,20 @@ ol, li {
 
 p {
   margin: 0;
+}
+
+footer {
+  margin: 2em 0;
+  width: 900px;
+
+  color: gray;
+  text-align: center;
+  font-size: 0.7em;
+}
+
+@media screen and (max-width: 1024px) {
+  footer {
+    width: 92vw;
+    font-size: 0.5em;
+  }
 }

@@ -12,20 +12,18 @@
   padding: 40px;
   flex-direction: column;
   align-items: flex-end;
-  gap: 30px;
+  gap: 20px;
   align-self: stretch;
 
   border-radius: 30px;
   background: #FFF;
-  box-shadow: 3px 3px 15px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
 }
 
 .PageTitle {
   font-family: Noto Sans KR;
   font-size: 2em;
-  font-style: normal;
   font-weight: 900;
-  line-height: normal;
   letter-spacing: 0.2em
 }
 
@@ -40,31 +38,23 @@
 .GoBack {
   color: #2D5DEB;
   font-family: Noto Sans KR;
-  font-size: 1em;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.2em
+  font-size: .9em;
+  font-weight: 600;
 }
 
 .Title {
   color: #000;
   font-family: Noto Sans KR;
   font-size: 2em;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
 }
 
 .Date {
   color: rgba(0, 0, 0, 0.50);
-  text-align: right;
   font-family: Noto Sans KR;
   font-size: 0.8em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   letter-spacing: 0.1em;
 }
 
@@ -73,6 +63,7 @@
   align-self: stretch;
   height: 4px;
   background: #2D5DEB;
+  border-radius: 2px;
 }
 
 .Bottom {
@@ -92,7 +83,50 @@
   color: #000;
   font-family: Noto Sans KR;
   font-size: 1em;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
+}
+
+@media screen and (max-width: 1024px) {
+  .Container {
+    width: 92vw;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .Title {
+    font-size: 1.2em;
+    letter-spacing: 0;
+    padding-left: 0;
+  }
+
+  .Panel {
+    padding: 20px;  
+    border-radius: 15px;
+  }
+
+  .PageTitle {
+    font-size: 1.2em;
+    letter-spacing: 0;
+  }
+
+  .GoBack {
+    font-size: .7em;
+  }
+
+  .Top {
+    gap: 5px;
+  }
+
+  .Date {
+    font-size: .6em;
+    letter-spacing: 0;
+  }
+
+  .line {
+    height: 3px;
+  }
+
+  .Contents {
+    font-size: .8em;
+  }
 }
