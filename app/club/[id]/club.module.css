@@ -10,9 +10,7 @@
 .PageTitle {
   font-family: Noto Sans KR;
   font-size: 2em;
-  font-style: normal;
   font-weight: 900;
-  line-height: normal;
   letter-spacing: 0.2em
 }
 
@@ -26,7 +24,7 @@
 
   border-radius: 30px;
   background: #FFF;
-  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
 }
 
 .Top {
@@ -130,9 +128,7 @@
   text-align: center;
   font-family: Noto Sans KR;
   font-size: 1.1em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
@@ -150,9 +146,7 @@
   text-align: center;
   font-family: Noto Sans KR;
   font-size: 1.1em;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   letter-spacing: 0.2em;
   text-indent: 0.2em;
 }
@@ -187,9 +181,7 @@
   text-align: center;
   font-family: Noto Sans KR;
   font-size: 0.8em;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
   letter-spacing: 0.2em;
   text-indent: 0.2em;
 }
@@ -198,10 +190,8 @@
   color: #000;
   font-family: Noto Sans KR;
   font-size: 0.9em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.1em;
 }
 
 .Contents {
@@ -215,9 +205,7 @@
 .Contents h2 {
   font-family: Noto Sans KR;
   font-size: 1.3em;
-  font-style: normal;
   font-weight: 800;
-  line-height: normal;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
@@ -225,9 +213,7 @@
 .Contents span {
   font-family: Noto Sans KR;
   font-size: 1em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
@@ -235,4 +221,81 @@
 .Contents img {
   max-width: 100%;
   object-fit: scale-down;
+}
+
+@media screen and (max-width: 900px) {
+  .Container {
+    width: 92vw;
+  }
+
+  .PageTitle {
+    font-size: 1.2em;
+    letter-spacing: 0;
+    padding-left: 0;
+  }
+
+  .Inside {
+    padding: 20px;
+    gap: 10px;
+  }
+
+  .Top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Title{
+    font-size: 1.1em;
+  }
+
+  .SubTitle{
+    width: 100%;
+    text-align: left;
+    font-size: .9em;
+  }
+
+  .Middle {
+    flex-direction: column;
+  }
+
+  .ImageBox {
+    align-self: center;
+  }
+
+  .MiddleRight {
+    gap: 20px;
+  }
+
+  .RecruitInner {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .RecruitInner button {
+    border-radius: 15px;
+    background: #2D5DEB;
+  
+    font-size: 0.8em;
+    letter-spacing: .1em;
+    text-indent: .1em;
+  }
+  
+  .RecruitInner p {
+    font-size: 0.8em;
+    letter-spacing: 0;
+  }
+
+  .Contents h2 {
+    font-size: 1em;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-indent: 0.1em;
+  }
+  
+  .Contents span {
+    font-size: .9em;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-indent: 0;
+  }
 }

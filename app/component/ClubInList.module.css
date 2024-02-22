@@ -1,4 +1,4 @@
-.Div_Fold{
+.Div_Fold {
   display: flex;
   padding: 15px 30px;
   flex-direction: column;
@@ -8,7 +8,7 @@
 
   border-radius: 30px;
   background: #FFF;
-  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
 
   transition: .3s;
 }
@@ -62,9 +62,7 @@
   color: #000;
   font-family: Noto Sans KR;
   font-size: 1.5em;
-  font-style: normal;
   font-weight: 900;
-  line-height: normal;
   text-align: left;
 }
 
@@ -157,9 +155,7 @@
   color: #000;
   font-family: Noto Sans KR;
   font-size: 0.9em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
 }
 
 .ShortBlock {
@@ -179,9 +175,7 @@
   text-align: center;
   font-family: Noto Sans KR;
   font-size: 0.9em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
   letter-spacing: 0.1em;
   text-indent: 0.1em;
 }
@@ -197,9 +191,7 @@
   text-align: center;
   font-family: Noto Sans KR;
   font-size: 1em;
-  font-style: normal;
   font-weight: 700;
-  line-height: normal;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
 }
@@ -218,4 +210,88 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 900px) {
+  .Top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .Left {
+    gap: 3px;
+  }
+
+  .Title {
+    font-size: 1em;
+  }
+
+  .Tag {
+    font-size: .7em;
+  }
+
+  .Classification {
+    font-size: .7em;
+  }
+
+  .Right {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .RightBox {
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .SubTitle {
+    width: 100%;
+    text-align: left;
+    
+    font-size: .9em;
+  }
+
+  .Bottom {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .Info {
+    width: 100%;
+  }
+
+  .ClubImage {
+    align-self: center;
+  }
+
+  .ShortBlock {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .BlueButton {
+    flex: 0 0 0;
+    padding: 3px 15px;
+  
+    border-radius: 15px;
+
+    font-size: 0.8em;
+    letter-spacing: 0;
+    text-indent: 0;
+  }
+
+  .InfoText{
+    width: 100%;
+    font-size: 0.9em;
+  }
+
+  .DetailButton {
+    padding: 3px 15px;
+    background: transparent;
+  
+    color: #2D5DEB;
+    font-size: .8em;
+    letter-spacing: 0;
+    text-indent: 0;
+  }
 }
