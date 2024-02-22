@@ -34,8 +34,10 @@ export default function find() {
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });
-    const jsonData = await rows.json();
-    setGroups(jsonData);
+    if (rows.status == 200) {
+      const jsonData = await rows.json();
+      setGroups(jsonData);
+    }
   }
 
   useEffect(() => {
