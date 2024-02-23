@@ -15,6 +15,7 @@ export async function GET(request) {
     let isRecruiting = params.get("isRecruiting");
     let tag = params.get("tag");
     const college = params.get("college");
+    const search = params.get("search");
 
     if (sortBy === null) {
       sortBy = 'registration';
@@ -138,6 +139,9 @@ export async function GET(request) {
     }
     if (college !== null) {
       query.where.classification = college;
+    }
+    if (search) {
+      query.where.clubName = { contains: search };
     }
 
     try {
