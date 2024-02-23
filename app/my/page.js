@@ -1,7 +1,8 @@
 'use client'
 
 import DongariInList from '@/app/component/ClubInList.js';
-import Styles from './my.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
+import MyStyles from './my.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -60,12 +61,12 @@ export default function my() {
   }, [])
 
   return (
-    <div className={Styles.Content}>
+    <div className={Styles.Container}>
       <div className={Styles.Top}>
-        <h1 className={Styles.Title}>내 정보</h1>
+        <h1 className={Styles.PageTitle}>내 정보</h1>
       </div>
 
-      <div className={Styles.InputPanel}>
+      <div className={Styles.Input}>
 
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이름</p>
@@ -97,8 +98,8 @@ export default function my() {
             <ul>
               {
                 User.emailConfirm ? 
-                  <li id={Styles.email_check}>인증된 이메일 ✅</li> :
-                  <li id={Styles.email_uncheck}>인증되지 않은 이메일 ❌</li>
+                  <li id={MyStyles.email_check}>인증된 이메일 ✅</li> :
+                  <li id={MyStyles.email_uncheck}>인증되지 않은 이메일 ❌</li>
               }
             </ul>
             {
@@ -122,17 +123,17 @@ export default function my() {
 
       </div>
 
-      <div className={Styles.DongariPanel}>
+      <div className={MyStyles.DongariPanel}>
         <div className={Styles.Top}>
-          <h1 className={Styles.Title}>관리중인 동아리 🔧</h1>
+          <h1 className={Styles.PageTitle}>관리중인 동아리 🔧</h1>
         </div>
-        <div className={Styles.ListBox}>
+        <div className={MyStyles.ListBox}>
           {
             Groups.map((club,index)=>{
               return(
-                <div className={Styles.ClubRow} key={club.id}>
+                <div className={MyStyles.ClubRow} key={club.id}>
                   <Link 
-                    className={Styles.ClubFix}
+                    className={MyStyles.ClubFix}
                     style={clubFix ? null :
                       {display: 'none'}
                     }
@@ -143,7 +144,7 @@ export default function my() {
                   {
                     club.isRecruiting ?
                     <Link
-                      className={Styles.RecruitFix}
+                      className={MyStyles.RecruitFix}
                       style={clubFix ? null :
                         {display: 'none'}
                       }
@@ -161,7 +162,7 @@ export default function my() {
             })
           }
         </div>
-        <div className={Styles.ButtonSpace}>
+        <div className={MyStyles.ButtonSpace}>
           {
             Groups.length ?
             <button
@@ -199,10 +200,10 @@ export default function my() {
       </div> */}
 
       <div className={Styles.Top}>
-        <h1 className={Styles.Title}>🚨 Danger Zone 🚨</h1>
+        <h1 className={Styles.PageTitle}>🚨 Danger Zone 🚨</h1>
       </div>
 
-      <div className={Styles.InputPanel}>
+      <div className={Styles.Input}>
 
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>계정 탈퇴</p>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react'
-import Styles from './register.module.css'
+import Styles from '@/app/component/inputPanel.module.css'
 import { useRouter } from 'next/navigation'
 import College from '@/public/College.json'
 
@@ -182,7 +182,7 @@ export default function clubFix({ params }) {
   }
 
   return(
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 수정</h1>
       <div className={Styles.Input}>
         
@@ -271,7 +271,7 @@ export default function clubFix({ params }) {
         </label>
 
         <label className={Styles.HorizonBox}>
-          <p className={Styles.Left}>짧은 소개</p>
+          <p className={Styles.Left}>소개 글</p>
           <div className={Styles.Right}>
             <div className={Styles.InputWithCount}>
               <textarea 
@@ -349,24 +349,26 @@ export default function clubFix({ params }) {
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>태그</p>
           <div className={Styles.Right}>
-            <input 
-              id='tag' 
-              className={Styles.TagInputBox} 
-              placeholder='태그'
-              value={tagValue}
-              onChange={tagInputChange}
-              onKeyUp={(e) => {
-                if (e.key == 'Enter') {
-                  tagAdder()
-                }
-              }}
-            />
-            <button 
-              className={Styles.UploadButton} 
-              onClick={(e)=> {tagAdder()}}
-            >
-              추가
-            </button>
+            <div className={Styles.TagInput}>
+              <input 
+                id='tag' 
+                className={Styles.TagInputBox} 
+                placeholder='태그'
+                value={tagValue}
+                onChange={tagInputChange}
+                onKeyUp={(e) => {
+                  if (e.key == 'Enter') {
+                    tagAdder()
+                  }
+                }}
+              />
+              <button 
+                className={Styles.UploadButton} 
+                onClick={(e)=> {tagAdder()}}
+              >
+                추가
+              </button>
+            </div>
             <div id='tagZone' className={Styles.TagZone}>
               {
                 tags.map((tag, index) => {
@@ -390,11 +392,13 @@ export default function clubFix({ params }) {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>주의 사항</p>
           <div className={Styles.Right}>
-            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+            <ul className={Styles.Caution}>
+              <li>도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.</li>
+            </ul>
           </div>
         </div>
 
-        <button className={Styles.ConfirmButton} onClick={handleSubmit}>
+        <button className={Styles.BlueButton} onClick={handleSubmit}>
           수정 완료
         </button>
         
@@ -410,29 +414,30 @@ export default function clubFix({ params }) {
           </button>
           :
           <div className={Styles.HorizonBox}>
+            <p className={Styles.Left}>삭제</p>
             <div className={Styles.Right}>
               <input
                 id='deleteName'
                 className={Styles.InputBox}
                 placeholder='동아리 이름을 똑같이 입력해 주세요'
               />
-              <button
-                className={Styles.UploadButton}
-                onClick={(e)=>{setDelToggle(false)}}
-              >
-                삭제 취소
-              </button>
-              <button
-                className={Styles.CancelButton}
-                onClick={deleteHandler}
-              >
-                삭제 확인
-              </button>
+              <div className={Styles.Buttons}>
+                <button
+                  className={Styles.UploadButton}
+                  onClick={(e)=>{setDelToggle(false)}}
+                >
+                  삭제 취소
+                </button>
+                <button
+                  className={Styles.CancelButton}
+                  onClick={deleteHandler}
+                >
+                  삭제 확인
+                </button>
+              </div>
             </div>
           </div>
         }
-        
-
       </div>
     </div>
   )

@@ -20,7 +20,7 @@
   flex-direction: column;
   align-items: flex-end;
   align-self: stretch;
-  gap: 40px;
+  gap: 30px;
 
   border-radius: 30px;
   background: #FFF;
@@ -127,7 +127,7 @@
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 1.1em;
+  font-size: .9em;
   font-weight: 500;
   letter-spacing: 0.3em;
   text-indent: 0.3em;
