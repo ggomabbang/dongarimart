@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Styles from './recruit.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function recruit({params}) {
@@ -277,7 +277,7 @@ export default function recruit({params}) {
   }, []);
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 모집 공고 수정</h1>
       <div className={Styles.Input}>
 
@@ -427,13 +427,15 @@ export default function recruit({params}) {
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 글</p>
           <div className={Styles.Right}>
-            <textarea 
-              className={Styles.LargeInputBox}
-              placeholder='모집 공고 본문'
-              id='content'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
+            <div className={Styles.InputWithCount}>
+              <textarea 
+                className={Styles.LargeInputBox}
+                placeholder='모집 공고 본문'
+                id='content'
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </div>
           </div>
         </label>
 
@@ -441,15 +443,18 @@ export default function recruit({params}) {
           <p className={Styles.Left}>현재 이미지</p>
           <div className={Styles.Right}>
             <div className={Styles.ImageRoom}>
-              <img className={Styles.ImageBox} src={currentSrc[currentImgSel]}/>
-              <p>{currentImgSel+1}</p>
+              <img className={Styles.ImageBoxColumn} src={currentSrc[currentImgSel]}/>
             </div>
             <div className={Styles.Side}>
               <div className={Styles.Images}>
                 {
                   currentSrc.map((imgSrc, index) => {
                     return (
-                      <div className={Styles.ImageRoom} key={`cimg${index}`}>
+                      <div
+                        className={Styles.ImageRoom}
+                        style={index === currentImgSel ? {border: '1px solid #2D5DEB'} : null}
+                        key={`cimg${index}`}
+                      >
                         {
                           <img 
                             className={Styles.ImageSmallBox}
@@ -473,10 +478,9 @@ export default function recruit({params}) {
             <div className={Styles.ImageRoom}>
               {
                 imageSrcs[imageSelect] ?
-                <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/> :
-                <div className={Styles.ImageBox} />
+                <img className={Styles.ImageBoxColumn} src={imageSrcs[imageSelect]}/> :
+                <div className={Styles.ImageBoxColumn} />
               }
-              <p>{imageSelect+1}</p>
               <ul>
                 <li>사진 미업로드 시 기존 이미지로 유지됩니다.</li>
                 <li>번호를 누른 후 사진 1장을 업로드하면 이미지를<br/>변경할 수 있습니다.</li>
@@ -541,12 +545,14 @@ export default function recruit({params}) {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>주의 사항</p>
           <div className={Styles.Right}>
-            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+            <ul className={Styles.Caution}>
+              <li>도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.</li>
+            </ul>
           </div>
         </div>
 
-        <button className={Styles.UploadButton} onClick={submitHandler}>
-          완료
+        <button className={Styles.BlueButton} onClick={submitHandler}>
+          수정 완료
         </button>
 
         <button className={Styles.CancelButton} onClick={deleteHandler}>

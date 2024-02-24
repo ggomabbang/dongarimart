@@ -53,6 +53,10 @@
   flex: 1 0 0;
 }
 
+.Right ul {
+  margin: 0;
+}
+
 .Caution {
   margin: 0;
   padding: 0 0 0 2em;
@@ -435,6 +439,7 @@
     font-size: .8em;
     letter-spacing: 0;
     padding: 8px 12px;
+    width: 30vw;
   }
 
   .MenuFont {
@@ -556,8 +561,8 @@
   }
 
   .AddButton {
-    padding: 8px 0px;
-    font-size: 1em;
+    padding: 6px 0px;
+    font-size: .8em;
   }
 }
 
@@ -567,3 +572,20 @@
     height: 60vw;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .ImageBoxColumn {
+    width: 80vw;
+    height: 107vw;
+  }
+
+  .Images {
+    width: 80vw;
+  }
+
+  .ImageSmallBox {
+    width: 18vw;
+    height: 24vw;
+  }
+}
+

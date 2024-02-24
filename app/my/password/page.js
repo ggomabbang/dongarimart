@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from './password.module.css'
+import Styles from '@/app/component/inputPanel.module.css'
 import { signOut } from "next-auth/react"
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -45,7 +45,8 @@ export default function password() {
   }
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
+      <h1 className={Styles.PageTitle}>비밀번호 변경</h1>
       <div className={Styles.Input}>
 
         <div className={Styles.HorizonBox}>
@@ -107,7 +108,7 @@ export default function password() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            <ul>
+            <ul className={Styles.Caution}>
               <li style={{display: pwLogic[1] ? 'none' : 'list-item'}}>8 ~ 22자리 이내로 입력해주세요.</li>
               <li style={{display: pwLogic[2] ? 'none' : 'list-item'}}>대문자와 소문자를 같이 포함해주세요.</li>
               <li style={{display: pwLogic[3] ? 'none' : 'list-item'}}>특수문자를 포함해주세요. <br/>허용 특수문자: `~!@#$%^&*|'";:₩\?-_+=</li>
@@ -118,7 +119,7 @@ export default function password() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}>비밀번호<br/>확인</p>
+          <p className={Styles.Left}>비밀번호 확인</p>
           <div className={Styles.Right}>
             <input 
               placeholder='****'
@@ -141,7 +142,7 @@ export default function password() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            <ul>
+            <ul className={Styles.Caution}>
               <li style={{display: newPwCheck ? 'none' : 'list-item'}}>비밀번호가 일치하지 않습니다.</li>
               <li style={{display: !newPwCheck ? 'none' : 'list-item', color: 'green'}}>비밀번호가 일치합니다.</li>
             </ul>

@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from './cancel.module.css'
+import Styles from '@/app/component/inputPanel.module.css'
 import { signOut } from "next-auth/react"
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -33,7 +33,7 @@ export default function password() {
   }
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <div className={Styles.Input}>
 
         <div className={Styles.HorizonBox}>
@@ -51,7 +51,7 @@ export default function password() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            <ul>
+            <ul className={Styles.Caution}>
               <li>탈퇴시 연관된 동아리와 게시글은 삭제되지 않습니다.</li>
               <li>동아리 편집 권한을 잃게됩니다.</li>
               <li>이 작업은 돌이킬 수 없습니다.</li>

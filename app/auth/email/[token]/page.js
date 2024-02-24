@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from './email.module.css';
+import Styles from '@/app/infomessage/Info.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -29,13 +29,17 @@ export default function Club({ params }) {
 
   return (
     <div className={Styles.Container}>
-      {status}
-      {
-        buttonShow ? 
-        <button className={Styles.BlueButton} onClick={(e) => router.push('/')}>
-          메인페이지로 돌아가기
-        </button> : null
-      }
+      <div className={Styles.Input}>
+        <div className={Styles.HorizonBox}>
+          {status}
+          {
+            buttonShow ? 
+            <button className={Styles.BlueButton} onClick={(e) => router.push('/')}>
+              메인페이지로 돌아가기
+            </button> : null
+          }
+        </div>
+      </div>
     </div>
   )
 }

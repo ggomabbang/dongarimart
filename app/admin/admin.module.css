@@ -1,4 +1,4 @@
-.Panel {
+.Container {
     display: flex;
     width: 900px;
     flex-direction: column;
@@ -10,9 +10,7 @@
 .PageTitle {
     font-family: Noto Sans KR;
     font-size: 2em;
-    font-style: normal;
     font-weight: 900;
-    line-height: normal;
     letter-spacing: 0.2em
 }
 
@@ -21,12 +19,12 @@
     padding: 40px;
     flex-direction: column;
     align-items: flex-end;
-    gap: 30px;
+    gap: 20px;
     align-self: stretch;
 
     border-radius: 30px;
     background: #FFF;
-    box-shadow: 3px 3px 15px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
 }
 
 .HorizonBox{
@@ -40,16 +38,12 @@
     width: 10em;
     justify-content: center;
     align-items: center;
-    gap: 10px;
   
-    color: #000;
     text-align: center;
     font-family: Noto Sans KR;
     font-size: 1em;
-    font-style: normal;
     font-weight: 500;
-    line-height: normal;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.1em;
 }
 
 .Right {
@@ -61,8 +55,7 @@
 
 .BlueButton {
     display: flex;
-    padding: 8px 16px;
-    gap: 10px;
+    padding: 5px 15px;
     justify-content: center;
     align-self: stretch;
 
@@ -73,7 +66,40 @@
     text-align: center;
     font-family: Noto Sans KR;
     font-size: 1em;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
+}
+
+@media screen and (max-width: 900px) {
+    .Container {
+      width: 92vw;
+    }
+
+    .PageTitle {
+        font-size: 1.2em;
+        letter-spacing: 0;
+        padding-left: 0;
+    }
+
+    .HorizonBox {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+    }
+
+    .Left {
+        width: auto;
+        font-size: .9em;
+        letter-spacing: 0;
+    }
+
+    .Right {
+        align-self: stretch;
+    }
+
+    .BlueButton {
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: .8em;
+        font-weight: 600;
+    }
 }

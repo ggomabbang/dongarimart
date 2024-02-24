@@ -2,7 +2,7 @@ import Styles from './contact.module.css';
 
 export default function contact() {
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>Contact</h1>
       <div className={Styles.Input}>
         <h2 className={Styles.Title}>연락 가능한 이메일</h2>

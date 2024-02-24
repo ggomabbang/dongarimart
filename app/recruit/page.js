@@ -366,9 +366,6 @@ export default function recruit() {
                 <img className={Styles.ImageBoxColumn} src={imageSrcs[imageSelect]}/> :
                 <div className={Styles.ImageBoxColumn} />
               }
-              <ul>
-                
-              </ul>
             </div>
             <div className={Styles.Side}>
               <div className={Styles.Buttons}>

@@ -7,7 +7,7 @@ export default function admin() {
   const router = useRouter();
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>관리자</h1>
       <div className={Styles.Input}>
 

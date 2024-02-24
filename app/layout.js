@@ -20,7 +20,9 @@ export default function rootLayout({ children }) {
             <Navbar/>
             {children}
             <footer>
-              <p>동아리 MART의 로고에는 (주)여기어때컴퍼니가 제공한 여기어때 잘난체가 적용되어 있습니다.</p>
+              <p>동아리 MART의 로고에는 <strong>(주)여기어때컴퍼니</strong>가 제공한 <strong>여기어때 잘난체</strong>가 적용되어 있습니다.</p>
+              <p>부산대학교 정보컴퓨터공학부 재학생 제작</p>
+              <p>dongarimart@gmail.com</p>
             </footer>
           </AuthSession>
         </body>
