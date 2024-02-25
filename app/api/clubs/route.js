@@ -119,7 +119,8 @@ export async function GET(request) {
         query.where.isRecruiting = true;
         break;
       case 'popularity':
-        query.orderBy = [{view: order}];
+        const viewOrder = reverse == 0? 'desc' : 'asc';
+        query.orderBy = [{view: viewOrder}];
         break;
     }
     if(pagination !== 0) {
