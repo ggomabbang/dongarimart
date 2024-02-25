@@ -81,10 +81,6 @@
   font-weight: 700;
 }
 
-.LoginBtn:hover{
-  animation: pop 0.3s linear 1;
-}
-
 /* .GithubLogin{
   display: flex;
   padding: 5px 20px;
