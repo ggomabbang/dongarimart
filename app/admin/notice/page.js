@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Styles from './recruit.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function recruit() {
@@ -95,7 +95,7 @@ export default function recruit() {
   }
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>공지사항 작성</h1>
       <div className={Styles.Input}>
 
@@ -121,71 +121,87 @@ export default function recruit() {
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>내용</p>
           <div className={Styles.Right}>
-            <textarea 
-              className={Styles.LargeInputBox}
-              placeholder='공지 내용'
-              id='content'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
+            <div className={Styles.InputWithCount}>
+              <textarea 
+                className={Styles.LargeInputBox}
+                placeholder='공지 내용'
+                id='content'
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </div>
           </div>
         </label>
 
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이미지</p>
-          <div className={Styles.ImageRoom}>
-            <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/>
-            <div>{imageSelect+1}</div>
-          </div>
-          <div className={Styles.Side}>
-            <div className={Styles.Buttons}>
-              <label className={Styles.UploadButton} htmlFor='input-file'>
-                업로드
-                <input 
-                  id="input-file"
-                  type="file"
-                  accept='image/png, image/jpeg'
-                  multiple
-                  style={{display: "none"}}
-                  onChange={imageHandler}
-                />
-              </label>
-              <button
-                className={Styles.CancelButton}
-                onClick={(e) => {
-                  setImageSelect(0);
-                  setImages([]);
-                  setImageSrcs([null,null,null,null]);
-                }}
-              >
-                취소
-              </button>
-            </div>
-            <div className={Styles.Images}>
+          <div className={Styles.Right}>
+            <div className={Styles.ImageRoom}>
               {
-                imageSrcs.map((imgSrc, index) => {
-                  return (
-                    <div className={Styles.ImageRoom} key={`img${index}`}>
-                      {
-                        index <= images.length ?
-                        <img 
-                          className={Styles.ImageSmallBox}
-                          src={imgSrc}
-                          onClick={(e) => setImageSelect(index)}
-                        /> :
-                        <div className={Styles.ImageSmallBox} />
-                      }
-                      <div>{index+1}</div>
-                    </div>
-                  )
-                })
+                imageSrcs[imageSelect] ?
+                <img className={Styles.ImageBoxColumn} src={imageSrcs[imageSelect]}/> :
+                <div className={Styles.ImageBoxColumn} />
               }
+            </div>
+            <div className={Styles.Side}>
+              <div className={Styles.Buttons}>
+                <label className={Styles.UploadButton} htmlFor='input-file'>
+                  업로드
+                  <input 
+                    id="input-file"
+                    type="file"
+                    accept='image/png, image/jpeg'
+                    multiple
+                    style={{display: "none"}}
+                    onChange={imageHandler}
+                  />
+                </label>
+                <button
+                  className={Styles.CancelButton}
+                  onClick={(e) => {
+                    setImageSelect(0);
+                    setImages([]);
+                    setImageSrcs([null,null,null,null]);
+                  }}
+                >
+                  취소
+                </button>
+              </div>
+              <div className={Styles.Images}>
+                {
+                  imageSrcs.map((imgSrc, index) => {
+                    return (
+                    <div 
+                        className={Styles.ImageRoom}
+                        style={index === imageSelect ? {border: '1px solid #2D5DEB'} : null}
+                        key={`img${index}`}
+                      >
+                        {
+                          index <= images.length ?
+                            index == images.length ?
+                            <div
+                              className={Styles.ImageSmallBox}
+                              onClick={(e) => setImageSelect(index)}
+                            /> :
+                            <img
+                              className={Styles.ImageSmallBox}
+                              src={imgSrc}
+                              onClick={(e) => setImageSelect(index)}
+                            /> :
+                          <div className={Styles.ImageSmallBox} />
+                        }
+                        <p>{index+1}</p>
+                      </div>
+                    )
+                  })
+                }
+              </div>
             </div>
           </div>
         </div>
 
-        <button className={Styles.UploadButton} onClick={submitHandler}>
-          완료
+        <button className={Styles.BlueButton} onClick={submitHandler}>
+          공지 업로드
         </button>
 
       </div>

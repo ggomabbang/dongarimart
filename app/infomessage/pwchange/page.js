@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from '../Info.module.css';
+import Styles from '@/app/infomessage/Info.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function pwChange() {
@@ -11,7 +11,7 @@ export default function pwChange() {
   }
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <div className={Styles.Input}>
         <div className={Styles.HorizonBox}>
             비밀번호 변경이 완료되었습니다. 로그인을 다시 진행해주세요!

@@ -1,6 +1,6 @@
 'use client'
 
-import Styles from './SignUp.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -74,9 +74,9 @@ export default function signUp() {
     }
   }
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <div className={Styles.Top}>
-        <h1 className={Styles.Title}>회원가입</h1>
+        <h1 className={Styles.PageTitle}>회원가입</h1>
       </div>
 
       <div className={Styles.Input}>
@@ -123,19 +123,21 @@ export default function signUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}>주의 사항</p>
+          <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            - 도배, 욕설 등의 부적절한 닉네임은 관리자에 의해 강제 삭제될 수 있습니다.
+            <ul className={Styles.Caution}>
+              <li style={{display: nameCheck ? 'none' : 'list-item'}}>닉네임을 입력해 주세요.</li>
+              <li style={{display: nameUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
+              <li style={{display: !nameUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
+            </ul>
           </div>
         </div>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}></p>
+          <p className={Styles.Left}>주의 사항</p>
           <div className={Styles.Right}>
-            <ul>
-              <li style={{display: nameCheck ? 'none' : 'list-item'}}>닉네임을 입력해 주세요.</li>
-              <li style={{display: nameUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
-              <li style={{display: !nameUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
+            <ul className={Styles.Caution} style={{color: 'black'}}>
+              <li>욕설, 성적 단어 등의 부적절한 닉네임은 관리자에 의해 강제 삭제될 수 있습니다.</li>
             </ul>
           </div>
         </div>
@@ -187,7 +189,7 @@ export default function signUp() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            <ul>
+            <ul className={Styles.Caution}>
               <li style={{display: pwStyle[1] ? 'none' : 'list-item'}}>8 ~ 22자리 이내로 입력해주세요.</li>
               <li style={{display: pwStyle[2] ? 'none' : 'list-item'}}>대문자와 소문자를 같이 포함해주세요.</li>
               <li style={{display: pwStyle[3] ? 'none' : 'list-item'}}>특수문자를 포함해주세요. <br/>허용 특수문자: `~!@#$%^&*|'";:₩\?-_+=</li>
@@ -198,7 +200,7 @@ export default function signUp() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}>비밀번호<br/>확인</p>
+          <p className={Styles.Left}>비밀번호 확인</p>
           <div className={Styles.Right}>
             <input 
               placeholder='****'
@@ -221,7 +223,7 @@ export default function signUp() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            <ul>
+            <ul className={Styles.Caution}>
               <li style={{display: pwCheck ? 'none' : 'list-item'}}>비밀번호가 일치하지 않습니다.</li>
               <li style={{display: !pwCheck ? 'none' : 'list-item', color: 'green'}}>비밀번호가 일치합니다.</li>
             </ul>
@@ -280,7 +282,7 @@ export default function signUp() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            <ul>
+            <ul className={Styles.Caution}>
               <li style={{display: emailCheck ? 'none' : 'list-item'}}>부산대학교 이메일 'ID@pusan.ac.kr'만 허용합니다.</li>
               <li style={{display: emailUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
               <li style={{display: !emailUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
@@ -291,9 +293,11 @@ export default function signUp() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>이용정보</p>
           <div className={Styles.Right}>
-            - 입력하신 정보는 서비스 제공 목적으로만 사용됩니다.<br/>
-            - 입력하신 정보는 회원 탈퇴시까지 유지 됩니다.<br/>
-            - 가입 후 비밀번호 변경이 가능합니다.
+            <ul className={Styles.Caution} style={{color: 'black'}}>
+              <li>입력하신 정보는 서비스 제공 목적으로만 사용됩니다.</li>
+              <li>입력하신 정보는 회원 탈퇴시까지 유지 됩니다.</li>
+              <li>가입 후 비밀번호 변경이 가능합니다.</li>
+            </ul>
           </div>
         </div>
         

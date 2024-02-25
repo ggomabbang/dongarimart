@@ -24,7 +24,7 @@ export default function home() {
     }
   }, [])
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <form className={Styles.LoginContent}>
         <div className={Styles.Logo}>
           <img src='/Main_Logo.png'/>

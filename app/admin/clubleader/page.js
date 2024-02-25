@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Styles from './recruit.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function clubLeader() {
@@ -51,7 +51,7 @@ export default function clubLeader() {
   }
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 권한 이전하기 (관리자)</h1>
       <div className={Styles.Input}>
         <label className={Styles.HorizonBox}>
@@ -78,7 +78,7 @@ export default function clubLeader() {
           </div>
         </label>
 
-        <button className={Styles.UploadButton} style={{color:'orange'}} onClick={submitHandler}>
+        <button className={Styles.BlueButton} style={{backgroundColor:'orange'}} onClick={submitHandler}>
           이전하기
         </button>
 

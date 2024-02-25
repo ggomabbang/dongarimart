@@ -12,7 +12,7 @@ export default function dongariInList({club, i}) {
   const folder = () => {
     if (foldStyle == 'none') {
       setFold('flex');
-      setGap('25px');
+      setGap('15px');
       document.getElementById('seebtn'+i).style.rotate = "90deg";
       document.getElementById('dtbtn'+i).style.display = "block";
     }
@@ -159,7 +159,7 @@ export default function dongariInList({club, i}) {
           id={"dtbtn" + i} 
           className={Styles.DetailButton}
         >
-          자세히보기
+          더 자세히 보기
         </button>
       </Link>  
 

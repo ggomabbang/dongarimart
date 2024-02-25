@@ -1,0 +1,84 @@
+.Navbar {
+  top: 0;
+  width: 100vw;
+
+  z-index: 1;
+
+  box-shadow: 5px 5px 25px 7px rgba(0, 0, 0, 0.13);
+  font-family: Noto Sans KR;
+}
+
+.NavMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 1em;
+
+  background: #FFF;
+}
+
+.MenuButton {
+  display: flex;
+  width: 20vw;
+  color: black;
+  font-size: 1.2em;
+}
+
+.Title {
+  display: flex;
+  width: 15em;
+  height: 1.5em;
+  gap: .5em;
+  justify-content: center;
+  align-self: center;
+  
+  object-fit: contain;
+}
+
+.Title > h1 {
+  font-size: .8em;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+
+  color: black;
+  text-align: center;
+  font-weight: 700;
+}
+
+.NavButton {
+  font-size: 1em;
+  font-weight: 500;
+  color: #2D5DEB;
+}
+
+@media screen and (max-width: 1024px) {
+  .NavButton {
+    display: flex;
+    justify-content: flex-end;
+    width: 20vw;
+    font-size: .8em;
+    font-weight: 700;
+    color: #2D5DEB;
+  }
+}
+
+.NavPlus {
+  display: flex;
+  flex-direction: column;
+}
+
+.NavPlusButton {
+  display: flex;
+  background-color: #2D5DEB;
+  padding: .5em 4vw;
+
+  font-size: .9em;
+  font-weight: 400;
+  color: white;
+}
+
+.Menu {
+  display: flex;
+  gap: 3em;
+}

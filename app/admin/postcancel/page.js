@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Styles from './recruit.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function postCancel() {
@@ -45,7 +45,7 @@ export default function postCancel() {
   }
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>글(공지 포함) 삭제하기 (관리자)</h1>
       <div className={Styles.Input}>
 
@@ -64,17 +64,19 @@ export default function postCancel() {
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>삭제 사유</p>
           <div className={Styles.Right}>
-            <textarea 
-              className={Styles.LargeInputBox}
-              placeholder='(미지원 기능) 이메일로 전송하는 목적에 쓰일 예정'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              readOnly
-            />
+            <div className={Styles.InputWithCount}>
+              <textarea 
+                className={Styles.LargeInputBox}
+                placeholder='(미지원 기능) 이메일로 전송하는 목적에 쓰일 예정'
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                readOnly
+              />
+            </div>
           </div>
         </label>
 
-        <button className={Styles.UploadButton} style={{color:'red'}} onClick={submitHandler}>
+        <button className={Styles.BlueButton} style={{backgroundColor:'red'}} onClick={submitHandler}>
           삭제
         </button>
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Styles from './register.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation'
 import College from '@/public/College.json';
 
@@ -115,10 +115,11 @@ export default function register() {
   }
 
   return(
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 등록</h1>
+
       <div className={Styles.Input}>
-        
+
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>동아리 명</p>
           <div className={Styles.Right}>
@@ -216,7 +217,7 @@ export default function register() {
         </label>
 
         <label className={Styles.HorizonBox}>
-          <p className={Styles.Left}>짧은 소개</p>
+          <p className={Styles.Left}>소개 글</p>
           <div className={Styles.Right}>
             <div className={Styles.InputWithCount}>
               <textarea 
@@ -279,24 +280,26 @@ export default function register() {
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>태그</p>
           <div className={Styles.Right}>
-            <input 
-              id='tag' 
-              className={Styles.TagInputBox} 
-              placeholder='태그'
-              value={tagValue}
-              onChange={tagInputChange}
-              onKeyUp={(e) => {
-                if (e.key == 'Enter') {
-                  tagAdder()
-                }
-              }}
-            />
-            <button 
-              className={Styles.UploadButton} 
-              onClick={(e)=> {tagAdder()}}
-            >
-              추가
-            </button>
+            <div className={Styles.TagInput}>
+              <input 
+                id='tag' 
+                className={Styles.TagInputBox} 
+                placeholder='태그'
+                value={tagValue}
+                onChange={tagInputChange}
+                onKeyUp={(e) => {
+                  if (e.key == 'Enter') {
+                    tagAdder()
+                  }
+                }}
+              />
+              <button 
+                className={Styles.UploadButton} 
+                onClick={(e)=> {tagAdder()}}
+              >
+                추가
+              </button>
+            </div>
             <div id='tagZone' className={Styles.TagZone}>
               {
                 tags.map((tag, index) => {
@@ -320,11 +323,13 @@ export default function register() {
         <div className={Styles.HorizonBox}>
           <p className={Styles.Left}>주의 사항</p>
           <div className={Styles.Right}>
-            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+            <ul className={Styles.Caution}>
+              <li>도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.</li>
+            </ul>
           </div>
         </div>
 
-        <button className={Styles.UploadButton} onClick={handleSubmit}>
+        <button className={Styles.BlueButton} onClick={handleSubmit}>
           등록
         </button>
 

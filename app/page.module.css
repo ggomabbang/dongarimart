@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 25px;
 }
 
 .MainButton {
@@ -23,12 +23,10 @@
 
 .Title {
   font-family: Noto Sans KR;
-  font-size: 2em;
-  font-style: normal;
+  font-size: 1.5em;
   font-weight: 800;
-  line-height: normal;
-  letter-spacing: .2em;
-  padding-left: .2em;
+  letter-spacing: .1em;
+  padding-left: .1em;
 }
 
 .FindBlock {
@@ -39,30 +37,17 @@
 
 .FxElement {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
   width: 10em;
   height: 5em;
-  background-color: white;
-
-  border-radius: 1em;
-  box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.25);
-}
-
-.FxElement button {
-  height: 100%;
-  border-radius: 0.2em;
   background-color: #2D5DEB;
-  /* background: radial-gradient(117.86% 121.98% at 68.64% 16.61%, #2D5DEB 0%, #2D63EB 40.16%, #2DEB57 100%); */
+
+  border-radius: .2em;
 
   color: #FFF;
   font-family: Noto Sans KR;
-  font-size: 1em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.2em;
-  text-indent: 0.2em;
 }
 
 .FindElement {
@@ -74,25 +59,24 @@
   background-color: white;
 
   border-radius: 1em;
-  box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
 
   color: black;
 }
 
-.FindElement button {
-  height: 100%;
+.FindMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10em;
+  height: 12em;
   border-radius: 0.2em;
   background-color: #2D5DEB;
-  /* background: radial-gradient(117.86% 121.98% at 68.64% 16.61%, #2D5DEB 0%, #2D63EB 40.16%, #2DEB57 100%); */
 
   color: #FFF;
   font-family: Noto Sans KR;
   font-size: 1em;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.2em;
-  text-indent: 0.2em;
 }
 
 .ClubMini {
@@ -150,10 +134,61 @@
   color: #000;
   font-family: Noto Sans KR;
   font-size: 0.8em;
-  font-style: normal;
   font-weight: 600;
 }
 
-@keyframes pop{
-  50% {transform: scale(1.05);}
+.More {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .Content {
+    display: flex;
+    width: 92vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .Title {
+    font-size: 1.2em;
+    letter-spacing: 0;
+    padding-left: 0;
+  }
+
+  .FxElement {
+    width: 8em;
+    height: 4em;
+    font-size: .8em;
+    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0);
+  }
+
+  .FindBlock {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    gap: 0.3em;
+  }
+
+  .FindElement {
+    box-shadow: 3px 3px 25px 3px rgba(0, 0, 0, 0);
+  }
+
+  .FindMore {
+    display: none;
+  }
+
+  .More {
+    display: block;
+    align-self: flex-end;
+  
+    color: #2D5DEB;
+    font-family: Noto Sans KR;
+    font-size: 0.8em;
+    font-weight: 600;
+  }
 }

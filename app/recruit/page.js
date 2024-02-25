@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Styles from './recruit.module.css';
+import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function recruit() {
@@ -195,7 +195,7 @@ export default function recruit() {
   }, []);
 
   return (
-    <div className={Styles.Panel}>
+    <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 모집 공고</h1>
       <div className={Styles.Input}>
 
@@ -345,13 +345,15 @@ export default function recruit() {
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>모집 글</p>
           <div className={Styles.Right}>
-            <textarea 
-              className={Styles.LargeInputBox}
-              placeholder='모집 공고 본문(필수), 구체적인 지원 방법과 모집 일정 등을 작성해주세요'
-              id='content'
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
+            <div className={Styles.InputWithCount}>
+              <textarea 
+                className={Styles.LargeInputBox}
+                placeholder='모집 공고 본문(필수), 구체적인 지원 방법과 모집 일정 등을 작성해주세요'
+                id='content'
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </div>
           </div>
         </label>
 
@@ -361,16 +363,9 @@ export default function recruit() {
             <div className={Styles.ImageRoom}>
               {
                 imageSrcs[imageSelect] ?
-                <img className={Styles.ImageBox} src={imageSrcs[imageSelect]}/> :
-                <div className={Styles.ImageBox} />
+                <img className={Styles.ImageBoxColumn} src={imageSrcs[imageSelect]}/> :
+                <div className={Styles.ImageBoxColumn} />
               }
-              <p>{imageSelect+1}</p>
-              <ul>
-                <li>번호를 누른 후 사진 1장을 업로드하면 이미지를<br/>변경할 수 있습니다.</li>
-                <li>취소를 누르면 모든 이미지가 초기화 됩니다.</li>
-                <li>한 장당 이미지 용량 제한: 5MB</li>
-                <li>이미지 권장 비율: 3:4</li>
-              </ul>
             </div>
             <div className={Styles.Side}>
               <div className={Styles.Buttons}>
@@ -400,7 +395,11 @@ export default function recruit() {
                 {
                   imageSrcs.map((imgSrc, index) => {
                     return (
-                      <div className={Styles.ImageRoom} key={`img${index}`}>
+                      <div 
+                        className={Styles.ImageRoom}
+                        style={index === imageSelect ? {border: '1px solid #2D5DEB'} : null}
+                        key={`img${index}`}
+                      >
                         {
                           index <= images.length ?
                             index == images.length ?
@@ -408,7 +407,7 @@ export default function recruit() {
                               className={Styles.ImageSmallBox}
                               onClick={(e) => setImageSelect(index)}
                             /> :
-                            <img 
+                            <img
                               className={Styles.ImageSmallBox}
                               src={imgSrc}
                               onClick={(e) => setImageSelect(index)}
@@ -426,13 +425,28 @@ export default function recruit() {
         </div>
 
         <div className={Styles.HorizonBox}>
-          <p className={Styles.Left}>주의 사항</p>
+          <p className={Styles.Left}></p>
           <div className={Styles.Right}>
-            - 도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.
+            <ul className={Styles.Caution} style={{color: 'black'}}>
+              <li>한 번에 여러장 업로드 시 순서대로 입력됩니다.</li>
+              <li>번호를 누른 후 사진 1장을 업로드하면 이미지를 변경할 수 있습니다.</li>
+              <li>취소를 누르면 모든 이미지가 초기화 됩니다.</li>
+              <li>한 장당 이미지 용량 제한: 5MB</li>
+              <li>이미지 권장 비율: 3:4</li>
+            </ul>
           </div>
         </div>
 
-        <button className={Styles.UploadButton} onClick={submitHandler}>
+        <div className={Styles.HorizonBox}>
+          <p className={Styles.Left}>주의 사항</p>
+          <div className={Styles.Right}>
+            <ul className={Styles.Caution}>
+              <li>도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <button className={Styles.BlueButton} onClick={submitHandler}>
           완료
         </button>
 
