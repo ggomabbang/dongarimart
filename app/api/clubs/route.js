@@ -146,7 +146,9 @@ export async function GET(request) {
       tags: {
         some: {
           tagList: {
-            tagName: t
+            tagName: {
+              contains: t
+            }
           }
         }
       }
@@ -161,7 +163,9 @@ export async function GET(request) {
 
   try {
     const result = await client.ClubList.findMany(query);
-    const count = await client.ClubList.count(query.where);
+    const count = await client.ClubList.count({
+      where: query.where
+    });
     const maxPage = pagination === 0 ? 1 : Math.ceil(count / pagination);
     const clubList = result.map((res) => {
       res.admin = res.members.length === 0 ? false : res.members[0].user.username === adminId;
