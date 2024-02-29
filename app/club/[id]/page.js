@@ -4,6 +4,7 @@ import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Colleage from '@/public/College.json'
+import { raw } from '@/app/hooks/college'
 
 export default function club({ params }) {
   const clubid = params.id;
@@ -90,7 +91,7 @@ export default function club({ params }) {
                   })
                 }
                 <button>
-                  {Colleage[Club.classification]}
+                  {raw()[Club.classification]}
                 </button>
               </div>
               {

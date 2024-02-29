@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation'
 import College from '@/public/College.json';
+import { raw } from '@/app/hooks/college'
 
 export default function register() {
   const router = useRouter();
@@ -205,7 +206,7 @@ export default function register() {
             >
               <option value='' key={-1} disabled>동아리 소속 선택</option>
               {
-                Object.entries(College).map(([key, value]) => {
+                Object.entries(raw()).map(([key, value]) => {
                   if (key == 'all') return 
                   return (
                     <option value={key} key={key}>{value}</option>

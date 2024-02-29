@@ -1,6 +1,7 @@
 'use client'
 
 import College from '@/public/College.json'
+import { raw } from '@/app/hooks/college'
 import Styles from './page.module.css'
 import Link from "next/link"
 import Notice from './notice/page'
@@ -54,7 +55,7 @@ export default function home() {
                       }
                     </div>
                     
-                    <h4 className={Styles.Tag}>{College[club.classification]}</h4>
+                    <h4 className={Styles.Tag}>{raw()[club.classification]}</h4>
                   </div>
                 </Link>
               )

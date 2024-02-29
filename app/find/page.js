@@ -3,7 +3,7 @@
 import Styles from './find.module.css'
 import DongariInList from '../component/ClubInList';
 import { useEffect, useState } from 'react';
-import College from '../../public/College.json';
+import { raw } from '@/app/hooks/college';
 
 export default function find() {
   const [Groups, setGroups] = useState([]);
@@ -73,7 +73,7 @@ export default function find() {
         <div className={Styles.Selector}>
           <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={CollegeSelected}>
             {
-              Object.entries(College).map(([key, value]) => {
+              Object.entries(raw()).map(([key, value]) => {
                 return (
                   <option value={key} key={key}>{value}</option>
                 )

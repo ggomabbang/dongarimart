@@ -4,6 +4,7 @@ import Styles from './ClubInList.module.css';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import College from '@/public/College.json'
+import { raw } from '@/app/hooks/college'
 
 export default function dongariInList({club, i}) {
   const [foldStyle, setFold] = useState('none');
@@ -77,7 +78,7 @@ export default function dongariInList({club, i}) {
                 )
               })
             }
-            <h4 className={Styles.Classification}>{College[club.classification]}</h4>
+            <h4 className={Styles.Classification}>{raw()[club.classification]}</h4>
           </div>
         </div>
         <div className={Styles.Right}>
