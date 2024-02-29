@@ -82,6 +82,8 @@ export async function GET(request) {
       });
     }
 
+    const adminId = process.env.ADMIN_ID;
+
     let query = {
       where: { },
       select: {
@@ -95,6 +97,18 @@ export async function GET(request) {
             tagList: true,
           }
         },
+        members: {
+          where: {
+            isLeader: true
+          },
+          select: {
+            user: {
+              select: {
+                username: true
+              }
+            }
+          }
+        }
       }
     }
 
@@ -147,7 +161,18 @@ export async function GET(request) {
 
     try {
       const result = await client.ClubList.findMany(query);
-      return NextResponse.json(result);
+      const count = await client.ClubList.count(query.where);
+      const maxPage = pagination === 0 ? 1 : Math.ceil(count / pagination);
+      const clubList = result.map((res) => {
+        res.admin = res.members.length === 0 ? false : res.members[0].user.username === adminId;
+        delete res['members'];
+        return res;
+      });
+      const body = {
+        maxPage,
+        clubList
+      };
+      return NextResponse.json(body);
     } catch (e) {
       console.error(e);
       return NextResponse.json({
