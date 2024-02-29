@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"; 
 import prisma from "@/prisma/prisma";
-import { env } from '@/next.config';
-import * as nodeMailer from 'nodemailer';
 import moment from "moment";
 import emailSender from "@/app/lib/emailSender";
 
@@ -75,7 +73,7 @@ export async function POST(request) {
         if (oldEmail) {
             // 만료기한 확인
             const dateExpire = moment(oldEmail.tokenExpires);
-            const nextExpire = moment().add(1, 'd');
+            const nextExpire = moment().add(10, 'm');
             
             // 만료 안되었으면 종료
             if (moment().isBefore(dateExpire)) {
@@ -103,7 +101,7 @@ export async function POST(request) {
             });
         }
         else {
-            const nextExpire = moment().add(1, 'd');
+            const nextExpire = moment().add(10, 'm');
             // 새로운 이메일인 경우 데이터베이스에 저장
             const newEmail = await prisma.VerifyingEmail.create({
                 data: {

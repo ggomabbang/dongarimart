@@ -2,7 +2,6 @@ import { authOptions } from "@/app/lib/auth";
 import prisma from "@/prisma/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import * as nodeMailer from 'nodemailer';
 import moment from "moment";
 import emailSender from "@/app/lib/emailSender";
 
@@ -80,7 +79,22 @@ export async function DELETE(request) {
             }
         });
 
+        const user = await prisma.User.findUnique({
+            where: {
+                email: email.email
+            },
+            select: {
+                username: true
+            }
+        })
+
         if (!email) {
+            return NextResponse.json(null, {
+                status: 401
+            });
+        }
+
+        if (email.verifiedDone) {
             return NextResponse.json(null, {
                 status: 401
             });
@@ -115,7 +129,7 @@ export async function DELETE(request) {
         const mailOptions = {
             from: process.env.EMAIL_ADDRESS,
             to: email.email,
-            subject: '동아리마트 비밀번호 초기화 메일',
+            subject: '동아리마트 신규 비밀번호 발급 메일',
             html: emailTemplate
         };
         
