@@ -2,8 +2,10 @@
 
 import Styles from '@/app/infomessage/Info.module.css';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function findPWToken({params}) {
+  const router = useRouter();
   const [apiSuccess, setApiSuccess] = useState(false);
 
   const tokenAPI = async (token) => {

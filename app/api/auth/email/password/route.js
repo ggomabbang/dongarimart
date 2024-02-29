@@ -2,7 +2,6 @@ import emailSender from "@/app/lib/emailSender";
 import prisma from "@/prisma/prisma";
 import moment from "moment";
 import { NextResponse } from "next/server";
-import * as nodeMailer from 'nodemailer';
 
 export async function POST(request) {
     try {
@@ -21,6 +20,7 @@ export async function POST(request) {
             }, 
             select: {
                 id: true, 
+                username: true,
                 emailConfirm: true
             }            
         });
@@ -63,7 +63,7 @@ export async function POST(request) {
 
         const { randomBytes } = await import('node:crypto');
         const token = randomBytes(125).toString('hex');
-        const tokenExpires = moment().add(1, "d");
+        const tokenExpires = moment().add(10, "m");
 
         const newToken = await prisma.VerifyingEmail.update({
             where: {
@@ -92,7 +92,7 @@ export async function POST(request) {
         const mailOptions = {
             from: process.env.EMAIL_ADDRESS,
             to: email,
-            subject: '동아리마트 초기화 비밀번호 메일',
+            subject: '동아리마트 비밀번호 초기화 인증 메일',
             html: emailTemplate
         };
     
