@@ -164,7 +164,7 @@ export async function GET(request) {
       const count = await client.ClubList.count(query.where);
       const maxPage = pagination === 0 ? 1 : Math.ceil(count / pagination);
       const clubList = result.map((res) => {
-        res.admin = res.members[0].user.username === adminId;
+        res.admin = res.members.length === 0 ? false : res.members[0].user.username === adminId;
         delete res['members'];
         return res;
       });
