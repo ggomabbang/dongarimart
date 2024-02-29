@@ -20,7 +20,7 @@ export default function home() {
       method: 'GET'
     });
     const json = await res.json();
-    setClubs(json);
+    setClubs(json.clubList);
   }
 
   useEffect(() => {

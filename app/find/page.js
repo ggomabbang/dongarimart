@@ -7,6 +7,8 @@ import College from '../../public/College.json';
 
 export default function find() {
   const [Groups, setGroups] = useState([]);
+  const [Pages, setPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [CollegeSelected, setCollegeSelected] = useState("all");
   const handleCollegeSelect = (e) => {
@@ -36,13 +38,15 @@ export default function find() {
     if (CollegeSelected !== "all") {
       urlParams.append("college", CollegeSelected);
     }
+    urlParams.append("pagination", 10);
 
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });
     if (rows.status == 200) {
       const jsonData = await rows.json();
-      setGroups(jsonData);
+      setGroups(jsonData.clubList);
+      setPages(jsonData.maxPage);
     }
   }
 
@@ -105,6 +109,12 @@ export default function find() {
             검색 조건과 일치하는 동아리를 발견하지 못했어요! 동아리 이름이 틀리진 않았는지, 태그가 일치하는지 다시 한번 확인해 주세요!
           </p>
         }
+      </div>
+      <div className={Styles.Page}>
+        <h6 className={Styles.PageBlock}>{'<'}</h6>
+        <input id="page_input" value={currentPage}/>
+        <h6>/ {Pages}</h6>
+        <h6 className={Styles.PageBlock}>{'>'}</h6>
       </div>
     </div>
   )
