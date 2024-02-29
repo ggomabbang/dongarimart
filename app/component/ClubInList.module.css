@@ -29,6 +29,11 @@
   white-space: nowrap;
 }
 
+.Activated {
+  display: flex;
+  gap: 10px;
+}
+
 .Right {
   width: 25em;
 
@@ -146,6 +151,13 @@
   flex: 1 0 0;
   flex-direction: column;
   gap: 10px;
+}
+
+.Href {
+  color: #00c3ff;
+  font-family: Noto Sans KR;
+  font-size: .9em;
+  font-weight: 700;
 }
 
 .InfoText{

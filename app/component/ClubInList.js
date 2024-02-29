@@ -63,10 +63,16 @@ export default function dongariInList({club, i}) {
     <div className={Styles.Div_Fold} style={{gap: foldGap}}id={"div"+i}>
       <div className={Styles.Top}>
         <div className={Styles.Left}>
-          {
-            club.isRecruiting ?
-            <h4 className={Styles.NowOn}>• 모집 중</h4> : null
-          }
+          <div className={Styles.Activated}>
+            {
+              club.isRecruiting ?
+              <h4 className={Styles.NowOn}>• 모집 중</h4> : null
+            }
+            {
+              club.admin ?
+              <h4 className={Styles.NowOn} style={{color: 'gray'}}>관리자가 등록한 동아리</h4> : null
+            }
+          </div>
           <h4 className={Styles.Title}>
             {club.clubName}
           </h4>
@@ -105,6 +111,13 @@ export default function dongariInList({club, i}) {
         }
         
         <div className={Styles.Info}>
+          {
+            club.admin ?
+            <div className={Styles.ShortBlock} style={{alignSelf: 'flex-end', alignItems: 'center'}}>
+              <h4 className={Styles.NowOn} style={{color: 'black'}}>동아리 관계자이신가요?</h4> 
+              <Link href={'/contact'} className={Styles.Href}>{'직접 수정하기 >'}</Link>
+            </div>: null
+          }
           <div className={Styles.ShortBlock}>
             <h4 className={Styles.BlueButton}>짧은 소개</h4>
             <div className={Styles.InfoText}>

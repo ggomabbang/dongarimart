@@ -8,6 +8,7 @@ import { raw } from '@/app/hooks/college';
 export default function find() {
   const [Groups, setGroups] = useState([]);
   const [Pages, setPages] = useState(1);
+  const [Page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [CollegeSelected, setCollegeSelected] = useState("all");
@@ -39,6 +40,7 @@ export default function find() {
       urlParams.append("college", CollegeSelected);
     }
     urlParams.append("pagination", 10);
+    urlParams.append("page", Page);
 
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
@@ -110,12 +112,33 @@ export default function find() {
           </p>
         }
       </div>
-      <div className={Styles.Page}>
-        <h6 className={Styles.PageBlock}>{'<'}</h6>
-        <input id="page_input" value={currentPage}/>
-        <h6>/ {Pages}</h6>
-        <h6 className={Styles.PageBlock}>{'>'}</h6>
-      </div>
+      <form className={Styles.Page}>
+        <div className={Styles.PageBar}>
+          <h6 className={Styles.PageBlock}>{'<'}</h6>
+          <input
+            id="page_input"
+            value={currentPage}
+            onChange={(e) => setCurrentPage(e.target.value)}
+          />
+          <h6>/ {Pages}</h6>
+          <h6 className={Styles.PageBlock}>{'>'}</h6>
+        </div>
+        <input
+          type='submit'
+          className={Styles.PageEnter}
+          value='Enter'
+          onClick={(e)=>{
+            e.preventDefault();
+            const n = parseInt(currentPage);
+            if (n && 0 < n && n <= Pages) {
+              setPage(n);
+              GetClubs();
+            } else {
+              alert(`1~${Pages} 페이지 중 하나를 입력해주세요.`);
+            }
+          }}
+        />
+      </form>
     </div>
   )
 }

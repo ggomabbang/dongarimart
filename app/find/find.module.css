@@ -97,7 +97,13 @@
 
 .Page {
   display: flex;
+  flex-direction: column;
   align-self: center;
+  gap: 5px;
+}
+
+.PageBar {
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
@@ -116,7 +122,7 @@
   white-space: nowrap;
 }
 
-.Page h6 {
+.PageBar h6 {
   margin: 0;
   text-align: center;
   font-size: 1em;
@@ -125,7 +131,7 @@
   white-space: nowrap;
 }
 
-.Page input {
+.PageBar input {
   width: 2em;
 
   border: 1px solid black;
@@ -133,6 +139,21 @@
 
   font-size: 1em;
   font-family: Noto Sans KR;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.PageEnter {
+  padding: 3px 25px;
+
+  border: 0;
+  border-radius: .2em;
+  background: #2D5DEB;
+
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: .8em;
   font-weight: 600;
   white-space: nowrap;
 }
