@@ -167,7 +167,7 @@ export async function PATCH(request) {
     });
   }
 
-  let { oneLine, short, tags, url, image } = await request.json();
+  let { oneLine, short, tags, url, image, department } = await request.json();
 
   const query = {
     where: {
@@ -227,6 +227,10 @@ export async function PATCH(request) {
 
   if (url) {
     query.data.pageURL = url;
+  }
+
+  if (department) {
+    query.data.classification = department;
   }
 
   try {
