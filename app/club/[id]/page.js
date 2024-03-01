@@ -3,7 +3,6 @@
 import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Colleage from '@/public/College.json'
 import { raw } from '@/app/hooks/college'
 
 export default function club({ params }) {

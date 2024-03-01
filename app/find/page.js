@@ -81,15 +81,20 @@ export default function find() {
       <h1 className={Styles.PageTitle}>동아리 찾아보기</h1>
       <div className={Styles.Horizontal_Div}>
         <form className={Styles.Search}>
-          <input id='search_' className={Styles.SearchBar} placeholder='동아리 이름을 검색해보세요 !'/>
+          <input id='search_' className={Styles.SearchBar} onChange={(e)=>setClear(true)} placeholder='동아리 이름을 검색해보세요 !'/>
           <div className={Styles.Tag}>
-            <input id='tag_' className={Styles.TagBar} placeholder='동아리 태그'/>
+            <input id='tag_' className={Styles.TagBar} onChange={(e)=>setClear(true)} placeholder='동아리 태그'/>
             <input
               type='submit'
               disabled={clear ? false : true}
               style={clear ? null : {backgroundColor: 'gray'}}
               className={Styles.BlueButton}
-              onClick={(e) => {e.preventDefault(); GetClubs();}}
+              onClick={(e) => {
+                e.preventDefault();
+                setSortPanel(false);
+                setCollegePanel(false);
+                GetClubs();
+              }}
               value='검색'
             />
           </div>
