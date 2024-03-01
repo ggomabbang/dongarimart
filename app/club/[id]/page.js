@@ -113,7 +113,7 @@ export default function club({ params }) {
                   <p>{getDate(Club.post.recruit.recruitStart)} ~ {getDate(Club.post.recruit.recruitEnd)}</p>
                 </div>
                 {
-                  Club.post.recruit.recruitTarget > 2 ?
+                  Club.post.recruit.recruitTarget.length > 2 ?
                     <div className={Styles.RecruitInner}>
                       <button>모집 인원</button>
                       <div>
