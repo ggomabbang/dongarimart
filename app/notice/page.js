@@ -38,7 +38,7 @@ export default function notice({more}) {
                             <Article
                                 id={article.id}
                                 title={article.title} 
-                                date={article.updatedAt.slice(0,10)} 
+                                date={article.createdAt.slice(0,10)} 
                                 key={index}
                             />
                         );

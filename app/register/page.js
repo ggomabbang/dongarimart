@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Styles from '@/app/component/inputPanel.module.css';
 import { useRouter } from 'next/navigation'
-import College from '@/public/College.json';
-import { raw } from '@/app/hooks/college'
+import { mainCategory, subcategories } from '@/app/hooks/college'
 
 export default function register() {
   const router = useRouter();
@@ -27,7 +26,8 @@ export default function register() {
   const [short, setShort] = useState("");
   const [tags, setTags] = useState([]);
 
-  const [department, setCollegeSelected] = useState("");
+  const [department, setCollegeSelected] = useState("all");
+  const [subDepartment, setSubDepartment] = useState("all");
 
   const [tagValue, setTagValue] = useState("");
 
@@ -65,7 +65,7 @@ export default function register() {
 
     if (clubName == '') return alert('동아리 명을 입력해 주세요.');
     if (oneLine == '') return alert('한 줄 소개를 작성해 주세요.');
-    if (department == '') return alert('소속 항목을 선택해 주세요');
+    if (department == 'all') return alert('소속 항목을 선택해 주세요');
     if (short == '') return alert('짧은 소개를 작성해 주세요.');
 
     let imagename = null;
@@ -88,7 +88,7 @@ export default function register() {
       },
       body: JSON.stringify({
         clubName,
-        department,
+        department: subDepartment === 'all' ? department : subDepartment,
         oneLine,
         short,
         tags,
@@ -202,11 +202,25 @@ export default function register() {
           <div className={Styles.Right}>
             <select
               className={Styles.MenuFont}
-              onChange={(e) => setCollegeSelected(e.target.value)} value={department}
+              onChange={(e) => {setCollegeSelected(e.target.value); setSubDepartment('all')}} value={department}
             >
-              <option value='' key={-1} disabled>동아리 소속 선택</option>
+              <option value='all' key={-1} disabled>동아리 소속 선택</option>
               {
-                Object.entries(raw()).map(([key, value]) => {
+                Object.entries(mainCategory()).map(([key, value]) => {
+                  if (key == 'all') return 
+                  return (
+                    <option value={key} key={key}>{value}</option>
+                  )
+                })
+              }
+            </select>
+            <select
+              className={Styles.MenuFont}
+              onChange={(e) => setSubDepartment(e.target.value)} value={subDepartment}
+            >
+              <option value='all' key={-1} disabled>{mainCategory()[department]}</option>
+              {
+                Object.entries(subcategories(department)).map(([key, value]) => {
                   if (key == 'all') return 
                   return (
                     <option value={key} key={key}>{value}</option>

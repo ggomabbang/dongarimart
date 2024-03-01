@@ -207,7 +207,7 @@ export default function recruit({params}) {
       toBody.end = recruitEnd;
     }
 
-    postOrigin.recruit.recruitURL !== recruitURL ? toBody.recruitURL = recruitURL : null;
+    postOrigin.recruit.recruitURL !== recruitURL ? toBody.url = recruitURL : null;
     const targetString = JSON.stringify(recruitTarget)
     postOrigin.recruit.recruitTarget !== targetString ? toBody.people = recruitTarget : null;
     postOrigin.title !== title ? toBody.title = title : null;
@@ -304,7 +304,7 @@ export default function recruit({params}) {
         </label>
         
         <label className={Styles.HorizonBox}>
-          <p className={Styles.Left}>모집 제목</p>
+          <p className={Styles.Left}>공고 제목</p>
           <div className={Styles.Right}>
             <input
               className={Styles.InputBox}

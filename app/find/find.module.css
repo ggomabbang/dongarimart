@@ -134,7 +134,7 @@
 .PageBar input {
   width: 2em;
 
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: .2em;
 
   font-size: 1em;
@@ -158,6 +158,59 @@
   white-space: nowrap;
 }
 
+.SelectPanel {
+  display: flex;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.SelectList {
+  position: relative;
+  padding: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0;
+  list-style-type: none;
+  
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.10);
+
+  color: rgb(99, 99, 99);
+  font-family: Noto Sans KR;
+  font-size: .9em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.SelectList p {
+  padding: .5em 1em;
+  font-size: 1.1em;
+  font-weight: 800;
+  color: black;
+}
+
+.PanelClose {
+  position: absolute;
+  bottom: 1.5em;
+  right: 2em;
+
+  color:#2D5DEB;
+  font-family: Noto Sans KR;
+  font-size: 1em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.SelectList li {
+  padding: .5em 1em;
+}
+
+.SelectList li:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
 
 @keyframes pop{
   50% {transform: scale(1.1);}
@@ -167,15 +220,17 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 30px;
+  gap: 15px;
   flex: 1 0 0;
 }
 
 .MenuFont {
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   gap: 10px;
 
+  border-radius: 5px;
   color: #2D5DEB;
   font-family: Noto Sans KR;
   font-size: .9em;
@@ -239,6 +294,22 @@
     padding: 8px 12px;
     border-radius: 15px;
     font-size: .8em;
+  }
+
+  .SelectPanel {
+    gap: 10px;
+  }
+  
+  .SelectList {
+    padding: 10px;
+    
+    border-radius: 15px;
+    font-size: .75em;
+    font-weight: 600;
+  }
+  
+  .SelectList li {
+    padding: .5em 1em;
   }
 }
 

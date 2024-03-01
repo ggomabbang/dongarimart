@@ -10,7 +10,7 @@ export default function oneArticle({ params }) {
   const [ article, setArticle ] = useState({
     title: '로딩 중',
     content: '...',
-    updatedAt: '...',
+    createdAt: '...',
     image: [],
   });
 
@@ -37,7 +37,7 @@ export default function oneArticle({ params }) {
             <p className={Styles.GoBack}>&lt; 뒤로가기</p>
           </Link>
           <h1 className={Styles.Title}>{article.title}</h1>
-          <h4 className={Styles.Date}>{article.updatedAt.slice(0, 10)}</h4>
+          <h4 className={Styles.Date}>{article.createdAt.slice(0,10)}</h4>
           <div className={Styles.line}/>
         </div>
         <div className={Styles.Bottom}>

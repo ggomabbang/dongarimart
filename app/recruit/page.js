@@ -442,6 +442,7 @@ export default function recruit() {
           <div className={Styles.Right}>
             <ul className={Styles.Caution}>
               <li>도배, 욕설 등의 부적절한 글은 관리자에 의해 강제 삭제될 수 있습니다.</li>
+              <li>모집글에 전화번호, 이메일 등 개인정보 작성시 사이트에 접속하는 누구나 볼 수 있다는 점을 명심해주세요!</li>
             </ul>
           </div>
         </div>

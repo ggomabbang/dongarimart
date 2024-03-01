@@ -37,7 +37,7 @@
 .Title{
   color: #000;
   font-family: Noto Sans KR;
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 900;
   text-align: left;
   
@@ -45,12 +45,13 @@
 }
 
 .SubTitle{
-  width: 25em;
+  width: 28em;
   color: #000;
-  text-align: right;
+  text-align: left;
   font-family: Noto Sans KR;
-  font-size: 1em;
+  font-size: .9em;
   font-weight: 600;
+  word-break: break-all;
 }
 
 .Middle {
@@ -139,16 +140,14 @@
   justify-content: center;
   align-items: center;
 
-  border-radius: 20px;
+  border-radius: 10px;
   background: #2D5DEB;
 
   color: #FFF;
   text-align: center;
   font-family: Noto Sans KR;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 600;
-  letter-spacing: 0.2em;
-  text-indent: 0.2em;
 }
 
 .RecruitBox {
@@ -204,18 +203,16 @@
 
 .Contents h2 {
   font-family: Noto Sans KR;
-  font-size: 1.3em;
+  font-size: 1.1em;
   font-weight: 800;
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
+  letter-spacing: 0.1em;
+  text-indent: 0.1em;
 }
 
 .Contents span {
   font-family: Noto Sans KR;
-  font-size: 1em;
+  font-size: .9em;
   font-weight: 500;
-  letter-spacing: 0.3em;
-  text-indent: 0.3em;
 }
 
 .Contents img {

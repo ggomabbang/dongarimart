@@ -3,7 +3,7 @@
 import Styles from './find.module.css'
 import DongariInList from '../component/ClubInList';
 import { useEffect, useState } from 'react';
-import { raw } from '@/app/hooks/college';
+import { raw, mainCategory, subcategories } from '@/app/hooks/college';
 
 export default function find() {
   const [Groups, setGroups] = useState([]);
@@ -11,26 +11,32 @@ export default function find() {
   const [Page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [collegePanel, setCollegePanel] = useState(false);
+  const [mainCollegeSelected, setMainCollegeSelected] = useState("all");
   const [CollegeSelected, setCollegeSelected] = useState("all");
   const handleCollegeSelect = (e) => {
     setCollegeSelected(e.target.value);
   };
 
-  const sortingList = [
-    { value: "registration", name: "등록 순"},
-    { value: "name", name: "이름 순"},
-    { value: "deadline", name: "모집 마감 순"},
-    { value: "popularity", name: "인기 순"},
-  ];
-
-  const [SortSelected, setSortSelected] = useState("registration");
+  const sortingList = {
+    registration: '등록 순',
+    name: '이름 순',
+    deadline: '모집 마감 순',
+    popularity: '인기 순'
+  };
+  const [sortPanel, setSortPanel] = useState(false);
+  const [SortSelected, setSortSelected] = useState("popularity");
   const handleSortSelect = (e) => {
     setSortSelected(e.target.value);
   }
 
+  const [reverse, setReverse] = useState(0);
+  const [isRecruiting, setIsRecruiting] = useState(0);
+
   const GetClubs = async () => {
     const search = document.getElementById('search_').value;
     const tag = document.getElementById('tag_').value;
+    setCurrentPage(Page);
 
     const urlParams = new URLSearchParams('');
     if (search.length) urlParams.append("search", search);
@@ -41,6 +47,8 @@ export default function find() {
     }
     urlParams.append("pagination", 10);
     urlParams.append("page", Page);
+    urlParams.append("reverse", reverse);
+    urlParams.append("isRecruiting", isRecruiting);
 
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
@@ -54,7 +62,7 @@ export default function find() {
 
   useEffect(() => {
     GetClubs();
-  }, [SortSelected, CollegeSelected])
+  }, [SortSelected, CollegeSelected, reverse, isRecruiting, Page])
 
   return (
     <div className={Styles.Container}>
@@ -73,26 +81,118 @@ export default function find() {
           </div>
         </form>
         <div className={Styles.Selector}>
-          <select className={Styles.MenuFont} onChange={handleCollegeSelect} value={CollegeSelected}>
-            {
-              Object.entries(raw()).map(([key, value]) => {
-                return (
-                  <option value={key} key={key}>{value}</option>
-                )
-              })
-            }
-          </select>
-          <select className={Styles.MenuFont} onChange={handleSortSelect} value={SortSelected}>
-            {
-              sortingList.map((item) => {
-                return <option value={item.value} key={item.value}>
-                  {item.name}
-                </option>
-              })
-            }
-          </select>
+          <button
+            className={Styles.MenuFont} 
+            onClick={(e)=>{
+              setCollegePanel(!collegePanel);
+              setSortPanel(false);
+            }}
+            style={collegePanel ? {backgroundColor:'#2D5DEB', color:'white'}:null}
+          >
+            {raw()[CollegeSelected]}
+            <svg width=".6em" height=".9em" style={{transform: 'rotate(-90deg)'}} viewBox="10 0 10 50" fill="none">
+              <path d="M17 1.2L2 16.2L17 31.2" stroke={collegePanel?"white":"#2D5DEB"} strokeWidth="0.5em"/>
+            </svg>
+          </button>
+          <button
+            className={Styles.MenuFont}
+            onClick={(e)=>{
+              setSortPanel(!sortPanel);
+              setCollegePanel(false);
+            }}
+            style={sortPanel ? {backgroundColor:'#2D5DEB', color:'white'}:null}
+          >
+            {sortingList[SortSelected]}
+            <svg width=".6em" height=".9em" style={{transform: 'rotate(-90deg)'}} viewBox="10 0 10 50" fill="none">
+              <path d="M17 1.2L2 16.2L17 31.2" stroke={sortPanel?"white":"#2D5DEB"} strokeWidth="0.5em"/>
+            </svg>
+          </button>
         </div>
-        
+      </div>
+      <div className={Styles.SelectPanel} style={collegePanel ? null:{display:'none'}}>
+        <ul className={Styles.SelectList}>
+          <p>동아리 분류</p>
+          {
+            Object.entries(mainCategory()).map(([key, value]) => {
+              return (
+                <li
+                  key={key}
+                  onClick={(e)=>{
+                    setMainCollegeSelected(key);
+                    setCollegeSelected(key);
+                  }}
+                  style={
+                    key === mainCollegeSelected ?
+                    {backgroundColor: '#2D5DEB', color: 'white'}:null
+                  }
+                >{value}</li>
+              )
+            })
+          } 
+        </ul>
+        <ul className={Styles.SelectList}>
+          <p>{raw()[mainCollegeSelected]}</p>
+          {
+            Object.entries(subcategories(mainCollegeSelected)).map(([key, value]) => {
+              return (
+                <li 
+                  key={key}
+                  onClick={(e)=>{
+                    setCollegeSelected(key);
+                  }}
+                  style={
+                    key === CollegeSelected ?
+                    {backgroundColor: '#2D5DEB', color: 'white'}:null
+                  }
+                >{value}</li>
+              )
+            })
+          }
+          <button className={Styles.PanelClose} onClick={(e)=>setCollegePanel(false)}>닫기 x</button>
+        </ul>
+      </div>
+      <div className={Styles.SelectPanel} style={sortPanel ? null:{display:'none'}}>
+        <ul className={Styles.SelectList}>
+          <p>정렬</p>
+          {
+            Object.entries(sortingList).map(([key, value]) => {
+              return (
+                <li
+                  key={key}
+                  onClick={(e)=>{
+                    setSortSelected(key);
+                  }}
+                  style={
+                    key === SortSelected ?
+                    {backgroundColor: '#2D5DEB', color: 'white'}:null
+                  }
+                >{value}</li>
+              )
+            })
+          } 
+        </ul>
+        <ul className={Styles.SelectList}>
+          <p>옵션</p>
+          <li 
+            onClick={(e)=>{
+              setReverse(Math.abs(reverse-1));
+            }}
+            style={
+              reverse ?
+              {backgroundColor: '#2D5DEB', color: 'white'}:null
+            }
+          >역순</li>
+          <li 
+            onClick={(e)=>{
+              setIsRecruiting(Math.abs(isRecruiting-1));
+            }}
+            style={
+              isRecruiting ?
+              {backgroundColor: '#2D5DEB', color: 'white'}:null
+            }
+          >모집 중</li>
+          <button className={Styles.PanelClose} onClick={(e)=>setSortPanel(false)}>닫기 x</button>
+        </ul>
       </div>
       <div className={Styles.ListBox}>
         {
@@ -114,14 +214,30 @@ export default function find() {
       </div>
       <form className={Styles.Page}>
         <div className={Styles.PageBar}>
-          <h6 className={Styles.PageBlock}>{'<'}</h6>
+          <button
+            className={Styles.PageBlock}
+            disabled={Page<=1 ? true:false}
+            style={Page<=1 ? {backgroundColor:'lightgray'}:null}
+            onClick={(e)=>{
+              e.preventDefault();
+              setPage(Page-1);
+            }}
+          >{'<'}</button>
           <input
             id="page_input"
             value={currentPage}
             onChange={(e) => setCurrentPage(e.target.value)}
           />
           <h6>/ {Pages}</h6>
-          <h6 className={Styles.PageBlock}>{'>'}</h6>
+          <button
+            className={Styles.PageBlock}
+            disabled={Page>=Pages ? true:false}
+            style={Page>=Pages ? {backgroundColor:'lightgray'}:null}
+            onClick={(e)=>{
+              e.preventDefault();
+              setPage(Page+1);
+            }}
+          >{'>'}</button>
         </div>
         <input
           type='submit'
@@ -132,7 +248,6 @@ export default function find() {
             const n = parseInt(currentPage);
             if (n && 0 < n && n <= Pages) {
               setPage(n);
-              GetClubs();
             } else {
               alert(`1~${Pages} 페이지 중 하나를 입력해주세요.`);
             }

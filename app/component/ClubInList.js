@@ -3,7 +3,6 @@
 import Styles from './ClubInList.module.css';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import College from '@/public/College.json'
 import { raw } from '@/app/hooks/college'
 
 export default function dongariInList({club, i}) {
@@ -56,7 +55,7 @@ export default function dongariInList({club, i}) {
         setClubPlus(newClub);
       }
     }
-    fetchClub();
+    if (foldStyle == 'flex') fetchClub();
   }, [foldStyle])
 
   return (
@@ -70,7 +69,7 @@ export default function dongariInList({club, i}) {
             }
             {
               club.admin ?
-              <h4 className={Styles.NowOn} style={{color: 'gray'}}>관리자가 등록한 동아리</h4> : null
+              <h4 className={Styles.NowOn} style={{color: '#BBB'}}>관리자가 수정한 정보입니다</h4> : null
             }
           </div>
           <h4 className={Styles.Title}>
@@ -113,7 +112,7 @@ export default function dongariInList({club, i}) {
         <div className={Styles.Info}>
           {
             club.admin ?
-            <div className={Styles.ShortBlock} style={{alignSelf: 'flex-end', alignItems: 'center'}}>
+            <div className={Styles.ShortBlock} style={{alignSelf: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
               <h4 className={Styles.NowOn} style={{color: 'black'}}>동아리 관계자이신가요?</h4> 
               <Link href={'/contact'} className={Styles.Href}>{'직접 수정하기 >'}</Link>
             </div>: null
