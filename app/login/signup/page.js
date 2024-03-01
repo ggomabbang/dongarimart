@@ -142,7 +142,7 @@ export default function signUp() {
           <div className={Styles.Right}>
             <ul className={Styles.Caution} style={{color: 'black'}}>
               <li>욕설, 성적 단어 등의 부적절한 닉네임은 관리자에 의해 강제 삭제될 수 있습니다.</li>
-              <li>회원가입은 동아리 관계자가 아닌 경우 필요하지 않는 기능입니다.</li>
+              <li>회원가입은 동아리 관계자가 아닌 경우 필요하지 않은 기능입니다.</li>
             </ul>
           </div>
         </div>
