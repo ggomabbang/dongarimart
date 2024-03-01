@@ -62,7 +62,12 @@ export default function find() {
 
   useEffect(() => {
     GetClubs();
-  }, [SortSelected, CollegeSelected, reverse, isRecruiting, Page])
+  }, [Page])
+
+  useEffect(() => {
+    if (Page == 1) GetClubs();
+    else setPage(1);
+  }, [SortSelected, CollegeSelected, reverse, isRecruiting])
 
   return (
     <div className={Styles.Container}>
@@ -242,6 +247,8 @@ export default function find() {
         <input
           type='submit'
           className={Styles.PageEnter}
+          disabled={Pages ? false : true}
+          style={Pages ? null : {backgroundColor: 'gray'}}
           value='Enter'
           onClick={(e)=>{
             e.preventDefault();

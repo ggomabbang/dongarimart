@@ -70,7 +70,7 @@ export default function dongariInList({club, i}) {
             }
             {
               club.admin ?
-              <h4 className={Styles.NowOn} style={{color: '#BBB'}}>관리자가 수정한 정보입니다</h4> : null
+              <h4 className={Styles.NowOn} style={{color: '#BBB'}}>동아리마트가 수정한 정보입니다</h4> : null
             }
           </div>
           <h4 className={Styles.Title}>
