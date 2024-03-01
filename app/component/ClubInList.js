@@ -42,8 +42,7 @@ export default function dongariInList({club, i}) {
     image: null
   });
 
-  useEffect(() => {
-    const fetchClub = async () => {
+  const fetchClub = async () => {
       const res = await fetch(`/api/clubs/${club.id}`);
       if (res.status == 200) {
         const data = await res.json();
@@ -55,11 +54,13 @@ export default function dongariInList({club, i}) {
         setClubPlus(newClub);
       }
     }
+
+  useEffect(() => {
     if (foldStyle == 'flex') fetchClub();
   }, [foldStyle])
 
   return (
-    <div className={Styles.Div_Fold} style={{gap: foldGap}}id={"div"+i}>
+    <div className={Styles.Div_Fold} style={{gap: foldGap}}>
       <div className={Styles.Top}>
         <div className={Styles.Left}>
           <div className={Styles.Activated}>

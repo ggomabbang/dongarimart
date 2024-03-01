@@ -201,8 +201,8 @@ export default function find() {
             return(
               <DongariInList 
                 club={club}
-                i={index}
-                key={`club${index}`}
+                i={`${club.clubName}${index}`}
+                key={`${club.clubName}${index}`}
               />
             );
           })
