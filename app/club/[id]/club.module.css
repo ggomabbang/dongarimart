@@ -44,8 +44,13 @@
   white-space: nowrap;
 }
 
-.SubTitle{
+.Right {
+  display: flex;
+  justify-content: right;
   width: 28em;
+}
+
+.SubTitle{
   color: #000;
   text-align: left;
   font-family: Noto Sans KR;

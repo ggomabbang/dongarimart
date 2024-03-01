@@ -105,7 +105,7 @@ export default function dongariInList({club, i}) {
       >
         {
           clubPlus.image ?
-          <img className={Styles.ClubImage} src={`/api/image?filename=${clubPlus.image.filename}`}/>
+          <img className={Styles.ClubImage} style={{backgroundColor: 'white'}} src={`/api/image?filename=${clubPlus.image.filename}`}/>
           :
           <div className={Styles.ClubImage} />
         }

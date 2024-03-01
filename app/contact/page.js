@@ -20,7 +20,7 @@ export default function contact() {
           <li>기타 문의 사항</li>
         </ul>
         <h3 className={Styles.Title}>동아리 관련 문의</h3>
-        <p>아래 사항은 동아리를 등록했던 계정의 이메일로 이메일 발신 부탁드립니다!</p>
+        <p>아래 사항은 동아리를 등록했던 계정의 이메일을 이용하여 이메일 발신 부탁드립니다!</p>
         <ul>
           <li>동아리 이름 변경</li>
           <li>동아리 편집 소유권 이전</li>
@@ -31,6 +31,8 @@ export default function contact() {
           <li>비밀번호 초기화</li>
           <li>닉네임 변경 등</li>
         </ul>
+        <h3 className={Styles.Title}>동아리마트가 등록한 내 동아리를 수정하고 싶어요</h3>
+        <p>오픈카톡으로 문의 부탁드립니다!</p>
       </div>
     </div>
   )

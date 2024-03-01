@@ -2,7 +2,7 @@
 
 import Styles from './find.module.css'
 import DongariInList from '../component/ClubInList';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { raw, mainCategory, subcategories } from '@/app/hooks/college';
 
 export default function find() {
@@ -14,9 +14,6 @@ export default function find() {
   const [collegePanel, setCollegePanel] = useState(false);
   const [mainCollegeSelected, setMainCollegeSelected] = useState("all");
   const [CollegeSelected, setCollegeSelected] = useState("all");
-  const handleCollegeSelect = (e) => {
-    setCollegeSelected(e.target.value);
-  };
 
   const sortingList = {
     registration: '등록 순',
@@ -26,9 +23,6 @@ export default function find() {
   };
   const [sortPanel, setSortPanel] = useState(false);
   const [SortSelected, setSortSelected] = useState("popularity");
-  const handleSortSelect = (e) => {
-    setSortSelected(e.target.value);
-  }
 
   const [reverse, setReverse] = useState(0);
   const [isRecruiting, setIsRecruiting] = useState(0);
@@ -60,13 +54,26 @@ export default function find() {
     }
   }
 
+  const isMounted = useRef(false);
+  const isMounted2 = useRef(false);
+  const [clear, setClear] = useState(false);
+
   useEffect(() => {
     GetClubs();
   }, [Page])
 
   useEffect(() => {
-    if (Page == 1) GetClubs();
-    else setPage(1);
+    if (isMounted2.current) {
+      if (!clear) GetClubs();
+    }
+    else isMounted2.current = true;
+  }, [clear])
+
+  useEffect(() => {
+    if (isMounted.current) {
+      setClear(true);
+    }
+    else isMounted.current = true;
   }, [SortSelected, CollegeSelected, reverse, isRecruiting])
 
   return (
@@ -79,6 +86,8 @@ export default function find() {
             <input id='tag_' className={Styles.TagBar} placeholder='동아리 태그'/>
             <input
               type='submit'
+              disabled={clear ? false : true}
+              style={clear ? null : {backgroundColor: 'gray'}}
               className={Styles.BlueButton}
               onClick={(e) => {e.preventDefault(); GetClubs();}}
               value='검색'
@@ -86,6 +95,25 @@ export default function find() {
           </div>
         </form>
         <div className={Styles.Selector}>
+          <button
+            className={Styles.Clear}
+            disabled={clear ? false : true}
+            style={clear ? null : {display: 'none'}}
+            onClick={(e)=>{
+              setSortPanel(false);
+              setCollegePanel(false);
+              setSortSelected('popularity');
+              setCollegeSelected('all');
+              setMainCollegeSelected('all');
+              document.getElementById('search_').value = ''
+              document.getElementById('tag_').value = ''
+              setClear(false);
+              isMounted.current = false;
+              GetClubs();
+            }}
+          >
+            초기화
+          </button>
           <button
             className={Styles.MenuFont} 
             onClick={(e)=>{

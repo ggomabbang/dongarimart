@@ -57,12 +57,14 @@ export default function club({ params }) {
       <div className={Styles.Inside}>
         <div className={Styles.Top}>
           <h4 className={Styles.Title}>{Club.clubName}</h4>
-          <h3 className={Styles.SubTitle}>{Club.oneLine}</h3>
+          <div className={Styles.Right}>
+            <h3 className={Styles.SubTitle}>{Club.oneLine}</h3>
+          </div>
         </div>
         <div className={Styles.Middle}>
           {
             Club.image ?
-            <img className={Styles.ImageBox} src={`/api/image?filename=${Club.image.filename}`}/> :
+            <img className={Styles.ImageBox} style={{backgroundColor: 'white'}} src={`/api/image?filename=${Club.image.filename}`}/> :
             <div className={Styles.ImageBox}/>
           }
           
