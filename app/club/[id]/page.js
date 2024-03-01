@@ -4,6 +4,7 @@ import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Colleage from '@/public/College.json'
+import { raw } from '@/app/hooks/college'
 
 export default function club({ params }) {
   const clubid = params.id;
@@ -90,7 +91,7 @@ export default function club({ params }) {
                   })
                 }
                 <button>
-                  {Colleage[Club.classification]}
+                  {raw()[Club.classification]}
                 </button>
               </div>
               {
@@ -159,7 +160,7 @@ export default function club({ params }) {
           Club.isRecruiting ?
             Club.post.recruit.recruitURL ?
               <Link href={Club.post.recruit.recruitURL}>
-                <button className={Styles.BlueButton}>신청 링크</button>
+                <button className={Styles.BlueButton}>가입 신청 하기</button>
               </Link>
               :
               <button
@@ -168,7 +169,7 @@ export default function club({ params }) {
                 disabled={true}
                 onClick={Club.post.recruit.recruitURL}
               >
-                신청 링크 없음
+                가입 링크가 없습니다. 공고 내용을 확인해주세요!
               </button>
             :
             null

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function signUp() {
   const router = useRouter();
   const [nameCheck, setNameCheck] = useState(false);
+  const [nameLength, setNameLength] = useState(true);
   const [nameUnduplicated, setNameUnduplicated] = useState(false);
   const [pwStyle, setPwStyle] = useState({
     1: false,
@@ -19,7 +20,7 @@ export default function signUp() {
   const [emailUnduplicated, setEmailUnduplicated] = useState(false);
 
   const submitHandler = async (e) => {
-    const checks = [nameCheck, nameUnduplicated, pwCheck, emailCheck, emailUnduplicated];
+    const checks = [nameCheck, nameLength, nameUnduplicated, pwCheck, emailCheck, emailUnduplicated];
     for (const check in checks) {
       if (!checks[check]) return alert('가입 양식이 잘못되었습니다.');
     }
@@ -91,13 +92,15 @@ export default function signUp() {
                 const name = e.target.value;
                 if (name.length) setNameCheck(true);
                 else setNameCheck(false);
+                if (name.length > 20) setNameLength(false);
+                else setNameLength(true);
                 setNameUnduplicated(false);
               }}
             />
             <button
               className={Styles.BlueButton}
-              disabled={nameCheck ? false : true}
-              style={nameCheck ? {} : {backgroundColor: 'gray'}}
+              disabled={nameCheck && nameLength ? false : true}
+              style={nameCheck  && nameLength ? {} : {backgroundColor: 'gray'}}
               onClick={ async (e) => {
                 const username = document.getElementById('ID_box').value;
                 const params = new URLSearchParams();
@@ -127,6 +130,7 @@ export default function signUp() {
           <div className={Styles.Right}>
             <ul className={Styles.Caution}>
               <li style={{display: nameCheck ? 'none' : 'list-item'}}>닉네임을 입력해 주세요.</li>
+              <li style={{display: nameLength ? 'none' : 'list-item'}}>닉네임은 20자 이내여야 합니다.</li>
               <li style={{display: nameUnduplicated ? 'none' : 'list-item'}}>중복 확인이 필요합니다.</li>
               <li style={{display: !nameUnduplicated ? 'none' : 'list-item', color: 'green'}}>중복 확인이 완료되었습니다.</li>
             </ul>
@@ -138,6 +142,7 @@ export default function signUp() {
           <div className={Styles.Right}>
             <ul className={Styles.Caution} style={{color: 'black'}}>
               <li>욕설, 성적 단어 등의 부적절한 닉네임은 관리자에 의해 강제 삭제될 수 있습니다.</li>
+              <li>회원가입은 동아리 관계자가 아닌 경우 필요하지 않은 기능입니다.</li>
             </ul>
           </div>
         </div>

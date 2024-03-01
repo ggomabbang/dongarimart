@@ -40,3 +40,6 @@ next-env.d.ts
 # downloaded images
 public/image/*
 !public/image/cat.jpg
+
+# report log
+public/reports.txt

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Styles from '@/app/component/inputPanel.module.css'
 import { useRouter } from 'next/navigation'
-import College from '@/public/College.json'
+import { mainCategory, subcategories, findMainCategory } from '@/app/hooks/college'
 
 export default function clubFix({ params }) {
   const clubid = params.id;
@@ -18,7 +18,14 @@ export default function clubFix({ params }) {
       setOneLine(data.oneLine);
       setUrl(data.pageURL ? data.pageURL : '');
       setShort(data.short);
-      setCollegeSelected(data.classification);
+      const bigCategory = findMainCategory(data.classification);
+      if (bigCategory !== data.classification) {
+        setSubDepartment(data.classification);
+        setCollegeSelected(bigCategory);
+      } else {
+        setSubDepartment('all');
+        setCollegeSelected(bigCategory);
+      }
       setImgUrl(data.image ? data.image.filename : '');
       setTags(data.tags.map((obj, index) => {
         return obj.tagList.tagName
@@ -56,7 +63,8 @@ export default function clubFix({ params }) {
   const [tags, setTags] = useState([]);
   const [imgUrl, setImgUrl] = useState("");
 
-  const [department, setCollegeSelected] = useState("");
+  const [department, setCollegeSelected] = useState("all");
+  const [subDepartment, setSubDepartment] = useState("all");
 
   const [tagValue, setTagValue] = useState("");
 
@@ -93,6 +101,7 @@ export default function clubFix({ params }) {
     e.preventDefault();
 
     if (oneLine == '') return alert('한 줄 소개를 작성해 주세요.');
+    if (department == 'all') return alert('소속 항목을 선택해 주세요');
     if (short == '') return alert('짧은 소개를 작성해 주세요.');
 
     let imagename = null;
@@ -114,6 +123,7 @@ export default function clubFix({ params }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        department: subDepartment === 'all' ? department : subDepartment,
         oneLine,
         short,
         tags,
@@ -254,15 +264,28 @@ export default function clubFix({ params }) {
           <div className={Styles.Right}>
             <select
               className={Styles.MenuFont}
-              onChange={(e) => setCollegeSelected(e.target.value)}
-              value={department}
+              onChange={(e) => {setCollegeSelected(e.target.value); setSubDepartment('all')}} value={department}
             >
-              <option value='' key={-1} disabled>동아리 소속 선택</option>
+              <option value='all' key={-1} disabled>동아리 소속 선택</option>
               {
-                Object.entries(College).map(([key, value]) => {
-                  if (key != department) return 
+                Object.entries(mainCategory()).map(([key, value]) => {
+                  if (key == 'all') return 
                   return (
-                    <option value={key} key={key} disabled>{value}</option>
+                    <option value={key} key={key}>{value}</option>
+                  )
+                })
+              }
+            </select>
+            <select
+              className={Styles.MenuFont}
+              onChange={(e) => setSubDepartment(e.target.value)} value={subDepartment}
+            >
+              <option value='all' key={-1} disabled>{mainCategory()[department]}</option>
+              {
+                Object.entries(subcategories(department)).map(([key, value]) => {
+                  if (key == 'all') return 
+                  return (
+                    <option value={key} key={key}>{value}</option>
                   )
                 })
               }

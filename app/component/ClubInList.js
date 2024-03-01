@@ -3,7 +3,7 @@
 import Styles from './ClubInList.module.css';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import College from '@/public/College.json'
+import { raw } from '@/app/hooks/college'
 
 export default function dongariInList({club, i}) {
   const [foldStyle, setFold] = useState('none');
@@ -42,8 +42,7 @@ export default function dongariInList({club, i}) {
     image: null
   });
 
-  useEffect(() => {
-    const fetchClub = async () => {
+  const fetchClub = async () => {
       const res = await fetch(`/api/clubs/${club.id}`);
       if (res.status == 200) {
         const data = await res.json();
@@ -55,17 +54,25 @@ export default function dongariInList({club, i}) {
         setClubPlus(newClub);
       }
     }
-    fetchClub();
+
+  useEffect(() => {
+    if (foldStyle == 'flex') fetchClub();
   }, [foldStyle])
 
   return (
-    <div className={Styles.Div_Fold} style={{gap: foldGap}}id={"div"+i}>
+    <div className={Styles.Div_Fold} style={{gap: foldGap}}>
       <div className={Styles.Top}>
         <div className={Styles.Left}>
-          {
-            club.isRecruiting ?
-            <h4 className={Styles.NowOn}>• 모집 중</h4> : null
-          }
+          <div className={Styles.Activated}>
+            {
+              club.isRecruiting ?
+              <h4 className={Styles.NowOn}>• 모집 중</h4> : null
+            }
+            {
+              club.admin ?
+              <h4 className={Styles.NowOn} style={{color: '#BBB'}}>관리자가 수정한 정보입니다</h4> : null
+            }
+          </div>
           <h4 className={Styles.Title}>
             {club.clubName}
           </h4>
@@ -77,7 +84,7 @@ export default function dongariInList({club, i}) {
                 )
               })
             }
-            <h4 className={Styles.Classification}>{College[club.classification]}</h4>
+            <h4 className={Styles.Classification}>{raw()[club.classification]}</h4>
           </div>
         </div>
         <div className={Styles.Right}>
@@ -104,6 +111,13 @@ export default function dongariInList({club, i}) {
         }
         
         <div className={Styles.Info}>
+          {
+            club.admin ?
+            <div className={Styles.ShortBlock} style={{alignSelf: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
+              <h4 className={Styles.NowOn} style={{color: 'black'}}>동아리 관계자이신가요?</h4> 
+              <Link href={'/contact'} className={Styles.Href}>{'직접 수정하기 >'}</Link>
+            </div>: null
+          }
           <div className={Styles.ShortBlock}>
             <h4 className={Styles.BlueButton}>짧은 소개</h4>
             <div className={Styles.InfoText}>
