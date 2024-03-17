@@ -252,6 +252,10 @@
     font-size: 1.1em;
   }
 
+  .Right {
+    width: 100%;
+  }
+
   .SubTitle{
     width: 100%;
     text-align: left;
@@ -315,5 +319,12 @@
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
+  }
+}
+
+@media screen and (max-width: 260px) {
+  .ImageBox {
+    width: 100%;
+    height: auto;
   }
 }
