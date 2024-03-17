@@ -72,6 +72,8 @@ export default function find() {
   useEffect(() => {
     if (isMounted.current) {
       setClear(true);
+      setPage(1);
+      if (Page==1) GetClubs();
     }
     else isMounted.current = true;
   }, [SortSelected, CollegeSelected, reverse, isRecruiting])
@@ -114,7 +116,6 @@ export default function find() {
               document.getElementById('tag_').value = ''
               setClear(false);
               isMounted.current = false;
-              GetClubs();
             }}
           >
             초기화

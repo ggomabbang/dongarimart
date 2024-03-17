@@ -24,8 +24,8 @@ export async function POST(request) {
     });
   }
 
-  const res = {};
-  await Promise.all(dataArr.map(async (img, index) => {
+  const sequence = new Array(dataArr.length).fill('');
+  await Promise.all(dataArr.map(async (img, index) => { // 속도 개선을 위한 병렬 처리
     const buffer = Buffer.from( await img.arrayBuffer() );
 
     if (img.type.split('/')[0] !== 'image') return // image 파일이 아닐 시 무시
@@ -35,13 +35,8 @@ export async function POST(request) {
 
     const filename = randomBytes(8).toString('hex') + String((new Date()).getTime()) + `.${type}`;
     const path = `public/image/${filename}`;
+    sequence[index] = filename;
     await writeFile(path, buffer);
-    await client.Image.create({
-      data: {
-        filename
-      }
-    });
-    res[index] = filename;
   }))
   .catch((err) => {
     console.error(err);
@@ -51,6 +46,29 @@ export async function POST(request) {
       status: 500,
     });
   });
+
+  const res = {};
+  let index = 0;
+  for await (const filename of sequence) { // 이미지를 DB에 순서대로 기록
+    try {
+      await client.Image.create({
+        data: {
+          filename
+        }
+      });
+      res[index] = filename;
+      index++;
+    }
+    catch (err) {
+      console.error(err);
+      return NextResponse.json({
+        message: "서버 처리중 오류가 발생하였습니다."
+      }, {
+        status: 500,
+      });
+    };
+  }
+  
 
   return NextResponse.json(res, {
     status: 201

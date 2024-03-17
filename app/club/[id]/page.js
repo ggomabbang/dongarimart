@@ -4,6 +4,7 @@ import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { raw } from '@/app/hooks/college'
+import SpanWithHyperlink from '@/app/component/textWithHyperlink';
 
 export default function club({ params }) {
   const clubid = params.id;
@@ -140,10 +141,7 @@ export default function club({ params }) {
               {
                 Club.post.content.split('\n').map((line, index) => {
                   return (
-                    <span key={`content${index}`}>
-                      {line}
-                      <br />
-                  </span>
+                    <SpanWithHyperlink key={`line${index}`} line={line}/>
                   )
                 })
               }
