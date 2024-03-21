@@ -12,6 +12,7 @@ export default function recruit() {
   const [images, setImages] = useState([]);
   const [imageSrcs, setImageSrcs] = useState([null, null, null, null]);
   const imageHandler = (e) => {
+    if (e.target.files.length > 4) return alert("이미지를 5개 이상 선택할 수 없습니다.");
     if (e.target.files.length < 2) {
       const newImages = images;
       newImages[imageSelect] = e.target.files[0];

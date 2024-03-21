@@ -571,6 +571,11 @@
     width: 80vw;
     height: 60vw;
   }
+
+  .Right:has(select) {
+    align-items: stretch;
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 400px) {
