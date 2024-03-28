@@ -5,6 +5,7 @@ import { Prisma } from '@prisma/client'
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 import { parse } from "dotenv";
+import { subcategories } from "@/app/hooks/college";
 
 export async function GET(request) {
   const params = request.nextUrl.searchParams;
@@ -155,7 +156,19 @@ export async function GET(request) {
     }));
   }
   if (college !== null) {
-    query.where.classification = college;
+    //query.where.classification = college;
+    try {
+      const cats = subcategories(college);
+      const catsArr = Object.entries(cats);
+      query.where.OR = catsArr.map((t) => ({
+        classification: t[0],
+      }));
+      query.where.OR.push({ classification: college }); 
+    } catch (e) {
+      console.log(e);
+      query.where.classification = college;
+    }
+    console.log(query);
   }
   if (search) {
     query.where.clubName = { contains: search };

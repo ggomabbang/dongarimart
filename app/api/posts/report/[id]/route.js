@@ -55,6 +55,7 @@ export async function POST(request) {
   stream.write(String(new Date) + '\n');
   stream.write('신고자: ' + ip + '\n');
   stream.write('신고된 글 ID: ' + id + '\n');
+  stream.write('내용: ' + contents + '\n');
   stream.end();
 
   await client.Post.update({
