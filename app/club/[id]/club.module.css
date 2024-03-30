@@ -215,6 +215,8 @@
 }
 
 .Contents span {
+  width: 100%;
+  word-wrap: break-word;
   font-family: Noto Sans KR;
   font-size: .9em;
   font-weight: 500;
@@ -223,6 +225,30 @@
 .Contents img {
   max-width: 100%;
   object-fit: scale-down;
+}
+
+.ReportBox {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.InputBox {
+  display: flex;
+  padding: 0px 10px;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+
+  border: 0;
+  border-bottom: 0.1em solid #000;
+  background: #FFF;
+
+  font-family: Noto Sans KR;
+  font-size: .8em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
 }
 
 @media screen and (max-width: 900px) {
@@ -248,6 +274,10 @@
 
   .Title{
     font-size: 1.1em;
+  }
+
+  .Right {
+    width: 100%;
   }
 
   .SubTitle{
@@ -296,7 +326,7 @@
   
   .Contents span {
     font-size: .9em;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0;
     text-indent: 0;
   }
@@ -313,5 +343,12 @@
     flex-direction: column;
     gap: 10px;
     align-items: flex-start;
+  }
+}
+
+@media screen and (max-width: 260px) {
+  .ImageBox {
+    width: 100%;
+    height: auto;
   }
 }

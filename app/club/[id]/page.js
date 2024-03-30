@@ -4,6 +4,7 @@ import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { raw } from '@/app/hooks/college'
+import SpanWithHyperlink from '@/app/component/textWithHyperlink';
 
 export default function club({ params }) {
   const clubid = params.id;
@@ -48,6 +49,49 @@ export default function club({ params }) {
     const dateString = year + '-' + month + '-' + day; // 2023-06-18
   
     return dateString;
+  }
+
+  const [delToggle, setDelToggle] = useState(false);
+
+  const reportHandler = async (e) => {
+    const rows = await fetch(`https://jsonip.com`, {
+      method: "GET"
+    });
+    if (rows.status == 200) {
+      const {ip} = await rows.json();
+      if (document.getElementById('report_content').value.length > 0) {
+        const res = await fetch(`/api/posts/report/${Club.post.id}`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: document.getElementById('report_content').value,
+            ip,
+          }),
+        });
+  
+        switch (res.status) {
+          case 201:
+            document.getElementById('report_content').value = '';
+            setDelToggle(0);
+            return alert('신고가 접수되었습니다.');
+          case 400:
+            alert('요청 오류');
+            return router.push('/');
+          case 204:
+            alert('Post ID error');
+            return router.push('/');
+          default:
+            return alert('Unknown Error');
+        }
+      }
+      else {
+        alert('신고 내용을 입력해 주세요');
+      }
+    } else {
+      alert('ip 서버 오류');
+    }
   }
 
   return (
@@ -140,10 +184,7 @@ export default function club({ params }) {
               {
                 Club.post.content.split('\n').map((line, index) => {
                   return (
-                    <span key={`content${index}`}>
-                      {line}
-                      <br />
-                  </span>
+                    <SpanWithHyperlink key={`line${index}`} line={line}/>
                   )
                 })
               }
@@ -175,7 +216,52 @@ export default function club({ params }) {
             :
             null
         }
-      </div>      
+
+        {
+          Club.isRecruiting ?
+            !delToggle ?
+            <button
+              className={Styles.BlueButton}
+              onClick={(e)=>{
+                setDelToggle(true);
+              }}
+              style={{
+                backgroundColor: 'red'
+              }}
+            >
+              신고
+            </button>
+            :
+            <div className={Styles.ReportBox}>
+              <input
+                id='report_content'
+                className={Styles.InputBox}
+                placeholder='비속어, 유해한 이미지 등 신고 내용을 입력해주세요.'
+              />
+              <button
+                className={Styles.BlueButton}
+                onClick={(e)=>{setDelToggle(false)}}
+                style={{
+                  border: '2px solid #2D5DEB',
+                  backgroundColor: 'transparent',
+                  color: '#2D5DEB'
+                }}
+              >
+                취소
+              </button>
+              <button
+                className={Styles.BlueButton}
+                onClick={reportHandler}
+                style={{
+                  backgroundColor: 'red'
+                }}
+              >
+                신고
+              </button>
+            </div>
+          : null
+        }
+      </div>
     </div>
   )
 }
