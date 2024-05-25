@@ -4,6 +4,8 @@ import { authOptions } from "@/app/lib/auth";
 import prisma from "@/prisma/prisma";
 import "dotenv/config";
 
+export const dynamic = "force-dynamic"
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
