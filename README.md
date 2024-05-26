@@ -1,3 +1,11 @@
+# Architecture
+![alt text](anything/architecture.png)
+
+# Contributor
+- [박규태](https://github.com/kyoutae1234) Back-End API
+- [박재선](https://github.com/ggomabbang) AWS, CI/CD, Auth API, DB
+- [이동훈](https://github.com/bluelemon61) Design, Frond-End & Back-End, API Specification
+
 # 1️⃣ PR 이름 규칙   
 >**4.2.1>MainTitle**
 
