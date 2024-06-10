@@ -1,10 +1,32 @@
+# 동아리마트
+[동아리마트 바로가기](https://www.dongarimart.com/)
+
+# 서비스 목적
+- 일반학생
+  + 부산대학교 홈페이지에서 찾기 힘든 동아리 정보 확인
+  + 원하는 동아리 정보를 빠르게 확인
+  + 동아리 지원절차를 쉽게
+- 동아리 관계자
+  + 동아리 정보를 간편하게 등록
+  + 동아리 홍보 가능
+  + 모집 공고 기능을 이용한 동아리 인원 모집
+
 # Architecture
 ![alt text](anything/architecture.png)
+
+## 서비스 이미지
+![dongarimart-001](anything/dongarimart-001.png)
+![dongarimart-002](anything/dongarimart-002.png)
+![dongarimart-003](anything/dongarimart-003.png)
+![dongarimart-004](anything/dongarimart-004.png)
+![dongarimart-005](anything/dongarimart-005.png)
 
 # Contributor
 - [박규태](https://github.com/kyoutae1234) Back-End API
 - [박재선](https://github.com/ggomabbang) AWS, CI/CD, Auth API, DB
 - [이동훈](https://github.com/bluelemon61) Design, Frond-End & Back-End, API Specification
+
+
 
 # 1️⃣ PR 이름 규칙   
 >**4.2.1>MainTitle**
