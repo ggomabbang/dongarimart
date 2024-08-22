@@ -34,12 +34,17 @@ export function mainCategory() {
  */
 export function subcategories(mainCategory) {
   const result = {};
-  Object.entries(College[mainCategory]).sort((a,b)=>{
-    if (a[1] < b[1]) return -1;
-    return 1;
-  }).forEach(([k, value]) => {
-    result[k] = value;
-  });
+  try {
+    Object.entries(College[mainCategory]).sort((a,b)=>{
+      if (a[1] < b[1]) return -1;
+      return 1;
+    }).forEach(([k, value]) => {
+      result[k] = value;
+    });
+  } catch (e) {
+    console.error(e);
+    return undefined;
+  }
   delete result.name;
   return result;
 }
