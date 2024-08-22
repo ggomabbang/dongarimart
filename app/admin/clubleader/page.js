@@ -26,7 +26,7 @@ export default function clubLeader() {
       })
     });
 
-    if (res.status == 200) {
+    if (res.status == 201) {
       return router.push('/admin');
     }
     else if (res.status == 204) {
@@ -34,7 +34,7 @@ export default function clubLeader() {
       return router.push('/');
     }
     else if (res.status == 400) {
-      alert('잘못된 값이 입력되었습니다.');
+      alert((await res.json()).message);
       return router.push('/');
     }
     else if (res.status == 401) {

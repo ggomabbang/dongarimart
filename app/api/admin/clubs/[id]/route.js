@@ -135,6 +135,13 @@ export async function PATCH(request) {
         }
       });
     }
+    else if (curLeader[0].userId == user.id) {
+      return NextResponse.json({
+        message: "이미 권한을 가진 사용자입니다."
+      }, {
+        status: 400,
+      });
+    }
     else {
       await client.JoinedClub.update({
         where: {
