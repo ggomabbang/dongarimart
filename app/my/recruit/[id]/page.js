@@ -273,6 +273,10 @@ export default function recruit({params}) {
     }
   }
 
+  const endHandler = async (e) => {
+
+  }
+
   useEffect(()=>{
     GetClub();
   }, []);
@@ -556,10 +560,15 @@ export default function recruit({params}) {
           수정 완료
         </button>
 
-        <button className={Styles.CancelButton} onClick={deleteHandler}>
-          공고 삭제하기
-        </button>
+        <div className={Styles.ButtonContainer}>
+          <button className={Styles.EndButton} onClick={endHandler}>
+            모집 종료하기
+          </button>
 
+          <button className={Styles.CancelButton} onClick={deleteHandler}>
+            공고 삭제하기
+          </button>
+        </div>
       </div>
     </div>
   )
