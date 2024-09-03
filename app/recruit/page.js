@@ -70,6 +70,16 @@ export default function recruit() {
 
   const [recruitStart, setRecruitStart] = useState(toStringByFormatting(new Date()))
   const [recruitEnd, setRecruitEnd] = useState(toStringByFormatting(new Date()))
+  const [IsAlwaysRecruiting, setIsAlwaysRecruit] = useState(false);
+// 상시모집 상태 정의
+
+  useEffect(() => {
+    if (recruitEnd === '9999-12-31'){
+      setIsAlwaysRecruit(true);
+    }else{
+      setIsAlwaysRecruit(false);
+    }
+  }, [recruitEnd]);
 
   const [recruitURL, setURL] = useState('');
 
@@ -249,6 +259,7 @@ export default function recruit() {
               type='date'
               id='recruitStart'
               value={recruitStart}
+              disabled={IsAlwaysRecruiting}
               onChange={(e) => {
                 setRecruitStart(e.target.value);
                 if (new Date(e.target.value) < new Date(toStringByFormatting(new Date())))
@@ -268,8 +279,27 @@ export default function recruit() {
                 recruitStart
               }
               value={recruitEnd}
+              disabled={IsAlwaysRecruiting}
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
+            <label>
+            <p className={Styles.Left}>상시 모집</p>
+              <input
+                type='checkbox'
+                id='AlwalysRecruiting'
+                checked={IsAlwaysRecruiting}
+                onChange={(e) => {
+                  setIsAlwaysRecruit(e.target.checked);
+                  if(e.target.checked) {
+                    setRecruitStart(toStringByFormatting(new Date()));
+                    setRecruitEnd('9999-12-31');
+                  }else{
+                    setRecruitStart(toStringByFormatting(new Date()));
+                    setRecruitEnd(toStringByFormatting(new Date()));
+                  }
+                }}
+              />
+            </label>
           </div>
         </label>
 
