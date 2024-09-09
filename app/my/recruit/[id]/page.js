@@ -274,7 +274,89 @@ export default function recruit({params}) {
   }
 
   const endHandler = async (e) => {
+// 모집 종료시에도 지켜야하는가? 만에하나 악용가능성
+    // const clubID = selectClub;
+    const toBody = {};
 
+    // if (clubID === '') return alert("동아리를 선택해 주세요");
+    // if (toBody.title === '') return alert("제목이 필요합니다.");
+    // if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요.");
+    // let targetOK = true;
+    // recruitTarget.forEach((target, index) => {
+    //   if (target.name.length == 0) {
+    //     targetOK = false;
+    //   }
+    // })
+    // if (!targetOK) return alert("이름이 없는 역할이 있습니다.")
+    // if (toBody.content === '') return alert("본문을 작성해 주세요.");
+
+    // if (images.length) {
+    //   const formData = new FormData();
+    //   let ok = true;
+    //   images.forEach((img) => {
+    //     if (img instanceof File && img.size > 0)
+    //       if (img.size > 5*1024*1024) ok = false;
+    //       formData.append("image", img);
+    //   });
+    //   if (!ok) return alert('5MB를 초과한 이미지가 있습니다.');
+    //   const imgRes = await fetch('/api/image', {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
+    //   const imagename = await imgRes.json();
+    //   const imagenames = [];
+    //   for (let i = 0; i < images.length; i++) imagenames.push(imagename[i]);
+    //   toBody.image = imagenames;
+    // }
+
+    // // 여기
+    // if (postOrigin.recruit.recruitStart !== recruitStart || postOrigin.recruit.recruitEnd !== recruitEnd) {
+    //   toBody.start = recruitStart;
+    //   toBody.end = recruitEnd;
+    // }
+    
+    // postOrigin.recruit.recruitURL !== recruitURL ? toBody.url = recruitURL : null;
+    // const targetString = JSON.stringify(recruitTarget)
+    // postOrigin.recruit.recruitTarget !== targetString ? toBody.people = recruitTarget : null;
+    // postOrigin.title !== title ? toBody.title = title : null;
+    // postOrigin.content !== content ? toBody.content = content : null;
+    // 여기
+
+    toBody.gg = 3
+
+    const res = await fetch(`/api/recruit/${postOrigin.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(toBody)
+    });
+
+    if (res.status == 201) {
+      console.log("모집이 종료되었습니다. isRecruiting:", false);
+      // 서버에서 업데이트된 값을 다시 확인하려면 아래 코드를 통해 다시 fetch
+      const updatedClub = await fetch(`/api/clubs/${postOrigin.id}`);
+      const data = await updatedClub.json();
+      console.log("서버에서 받아온 업데이트된 클럽 데이터:", data);
+      console.log("isRecruiting 상태 확인:", data.isRecruiting);
+      return router.push('/');
+    }
+    else if (res.status == 204) {
+      alert('동아리가 존재하지 않습니다.');
+      return router.push('/');
+    }
+    else if (res.status == 400) {
+      alert('요청 오류.');
+      return router.push('/');
+    }
+    else if (res.status == 401) {
+      alert('로그인 후 다시 진행하여 주세요.');
+      return router.push('/login');
+    }
+    else if (res.status == 403) {
+      alert('권한이 없습니다.');
+      return router.push('/')
+    }
   }
 
   useEffect(()=>{

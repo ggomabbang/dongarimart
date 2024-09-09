@@ -47,6 +47,9 @@ export default function dongariInList({club, i}) {
       if (res.status == 200) {
         const data = await res.json();
         if (data.post) setRecruit(data.post.recruit);
+        // 이부분. -> post가 존재시 recruit를 post의 recruit로 변경
+        // 그러나 모집 종료시 post가 존재하나 recruit는 존재하지 않게됨.
+        // 70번째 줄에서 isRecruiting도 존재하지 않음
         const newClub = {
           short: data.short,
           image: data.image
