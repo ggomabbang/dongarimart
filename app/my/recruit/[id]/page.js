@@ -87,6 +87,13 @@ export default function recruit({params}) {
         newPostOrigin.recruit.recruitStart = post.recruit.recruitStart.slice(0, 10);
         setRecruitEnd(post.recruit.recruitEnd.slice(0, 10));
         newPostOrigin.recruit.recruitEnd = post.recruit.recruitEnd.slice(0, 10);
+
+        if(post.recruit.recruitEnd === '9999-12-31T00:00:00.000Z') {
+          setIsAlwaysRecruit(true);
+          setRecruitEnd('9999-12-31');
+        } else {
+          setIsAlwaysRecruit(false);
+        }
         setRecruitTarget(JSON.parse(post.recruit.recruitTarget));
         newPostOrigin.recruit.recruitTarget = post.recruit.recruitTarget;
         if (post.recruit.recruitURL) {
@@ -118,6 +125,7 @@ export default function recruit({params}) {
 
   const [recruitStart, setRecruitStart] = useState(toStringByFormatting(new Date()))
   const [recruitEnd, setRecruitEnd] = useState(toStringByFormatting(new Date()))
+  const [IsAlwaysRecruiting, setIsAlwaysRecruit] = useState(false);
 
   const [recruitURL, setURL] = useState('');
 
@@ -169,6 +177,8 @@ export default function recruit({params}) {
   const [content, setContent] = useState('');
 
   const submitHandler = async (e) => {
+    e.preventDefault();
+
     const clubID = selectClub;
     const toBody = {};
 
@@ -320,6 +330,8 @@ export default function recruit({params}) {
     GetClub();
   }, []);
 
+  
+
   return (
     <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 모집 공고 수정</h1>
@@ -374,6 +386,8 @@ export default function recruit({params}) {
               type='date'
               id='recruitStart'
               value={recruitStart}
+              disabled={IsAlwaysRecruiting}
+              style={IsAlwaysRecruiting ? {color:'transparent'} : undefined}
               onChange={(e) => {
                 setRecruitStart(e.target.value);
                 if (new Date(e.target.value) < new Date(toStringByFormatting(new Date())))
@@ -393,10 +407,35 @@ export default function recruit({params}) {
                 recruitStart
               }
               value={recruitEnd}
+              disabled={IsAlwaysRecruiting}
+              style={IsAlwaysRecruiting ? {color: 'transparent'} : undefined}
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
           </div>
+
+          
+            <p className={Styles.Left}>상시 모집</p>
+              <input
+                type='checkbox'
+                id='AlwalysRecruiting'
+                checked={IsAlwaysRecruiting}
+                onChange={(e) => {
+                  setIsAlwaysRecruit(e.target.checked);
+                  if(e.target.checked) {
+                    setRecruitStart(toStringByFormatting(new Date()));
+                    setRecruitEnd('9999-12-31');
+                  }else{
+                    setRecruitStart(toStringByFormatting(new Date()));
+                    setRecruitEnd(toStringByFormatting(new Date()));
+                  }
+                }}
+              />
+            
+
         </label>
+
+        
+
 
         <label className={Styles.HorizonBox}>
           <p className={Styles.Left}>신청 링크</p>

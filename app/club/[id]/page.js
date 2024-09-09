@@ -27,6 +27,7 @@ export default function club({ params }) {
     });
     if (rows.status == 200) {
       const jsonData = await rows.json();
+      console.log('Fetched Club Data', jsonData);
       setClub(jsonData);
 
       if (jsonData.image) {
@@ -96,6 +97,7 @@ export default function club({ params }) {
     }
   }
 
+
   return (
     <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리</h1>
@@ -155,7 +157,14 @@ export default function club({ params }) {
               <div className={Styles.RecruitBox}>
                 <div className={Styles.RecruitInner}>
                   <button>모집 기간</button>
-                  <p>{getDate(Club.post.recruit.recruitStart)} ~ {getDate(Club.post.recruit.recruitEnd)}</p>
+                  {(
+
+                    getDate(Club.post?.recruit?.recruitEnd).trim() === '9999-12-31' ? (
+                    <p>상시 모집</p>
+                  ) : (
+                    <p>{getDate(Club.post.recruit.recruitStart)} ~ {getDate(Club.post.recruit.recruitEnd)}</p>
+                    )
+                  )}
                 </div>
                 {
                   Club.post.recruit.recruitTarget.length > 2 ?

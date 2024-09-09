@@ -144,7 +144,12 @@ export default function dongariInList({club, i}) {
             <div className={Styles.ShortBlock}>
               <h4 id={"info2"+i} className={Styles.BlueButton}>모집 기간</h4>
               <div className={Styles.InfoText}>
-                <span>{`${getDate(recruit.recruitStart)} ~ ${getDate(recruit.recruitEnd)}`}</span>
+                {getDate(recruit.recruitEnd) === '9999-12-31' ?  (
+                  <span>상시 모집</span>
+                ) : (
+                  <span>{`${getDate(recruit.recruitStart)} ~ ${getDate(recruit.recruitEnd)}`}</span>
+                )}
+        
               </div>
             </div> : null
           }
