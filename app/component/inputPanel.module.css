@@ -178,6 +178,27 @@
   cursor: pointer;
 }
 
+.ButtonContainer{
+  display: flex;
+  gap: 10px;
+}
+
+.EndButton{
+  display: flex;
+  padding: 5px 15px;
+  align-items: center;
+  background: #757575;
+
+  color: #FFF;
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-weight: 700;
+  white-space: nowrap;
+
+  border-radius: 15px;
+  font-size: .7em;
+}
+
 .CancelButton {
   display: flex;
   padding: 5px 15px;
@@ -212,6 +233,7 @@
   text-indent: 0.2em;
   white-space: nowrap;
 }
+
 
 .TagInput {
   display: flex;
@@ -493,6 +515,7 @@
     border: 1px solid #2D5DEB;
     font-size: .7em;
   }
+
 
   .CancelButton {
     padding: 5px 15px;

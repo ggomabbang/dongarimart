@@ -1,5 +1,7 @@
 'use client'
 
+// TODO post는 있는데 recruit가 값이 없어 에러 발생. (isRecruit를 고칠시)
+
 import Styles from './club.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

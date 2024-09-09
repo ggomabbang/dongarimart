@@ -273,6 +273,49 @@ export default function recruit({params}) {
     }
   }
 
+  const endHandler = async (e) => {
+
+    const toBody = {};
+    // 여기
+    toBody.start = postOrigin.recruit.recruitStart;
+    toBody.end = postOrigin.recruit.recruitEnd;
+    toBody.terminate = 1;
+
+    const res = await fetch(`/api/recruit/${postOrigin.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(toBody)
+    });
+
+    if (res.status == 201) {
+      console.log("모집이 종료되었습니다. isRecruiting:", false);
+      // 서버에서 업데이트된 값을 다시 확인하려면 아래 코드를 통해 다시 fetch
+      const updatedClub = await fetch(`/api/clubs/${postOrigin.id}`);
+      const data = await updatedClub.json();
+      console.log("서버에서 받아온 업데이트된 클럽 데이터:", data);
+      console.log("isRecruiting 상태 확인:", data.isRecruiting);
+      return router.push('/');
+    }
+    else if (res.status == 204) {
+      alert('동아리가 존재하지 않습니다.');
+      return router.push('/');
+    }
+    else if (res.status == 400) {
+      alert('요청 오류.');
+      return router.push('/');
+    }
+    else if (res.status == 401) {
+      alert('로그인 후 다시 진행하여 주세요.');
+      return router.push('/login');
+    }
+    else if (res.status == 403) {
+      alert('권한이 없습니다.');
+      return router.push('/')
+    }
+  }
+
   useEffect(()=>{
     GetClub();
   }, []);
@@ -556,10 +599,15 @@ export default function recruit({params}) {
           수정 완료
         </button>
 
-        <button className={Styles.CancelButton} onClick={deleteHandler}>
-          공고 삭제하기
-        </button>
+        <div className={Styles.ButtonContainer}>
+          <button className={Styles.EndButton} onClick={endHandler}>
+            모집 종료하기
+          </button>
 
+          <button className={Styles.CancelButton} onClick={deleteHandler}>
+            공고 삭제하기
+          </button>
+        </div>
       </div>
     </div>
   )

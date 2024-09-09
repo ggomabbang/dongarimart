@@ -80,7 +80,8 @@ export async function PATCH(request) {
     });
   }
 
-  const { start, end, url, people, title, content, image } = await request.json();
+  // 받아오는 거에서 isRecrut에 영향을 미칠 수 있는 변수 하나 추가
+  const { start, end, url, people, title, content, image, terminate } = await request.json();
 
   let images;
   if (image) images = image;
@@ -211,7 +212,7 @@ export async function PATCH(request) {
       });
     }
   }
-
+  
   if (start || end) {
     const clubQuery = {
       where: {
@@ -229,14 +230,17 @@ export async function PATCH(request) {
         }
       }
     };
-
+    
     clubQuery.data.isRecruiting = new Date(toStringByFormatting(new Date())) < new Date(start) ?
     false : true;
+    if (terminate == 1) {
+      clubQuery.data.isRecruiting = false;
+    }
     clubQuery.data.schedule.upsert.update.recruitStart = new Date(start);
     clubQuery.data.schedule.upsert.create.recruitStart = new Date(start);
     clubQuery.data.schedule.upsert.update.recruitEnd = new Date(end);
     clubQuery.data.schedule.upsert.create.recruitEnd = new Date(end);
-
+    
     try {
       await client.ClubList.update(clubQuery);
     } catch (e) {
