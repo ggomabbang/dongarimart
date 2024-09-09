@@ -284,7 +284,7 @@ export default function recruit() {
               style={IsAlwaysRecruiting ? {color : 'transparent'} : undefined}
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
-            <label>
+            
             <p className={Styles.Left}>상시 모집</p>
               <input
                 type='checkbox'
@@ -301,7 +301,7 @@ export default function recruit() {
                   }
                 }}
               />
-            </label>
+            
           </div>
         </label>
 
