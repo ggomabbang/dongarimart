@@ -260,6 +260,7 @@ export default function recruit() {
               id='recruitStart'
               value={recruitStart}
               disabled={IsAlwaysRecruiting}
+              style={IsAlwaysRecruiting ? {color:'transparent'} : undefined}
               onChange={(e) => {
                 setRecruitStart(e.target.value);
                 if (new Date(e.target.value) < new Date(toStringByFormatting(new Date())))
@@ -280,6 +281,7 @@ export default function recruit() {
               }
               value={recruitEnd}
               disabled={IsAlwaysRecruiting}
+              style={IsAlwaysRecruiting ? {color : 'transparent'} : undefined}
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
             <label>

@@ -87,15 +87,13 @@ export default function recruit({params}) {
         newPostOrigin.recruit.recruitStart = post.recruit.recruitStart.slice(0, 10);
         setRecruitEnd(post.recruit.recruitEnd.slice(0, 10));
         newPostOrigin.recruit.recruitEnd = post.recruit.recruitEnd.slice(0, 10);
-        setIsAlwaysRecruit(post.recruit.recruitEnd == '9999-12-31');
 
-        if(recruitEnd === '9999-12-31') {
+        if(post.recruit.recruitEnd === '9999-12-31T00:00:00.000Z') {
           setIsAlwaysRecruit(true);
           setRecruitEnd('9999-12-31');
         } else {
           setIsAlwaysRecruit(false);
         }
-
         setRecruitTarget(JSON.parse(post.recruit.recruitTarget));
         newPostOrigin.recruit.recruitTarget = post.recruit.recruitTarget;
         if (post.recruit.recruitURL) {
@@ -289,6 +287,8 @@ export default function recruit({params}) {
     GetClub();
   }, []);
 
+  
+
   return (
     <div className={Styles.Container}>
       <h1 className={Styles.PageTitle}>동아리 모집 공고 수정</h1>
@@ -344,6 +344,7 @@ export default function recruit({params}) {
               id='recruitStart'
               value={recruitStart}
               disabled={IsAlwaysRecruiting}
+              style={IsAlwaysRecruiting ? {color:'transparent'} : undefined}
               onChange={(e) => {
                 setRecruitStart(e.target.value);
                 if (new Date(e.target.value) < new Date(toStringByFormatting(new Date())))
@@ -364,11 +365,12 @@ export default function recruit({params}) {
               }
               value={recruitEnd}
               disabled={IsAlwaysRecruiting}
+              style={IsAlwaysRecruiting ? {color: 'transparent'} : undefined}
               onChange={(e) => setRecruitEnd(e.target.value)}
             />
           </div>
 
-          <label>
+          
             <p className={Styles.Left}>상시 모집</p>
               <input
                 type='checkbox'
@@ -385,7 +387,7 @@ export default function recruit({params}) {
                   }
                 }}
               />
-            </label>
+            
 
         </label>
 
