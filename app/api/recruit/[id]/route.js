@@ -81,7 +81,7 @@ export async function PATCH(request) {
   }
 
   // 받아오는 거에서 isRecrut에 영향을 미칠 수 있는 변수 하나 추가
-  const { start, end, url, people, title, content, image, gg } = await request.json();
+  const { start, end, url, people, title, content, image, terminate } = await request.json();
 
   let images;
   if (image) images = image;
@@ -193,6 +193,25 @@ export async function PATCH(request) {
     };
   }
 
+  try {
+    await client.Post.update(query);
+  } catch (e) {
+    console.error(e);
+    if (e instanceof Prisma.PrismaClientValidationError) {
+      return NextResponse.json({
+        message: "올바르지 않은 parameter입니다."
+      }, {
+        status: 400,
+      });
+    }
+    else {
+      return NextResponse.json({
+        message: "오류."
+      }, {
+        status: 500,
+      });
+    }
+  }
   
   if (start || end) {
     const clubQuery = {
@@ -212,51 +231,16 @@ export async function PATCH(request) {
       }
     };
     
-    // 아래로 내리기.
-    if (gg == 3) {
-      // 모집중인가 아닌가
-      clubQuery.data.isRecruiting = false
-      // 모집글이 있는가 없는가 -> 
-      // query.data.isRecruit = false
-      console.log("모집 종료 처리, gg:", gg);
-      // 
-    }
-    
-    try {
-      await client.Post.update(query);
-    } catch (e) {
-      console.error(e);
-      if (e instanceof Prisma.PrismaClientValidationError) {
-        return NextResponse.json({
-          message: "올바르지 않은 parameter입니다."
-        }, {
-          status: 400,
-        });
-      }
-      else {
-        return NextResponse.json({
-          message: "오류."
-        }, {
-          status: 500,
-        });
-      }
-    }
-    // 여기는 아닌듯, 여기는 start와 end가 바뀜에 따라 club의 isRecruiting을 업뎃함.
-    // TODO 왜 여기서 false설정을 해도 다시 true로 바뀌는가..
     clubQuery.data.isRecruiting = new Date(toStringByFormatting(new Date())) < new Date(start) ?
     false : true;
-    if (gg == 3) {
-      clubQuery.data.isRecruiting = false
-      // query.data.isRecruit = false
-      console.log("모집 종료 처리됨, isRecruiting 상태:", clubQuery.data.isRecruiting);
+    if (terminate == 1) {
+      clubQuery.data.isRecruiting = false;
     }
     clubQuery.data.schedule.upsert.update.recruitStart = new Date(start);
     clubQuery.data.schedule.upsert.create.recruitStart = new Date(start);
     clubQuery.data.schedule.upsert.update.recruitEnd = new Date(end);
     clubQuery.data.schedule.upsert.create.recruitEnd = new Date(end);
     
-    console.log("마지막 isRecruiting 값:", clubQuery.data.isRecruiting);
-
     try {
       await client.ClubList.update(clubQuery);
     } catch (e) {
@@ -307,11 +291,6 @@ export async function DELETE(request) {
     }
   });
 
-  // isRecruit를 0으로 할 시 경우들.
-  // 이미 isRecruit가 0이어서 오류가 뜬다
-  // 그리고 isRecruit를 0으로 해도 모집중이떠요
-  // 또 end날짜가 start날짜로 바뀌어요
-  //TODO 근데 isRecruit는 모집글이 있는가 없는가인데 동아리가 존재하지 않는다는 서로 다른 의미가 아닌가
   if (!myPost || !myPost.isRecruit) {
     return new Response(null, {
       status: 204,

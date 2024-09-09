@@ -274,55 +274,12 @@ export default function recruit({params}) {
   }
 
   const endHandler = async (e) => {
-// 모집 종료시에도 지켜야하는가? 만에하나 악용가능성
-    // const clubID = selectClub;
+
     const toBody = {};
-
-    // if (clubID === '') return alert("동아리를 선택해 주세요");
-    // if (toBody.title === '') return alert("제목이 필요합니다.");
-    // if (toBody.start > toBody.end) return alert("모집 기간을 다시 확인해 주세요.");
-    // let targetOK = true;
-    // recruitTarget.forEach((target, index) => {
-    //   if (target.name.length == 0) {
-    //     targetOK = false;
-    //   }
-    // })
-    // if (!targetOK) return alert("이름이 없는 역할이 있습니다.")
-    // if (toBody.content === '') return alert("본문을 작성해 주세요.");
-
-    // if (images.length) {
-    //   const formData = new FormData();
-    //   let ok = true;
-    //   images.forEach((img) => {
-    //     if (img instanceof File && img.size > 0)
-    //       if (img.size > 5*1024*1024) ok = false;
-    //       formData.append("image", img);
-    //   });
-    //   if (!ok) return alert('5MB를 초과한 이미지가 있습니다.');
-    //   const imgRes = await fetch('/api/image', {
-    //     method: 'POST',
-    //     body: formData,
-    //   });
-    //   const imagename = await imgRes.json();
-    //   const imagenames = [];
-    //   for (let i = 0; i < images.length; i++) imagenames.push(imagename[i]);
-    //   toBody.image = imagenames;
-    // }
-
-    // // 여기
-    // if (postOrigin.recruit.recruitStart !== recruitStart || postOrigin.recruit.recruitEnd !== recruitEnd) {
-    //   toBody.start = recruitStart;
-    //   toBody.end = recruitEnd;
-    // }
-    
-    // postOrigin.recruit.recruitURL !== recruitURL ? toBody.url = recruitURL : null;
-    // const targetString = JSON.stringify(recruitTarget)
-    // postOrigin.recruit.recruitTarget !== targetString ? toBody.people = recruitTarget : null;
-    // postOrigin.title !== title ? toBody.title = title : null;
-    // postOrigin.content !== content ? toBody.content = content : null;
     // 여기
-
-    toBody.gg = 3
+    toBody.start = postOrigin.recruit.recruitStart;
+    toBody.end = postOrigin.recruit.recruitEnd;
+    toBody.terminate = 1;
 
     const res = await fetch(`/api/recruit/${postOrigin.id}`, {
       method: 'PATCH',
