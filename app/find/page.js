@@ -44,6 +44,11 @@ export default function find() {
     urlParams.append("reverse", reverse);
     urlParams.append("isRecruiting", isRecruiting);
 
+    // URL 동적으로 업데이트 
+    const newURL = `${window.location.pathname}?${urlParams.toString()}`; 
+    window.history.pushState({ path: newURL }, '', newURL); 
+    // 검색 버튼 클릭 -> URL 변경 
+
     const rows = await fetch('/api/clubs?' + urlParams.toString(), {
       method: "GET"
     });
@@ -77,6 +82,50 @@ export default function find() {
     }
     else isMounted.current = true;
   }, [SortSelected, CollegeSelected, reverse, isRecruiting])
+
+  // 페이지 로드 -> URL 파라미터 추출하여 상태 결정
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const searchQuery = urlParams.get('search') || '';
+    const tagQuery = urlParams.get('tag') || '';
+    const sortByQuery = urlParams.get('sortBy') || 'popularity';
+    const pageQuery = parseInt(urlParams.get('page')) || 1;
+    const reverseQuery = parseInt(urlParams.get('reverse')) || 0;
+    const isRecruitingQuery = parseInt(urlParams.get('isRecruiting')) || 0;
+
+    document.getElementById('search_').value = searchQuery;
+    document.getElementById('tag_').value = tagQuery;
+
+    setSortSelected(sortByQuery);
+    setPage(pageQuery);
+    setReverse(reverseQuery);
+    setIsRecruiting(isRecruitingQuery);
+
+    GetClubs();
+
+    // 뒤로가기/ 앞으로가기 시 상태 유지 
+    window.onpopstate = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      const searchQuery = urlParams.get('search') || '';
+      const tagQuery = urlParams.get('tag') || '';
+      const sortByQuery = urlParams.get('sortBy') || 'popularity';
+      const pageQuery = parseInt(urlParams.get('page')) || 1;
+      const reverseQuery = parseInt(urlParams.get('reverse')) || 0;
+      const isRecruitingQuery = parseInt(urlParams.get('isRecruiting')) || 0;
+
+      document.getElementById('search_').value = searchQuery;
+      document.getElementById('tag_').value = tagQuery;
+
+      setSortSelected(sortByQuery);
+      setPage(pageQuery);
+      setReverse(reverseQuery);
+      setIsRecruiting(isRecruitingQuery);
+
+      GetClubs();
+    };
+  }, []);
 
   return (
     <div className={Styles.Container}>
